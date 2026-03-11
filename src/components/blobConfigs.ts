@@ -43,12 +43,6 @@ export interface BlobConfig {
 
 export const BLOB_CONFIGS: BlobConfig[] = [
   // ---- FRONT ROW (z: 10-16) — bottom: 0-5%, sizes 160-200px ----
-  // All shifted right, spaced to avoid overlap
-  {
-    id: 'angry', color: '#FF4757', shape: SHAPES.F, w: 115, h: 130,
-    x: '24%', bottom: '2%', z: 15, row: 'front',
-    anim: { breathDuration: 1.4, leftArmRange: [-3, 5], leftArmDuration: 3.0, rightArmRange: [-3, 5], rightArmDuration: 3.2, legSwayDuration: 0.3, cursorResponsiveness: 0.5, eyeLag: 0.05, fearRadius: 80 },
-  },
   {
     id: 'gamer', color: '#4ECDC4', shape: SHAPES.A, w: 165, h: 198,
     x: '38%', bottom: '0%', z: 13, row: 'front',
@@ -74,11 +68,6 @@ export const BLOB_CONFIGS: BlobConfig[] = [
 
   // ---- MID ROW (z: 5-9) — bottom: 10-22%, sizes 130-155px ----
   {
-    id: 'chef', color: '#FF8C42', shape: SHAPES.G, w: 145, h: 174,
-    x: '30%', bottom: '15%', z: 7, row: 'mid',
-    anim: { breathDuration: 2.2, leftArmRange: [-8, 18], leftArmDuration: 2.0, rightArmRange: [-25, 20], rightArmDuration: 1.3, legSwayDuration: 1.7, cursorResponsiveness: 1.0, eyeLag: 0.10, fearRadius: 160 },
-  },
-  {
     id: 'nerd', color: '#A8E6CF', shape: SHAPES.I, w: 138, h: 166,
     x: '44%', bottom: '16%', z: 7, row: 'mid',
     anim: { breathDuration: 2.6, leftArmRange: [-10, 30], leftArmDuration: 2.3, rightArmRange: [-8, 12], rightArmDuration: 3.1, legSwayDuration: 1.8, cursorResponsiveness: 0.8, eyeLag: 0.12, fearRadius: 180 },
@@ -89,27 +78,22 @@ export const BLOB_CONFIGS: BlobConfig[] = [
     anim: { breathDuration: 2.7, leftArmRange: [-10, 15], leftArmDuration: 2.5, rightArmRange: [-12, 20], rightArmDuration: 2.9, legSwayDuration: 1.9, cursorResponsiveness: 0.6, eyeLag: 0.14, fearRadius: 160 },
   },
   {
-    id: 'cool', color: '#2F3542', shape: SHAPES.A, w: 150, h: 180,
-    x: '70%', bottom: '12%', z: 9, row: 'mid',
-    anim: { breathDuration: 2.8, leftArmRange: [-5, 10], leftArmDuration: 3.5, rightArmRange: [-8, 8], rightArmDuration: 3.8, legSwayDuration: 2.0, cursorResponsiveness: 0.4, eyeLag: 0.15, fearRadius: 80 },
+    id: 'angry_mid', color: '#FF4757', shape: SHAPES.F, w: 145, h: 174,
+    x: '70%', bottom: '13%', z: 9, row: 'mid',
+    anim: { breathDuration: 1.4, leftArmRange: [-3, 5], leftArmDuration: 3.0, rightArmRange: [-3, 5], rightArmDuration: 3.2, legSwayDuration: 0.3, cursorResponsiveness: 0.5, eyeLag: 0.05, fearRadius: 80 },
   },
   {
-    id: 'explorer', color: '#E8845A', shape: SHAPES.G, w: 148, h: 178,
+    id: 'chef_mid', color: '#FF8C42', shape: SHAPES.G, w: 142, h: 170,
     x: '82%', bottom: '14%', z: 8, row: 'mid',
-    anim: { breathDuration: 2.3, leftArmRange: [-18, 22], leftArmDuration: 2.1, rightArmRange: [-25, 10], rightArmDuration: 2.6, legSwayDuration: 1.5, cursorResponsiveness: 1.1, eyeLag: 0.07, fearRadius: 180 },
+    anim: { breathDuration: 2.2, leftArmRange: [-8, 18], leftArmDuration: 2.0, rightArmRange: [-25, 20], rightArmDuration: 1.3, legSwayDuration: 1.7, cursorResponsiveness: 1.0, eyeLag: 0.10, fearRadius: 160 },
   },
   {
-    id: 'pirate', color: '#8B4513', shape: SHAPES.H, w: 142, h: 170,
+    id: 'wildcard_mid', color: '#DAFC92', shape: SHAPES.J, w: 138, h: 166,
     x: '94%', bottom: '18%', z: 6, row: 'mid',
-    anim: { breathDuration: 2.0, leftArmRange: [-20, 15], leftArmDuration: 1.9, rightArmRange: [-15, 25], rightArmDuration: 2.2, legSwayDuration: 1.4, cursorResponsiveness: 1.0, eyeLag: 0.09, fearRadius: 140 },
+    anim: { breathDuration: 1.7, leftArmRange: [-40, 30], leftArmDuration: 1.2, rightArmRange: [-45, 45], rightArmDuration: 0.5, legSwayDuration: 1.0, cursorResponsiveness: 1.5, eyeLag: 0.06, fearRadius: 180 },
   },
 
   // ---- BACK ROW (z: 1-4) — bottom: 28-45%, sizes 110-125px ----
-  {
-    id: 'wildcard', color: '#DAFC92', shape: SHAPES.J, w: 112, h: 134,
-    x: '32%', bottom: '38%', z: 1, row: 'back',
-    anim: { breathDuration: 1.7, leftArmRange: [-40, 30], leftArmDuration: 1.2, rightArmRange: [-45, 45], rightArmDuration: 0.5, legSwayDuration: 1.0, cursorResponsiveness: 1.5, eyeLag: 0.06, fearRadius: 180 },
-  },
   {
     id: 'philosopher', color: '#667eea', shape: SHAPES.J, w: 125, h: 150,
     x: '44%', bottom: '32%', z: 4, row: 'back',
@@ -128,7 +112,7 @@ export const BLOB_CONFIGS: BlobConfig[] = [
     anim: { breathDuration: 2.4, leftArmRange: [-2, 3], leftArmDuration: 4.0, rightArmRange: [-10, 15], rightArmDuration: 2.5, legSwayDuration: 2.2, cursorResponsiveness: 0.6, eyeLag: 0.18, fearRadius: 240 },
   },
   {
-    id: 'musician', color: '#C9B1FF', shape: SHAPES.E, w: 120, h: 144,
+    id: 'artist', color: '#C9B1FF', shape: SHAPES.E, w: 120, h: 144,
     x: '88%', bottom: '30%', z: 3, row: 'back',
     anim: { breathDuration: 1.8, leftArmRange: [-15, 10], leftArmDuration: 2.4, rightArmRange: [-35, 20], rightArmDuration: 0.4, legSwayDuration: 1.6, cursorResponsiveness: 0.9, eyeLag: 0.11, fearRadius: 200 },
   },
