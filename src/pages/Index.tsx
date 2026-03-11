@@ -48,21 +48,82 @@ const HeroPage: React.FC = () => {
     });
   }, []);
 
-  const bgColor = isDark ? '#0a0a0a' : '#C8E6F5';
-  const textColor = isDark ? '#f5f5f5' : '#0a0a0a';
-  const mutedText = isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)';
-  const cardBg = isDark ? 'rgba(10,10,10,0.65)' : 'rgba(255,255,255,0.7)';
-  const cardBorder = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
-  const iconBg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
-  const iconColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)';
+  const bgColor = isDark ? '#0B1426' : '#FFFFFF';
+  const textColor = isDark ? '#f5f5f5' : '#1a1a2e';
+  const mutedText = isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)';
+  const cardBg = isDark ? 'rgba(11,20,38,0.75)' : 'rgba(255,255,255,0.85)';
+  const cardBorder = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.12)';
+  const iconBg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)';
+  const iconColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.6)';
+  const gridColor = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)';
+  const accentColor = isDark ? 'rgba(218,252,146,0.08)' : 'rgba(100,50,200,0.05)';
 
   return (
     <div className="relative w-full h-screen overflow-hidden" style={{ background: bgColor, transition: 'background 0.6s ease' }}>
-      {/* Subtle grid texture */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
-        backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)',
-        backgroundSize: '30px 30px'
+
+      {/* Semi-opaque grid background */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: `
+          linear-gradient(${gridColor} 1px, transparent 1px),
+          linear-gradient(90deg, ${gridColor} 1px, transparent 1px)
+        `,
+        backgroundSize: '60px 60px',
+        transition: 'opacity 0.6s',
       }} />
+
+      {/* Dot grid overlay */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: `radial-gradient(circle, ${isDark ? 'rgba(218,252,146,0.06)' : 'rgba(0,0,0,0.03)'} 1px, transparent 1px)`,
+        backgroundSize: '30px 30px',
+      }} />
+
+      {/* Accent graphics — abstract shapes */}
+      <div className="absolute pointer-events-none" style={{
+        top: '10%', right: '15%', width: 300, height: 300,
+        background: `radial-gradient(circle, ${accentColor} 0%, transparent 70%)`,
+        borderRadius: '50%',
+        filter: 'blur(40px)',
+        transition: 'background 0.6s',
+      }} />
+      <div className="absolute pointer-events-none" style={{
+        bottom: '20%', left: '5%', width: 200, height: 200,
+        background: `radial-gradient(circle, ${isDark ? 'rgba(78,205,196,0.06)' : 'rgba(78,205,196,0.04)'} 0%, transparent 70%)`,
+        borderRadius: '50%',
+        filter: 'blur(30px)',
+      }} />
+      <div className="absolute pointer-events-none" style={{
+        top: '60%', right: '40%', width: 250, height: 250,
+        background: `radial-gradient(circle, ${isDark ? 'rgba(255,107,157,0.05)' : 'rgba(255,107,157,0.03)'} 0%, transparent 70%)`,
+        borderRadius: '50%',
+        filter: 'blur(50px)',
+      }} />
+
+      {/* Corner accent lines */}
+      <svg className="absolute top-6 left-6 pointer-events-none" width="80" height="80" style={{ opacity: isDark ? 0.1 : 0.06, transition: 'opacity 0.6s' }}>
+        <line x1="0" y1="0" x2="80" y2="0" stroke={isDark ? '#DAFC92' : '#1a1a2e'} strokeWidth="1" />
+        <line x1="0" y1="0" x2="0" y2="80" stroke={isDark ? '#DAFC92' : '#1a1a2e'} strokeWidth="1" />
+      </svg>
+      <svg className="absolute bottom-6 right-6 pointer-events-none" width="80" height="80" style={{ opacity: isDark ? 0.1 : 0.06, transition: 'opacity 0.6s' }}>
+        <line x1="0" y1="80" x2="80" y2="80" stroke={isDark ? '#DAFC92' : '#1a1a2e'} strokeWidth="1" />
+        <line x1="80" y1="0" x2="80" y2="80" stroke={isDark ? '#DAFC92' : '#1a1a2e'} strokeWidth="1" />
+      </svg>
+
+      {/* Small floating crosses as decoration */}
+      {[
+        { top: '15%', left: '85%', size: 12 },
+        { top: '75%', left: '10%', size: 8 },
+        { top: '45%', left: '20%', size: 10 },
+      ].map((cross, i) => (
+        <div key={i} className="absolute pointer-events-none" style={{
+          top: cross.top, left: cross.left,
+          width: cross.size, height: cross.size,
+          opacity: isDark ? 0.15 : 0.08,
+          transition: 'opacity 0.6s',
+        }}>
+          <div style={{ position: 'absolute', top: '50%', left: 0, width: '100%', height: 1, background: isDark ? '#DAFC92' : '#1a1a2e', transform: 'translateY(-50%)' }} />
+          <div style={{ position: 'absolute', left: '50%', top: 0, height: '100%', width: 1, background: isDark ? '#DAFC92' : '#1a1a2e', transform: 'translateX(-50%)' }} />
+        </div>
+      ))}
 
       {/* Blob crowd — full viewport behind everything */}
       <BlobCrowd isDark={isDark} />
@@ -79,8 +140,8 @@ const HeroPage: React.FC = () => {
           left: '5%',
           zIndex: 100,
           background: cardBg,
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
           border: `1px solid ${cardBorder}`,
           borderRadius: 16,
           padding: '40px 48px',
@@ -101,11 +162,11 @@ const HeroPage: React.FC = () => {
           </span>
         </div>
 
-        {/* Buttons */}
-        <div data-animate style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 32 }}>
+        {/* Buttons — all in one line */}
+        <div data-animate style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32, flexWrap: 'nowrap' }}>
           <button style={{
             padding: '12px 24px', borderRadius: 12, fontWeight: 600, fontSize: 14,
-            display: 'flex', alignItems: 'center', gap: 8,
+            display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
             background: '#DAFC92', color: '#0a0a0a', border: 'none', cursor: 'pointer',
             transition: 'transform 0.2s',
           }}
@@ -115,7 +176,7 @@ const HeroPage: React.FC = () => {
           </button>
           <button style={{
             padding: '12px 24px', borderRadius: 12, fontWeight: 600, fontSize: 14,
-            display: 'flex', alignItems: 'center', gap: 8,
+            display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
             background: 'transparent', color: textColor, cursor: 'pointer',
             border: `1px solid ${isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)'}`,
             transition: 'transform 0.2s, color 0.6s, border-color 0.6s',
@@ -126,7 +187,7 @@ const HeroPage: React.FC = () => {
           </button>
           <button style={{
             padding: '12px 24px', borderRadius: 12, fontWeight: 600, fontSize: 14,
-            display: 'flex', alignItems: 'center', gap: 8,
+            display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
             background: 'transparent', color: mutedText, border: 'none', cursor: 'pointer',
             transition: 'transform 0.2s, color 0.6s',
           }}
@@ -136,13 +197,13 @@ const HeroPage: React.FC = () => {
           </button>
         </div>
 
-        {/* Social icons */}
+        {/* Social icons — Codolio replaced with Email */}
         <div data-animate style={{ display: 'flex', gap: 16 }}>
           {[
             { icon: <Github size={20} />, label: 'GitHub' },
             { icon: <Linkedin size={20} />, label: 'LinkedIn' },
             { icon: <Instagram size={20} />, label: 'Instagram' },
-            { icon: <span style={{ fontSize: 14, fontWeight: 700 }}>C</span>, label: 'Codolio' },
+            { icon: <Mail size={20} />, label: 'Email' },
           ].map((social) => (
             <a key={social.label} href="#"
               style={{ width: 40, height: 40, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', background: iconBg, color: iconColor, transition: 'transform 0.2s, background 0.6s, color 0.6s' }}
