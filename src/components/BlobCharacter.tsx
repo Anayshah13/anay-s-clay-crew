@@ -14,6 +14,9 @@ export interface BlobProps {
   mouthHeight?: number;
   mouthRadius?: string;
   armLength?: number;
+  armWidth?: number;
+  legWidth?: number;
+  legHeight?: number;
   zIndex?: number;
   style?: React.CSSProperties;
   children?: React.ReactNode;
@@ -25,14 +28,18 @@ export interface BlobProps {
   hideRightArm?: boolean;
   className?: string;
   legVariant?: 'normal' | 'pegRight';
+  rowClass?: string;
+  eyeScale?: number;
 }
 
 const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>(({
-  color, width, height, shape, eyeSize = 18, eyeGap = 16,
-  eyelidClose = 0, mouthWidth = 14, mouthHeight = 6,
-  mouthRadius = '0 0 50% 50%', armLength = 40, zIndex = 1,
+  color, width, height, shape, eyeSize = 22, eyeGap = 18,
+  eyelidClose = 0, mouthWidth = 16, mouthHeight = 7,
+  mouthRadius = '0 0 50% 50%', armLength = 45, armWidth = 16,
+  legWidth = 22, legHeight = 24, zIndex = 1,
   style, children, faceChildren, accessoryTop, accessoryBody,
-  eyebrows, hideLeftArm, hideRightArm, className, legVariant = 'normal'
+  eyebrows, hideLeftArm, hideRightArm, className, legVariant = 'normal',
+  rowClass, eyeScale
 }, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -59,19 +66,23 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>(({
     '--blob-radius': shape,
     '--blob-eye-size': `${eyeSize}px`,
     '--blob-eye-gap': `${eyeGap}px`,
-    '--blob-arm-length': `${armLength}px`,
+    '--arm-length': `${armLength}px`,
+    '--arm-width': `${armWidth}px`,
+    '--leg-width': `${legWidth}px`,
+    '--leg-height': `${legHeight}px`,
     '--eyelid-close': eyelidClose,
     '--mouth-width': `${mouthWidth}px`,
     '--mouth-height': `${mouthHeight}px`,
     '--mouth-radius': mouthRadius,
-    '--arm-length': `${armLength}px`,
     ...style,
   } as React.CSSProperties;
+
+  const rowCls = rowClass ? styles[rowClass] || '' : '';
 
   return (
     <div
       ref={containerRef}
-      className={`${styles.blobBase} ${className || ''}`}
+      className={`${styles.blobBase} ${rowCls} ${className || ''}`}
       style={{ ...cssVars, zIndex }}
     >
       <div ref={bodyRef} className={styles.blobInner} style={{ perspective: '400px' }}>
@@ -82,11 +93,11 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>(({
         <div className={styles.blobFace}>
           {eyebrows}
           <div className={styles.blobEyeRow}>
-            <div className={styles.blobEye}>
+            <div className={styles.blobEye} style={eyeScale ? { transform: `scale(${eyeScale})` } : undefined}>
               <div ref={leftPupilRef} className={styles.blobPupil} />
               <div data-eyelid className={styles.blobEyelid} style={{ transform: `scaleY(${eyelidClose})` }} />
             </div>
-            <div className={styles.blobEye}>
+            <div className={styles.blobEye} style={eyeScale ? { transform: `scale(${eyeScale})` } : undefined}>
               <div ref={rightPupilRef} className={styles.blobPupil} />
               <div data-eyelid className={styles.blobEyelid} style={{ transform: `scaleY(${eyelidClose})` }} />
             </div>
@@ -105,10 +116,8 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>(({
         )}
 
         <div data-leg className={styles.blobLegLeft} />
-        <div data-leg className={legVariant === 'pegRight'
-          ? styles.blobLegRight
-          : styles.blobLegRight
-        } style={legVariant === 'pegRight' ? { borderRadius: '50px 50px 3px 3px', width: '12px' } : {}} />
+        <div data-leg className={legVariant === 'pegRight' ? styles.blobLegRight : styles.blobLegRight}
+          style={legVariant === 'pegRight' ? { borderRadius: '50px 50px 3px 3px', width: '14px' } : {}} />
 
         {children}
       </div>
