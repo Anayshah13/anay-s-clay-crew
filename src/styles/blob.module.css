@@ -1,0 +1,214 @@
+.blobBase {
+  position: absolute;
+  width: var(--blob-width, 100px);
+  height: var(--blob-height, 120px);
+  background: var(--blob-color, #DAFC92);
+  border-radius: var(--blob-radius, 48% 52% 45% 55% / 50% 48% 52% 50%);
+  box-shadow:
+    inset -12px -18px 30px rgba(0, 0, 0, 0.28),
+    inset 6px 10px 18px rgba(255, 255, 255, 0.22),
+    inset 0px -6px 12px rgba(0, 0, 0, 0.15),
+    0 30px 80px rgba(0, 0, 0, 0.45),
+    0 8px 20px rgba(0, 0, 0, 0.3);
+  transform-origin: center bottom;
+  will-change: transform;
+  cursor: pointer;
+  transition: filter 0.3s;
+}
+
+.blobBase:hover {
+  filter: brightness(1.1);
+}
+
+.blobInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.blobFace {
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.blobEyeRow {
+  display: flex;
+  gap: var(--blob-eye-gap, 16px);
+  align-items: center;
+}
+
+.blobEye {
+  position: relative;
+  width: var(--blob-eye-size, 18px);
+  height: var(--blob-eye-size, 18px);
+  background: white;
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.blobPupil {
+  position: absolute;
+  width: 45%;
+  height: 45%;
+  background: #1a1a2e;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.blobEyelid {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  right: -1px;
+  height: 100%;
+  background: var(--blob-color, #DAFC92);
+  border-radius: 50%;
+  transform-origin: top center;
+  transform: scaleY(var(--eyelid-close, 0));
+  will-change: transform;
+  z-index: 2;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+.blobMouth {
+  width: var(--mouth-width, 14px);
+  height: var(--mouth-height, 6px);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: var(--mouth-radius, 0 0 50% 50%);
+  margin-top: 2px;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  position: relative;
+}
+
+.blobArm {
+  position: absolute;
+  width: var(--arm-width, 18px);
+  height: var(--arm-length, 40px);
+  background: var(--blob-color, #DAFC92);
+  border-radius: 50px;
+  box-shadow:
+    inset -4px -6px 10px rgba(0, 0, 0, 0.2),
+    inset 2px 4px 6px rgba(255, 255, 255, 0.15);
+  transform-origin: top center;
+  will-change: transform;
+  z-index: -1;
+}
+
+.blobArmLeft {
+  composes: blobArm;
+  top: 38%;
+  left: -8px;
+  transform: rotate(var(--arm-left-angle, 25deg));
+}
+
+.blobArmRight {
+  composes: blobArm;
+  top: 38%;
+  right: -8px;
+  transform: rotate(var(--arm-right-angle, -25deg));
+}
+
+.blobLeg {
+  position: absolute;
+  bottom: -14px;
+  width: var(--leg-width, 20px);
+  height: var(--leg-height, 20px);
+  background: var(--blob-color, #DAFC92);
+  border-radius: 50px;
+  box-shadow:
+    inset -3px -4px 8px rgba(0, 0, 0, 0.2),
+    inset 1px 3px 5px rgba(255, 255, 255, 0.12);
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.blobLegLeft {
+  composes: blobLeg;
+  left: 22%;
+}
+
+.blobLegRight {
+  composes: blobLeg;
+  right: 22%;
+}
+
+.blobHighlight {
+  position: absolute;
+  top: 10%;
+  left: 18%;
+  width: 35%;
+  height: 20%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  transform: rotate(-20deg);
+  pointer-events: none;
+}
+
+.blobAccessory {
+  position: absolute;
+  pointer-events: none;
+}
+
+.blobEyebrow {
+  position: absolute;
+  width: 12px;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 2px;
+  top: -6px;
+}
+
+.blobGlasses {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.blobGlassesLens {
+  width: var(--lens-size, 22px);
+  height: var(--lens-size, 22px);
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  border-radius: var(--lens-radius, 4px);
+  background: var(--lens-bg, rgba(255, 255, 255, 0.05));
+}
+
+.blobGlassesBridge {
+  width: 4px;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+  .blobBase {
+    --blob-width: calc(var(--blob-width) * 0.7);
+    --blob-height: calc(var(--blob-height) * 0.7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blobBase,
+  .blobArm,
+  .blobLeg,
+  .blobEyelid,
+  .blobPupil {
+    animation: none !important;
+    transition: none !important;
+  }
+}
