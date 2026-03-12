@@ -13,22 +13,18 @@ import {
   renderFunnyGuy,
   renderPopCulture,
   renderHackathon,
-  renderDoodler,
 } from './BlobRenderers1';
 
 import {
   renderNerdBlob,
-  renderPuzzle,
-  renderMovieBuff,
   renderSleepy,
-  renderRobot,
   renderGraphicDesigner,
   renderChef,
   renderAstronaut,
   renderDetective,
   renderAngry,
   renderTinyStranger,
-  renderPhilosopher,
+  renderClumsy,
 } from './BlobRenderers2';
 
 const rowClassMap = { front: 'rowFront', mid: 'rowMid', back: 'rowBack' } as const;
@@ -51,6 +47,11 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
   const blobElementRefs = useRef<BlobRef[]>([]);
   const crowdRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const [isSleepyAwake, setIsSleepyAwake] = useState(false);
+
+  useEffect(() => {
+    if (isDark) setIsSleepyAwake(false);
+  }, [isDark]);
 
   const setRef = (idx: number) => (ref: BlobRef | null) => {
     if (ref) blobElementRefs.current[idx] = ref;
@@ -208,6 +209,15 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
         }
       }
 
+      // Clumsy guy — harmonious left/right wide sway
+      const clumsyIdx = BLOB_CONFIGS.findIndex(c => c.id === 'clumsy');
+      if (clumsyIdx >= 0) {
+        const cls = blobElementRefs.current[clumsyIdx];
+        if (cls?.body) {
+          gsap.fromTo(cls.body, { x: -28, rotation: -10 }, { x: 28, rotation: 10, duration: 2.4, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+        }
+      }
+
     }, crowdRef);
 
     return () => ctx.revert();
@@ -232,6 +242,9 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
           if (blob.leftPupil) gsap.to(blob.leftPupil, { rotation: 360, duration: 0.5 });
           if (blob.rightPupil) gsap.to(blob.rightPupil, { rotation: 360, duration: 0.5 });
           if (blob.mouth) gsap.to(blob.mouth, { scaleX: 1.5, scaleY: 1.5, duration: 0.2, yoyo: true, repeat: 1 });
+          if (BLOB_CONFIGS[i].id === 'sleepy') {
+            setIsSleepyAwake(true);
+          }
           break;
         }
       }
@@ -313,6 +326,8 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
           style: posStyle,
           rowClass: rowClassMap[cfg.row],
           eyelidClose: cfg.eyelidClose,
+          isDark,
+          isSleepyAwake,
         };
 
         switch (cfg.id) {
@@ -325,7 +340,7 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
           case 'hackathon':      return renderHackathon(cfg, common);
           case 'nerd':           return renderNerdBlob(cfg, common);
           case 'chef':           return renderChef(cfg, common);
-          case 'philosopher':    return renderPhilosopher(cfg, common);
+          case 'clumsy':         return renderClumsy(cfg, common);
           case 'sleepy':         return renderSleepy(cfg, common);
           case 'graphicdesigner':return renderGraphicDesigner(cfg, common);
           case 'astronaut':      return renderAstronaut(cfg, common);

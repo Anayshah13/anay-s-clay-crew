@@ -47,30 +47,32 @@ export function useBlobCrowd(
           const dist = Math.sqrt(dx * dx + dy * dy);
           const angle = Math.atan2(dy, dx);
 
-          const resp = config.cursorResponsiveness;
-          const lag = config.eyeLag;
+          const resp = config.cursorResponsiveness * 1.8; // Universally increased responsiveness
+          const lag = config.eyeLag * 0.7; // Faster eyes so they look more responsive
 
-          // Pupil tracking
-          const pupilOffset = Math.min(dist / 30, 5) * resp;
+          // Pupil tracking — larger offset and faster tracking
+          let pupilOffset = Math.min(dist / 20, 8) * resp;
+          pupilOffset = Math.min(pupilOffset, 3.5); // Absolute constraint to prevent eyeballs from escaping the eye
+
           const px = Math.cos(angle) * pupilOffset;
           const py = Math.sin(angle) * pupilOffset;
 
           if (blob.leftPupil) {
-            gsap.to(blob.leftPupil, { x: px, y: py, duration: lag + 0.06, overwrite: true });
+            gsap.to(blob.leftPupil, { x: px, y: py, duration: lag + 0.04, overwrite: true });
           }
           if (blob.rightPupil) {
-            gsap.to(blob.rightPupil, { x: px, y: py, duration: lag + 0.06, overwrite: true });
+            gsap.to(blob.rightPupil, { x: px, y: py, duration: lag + 0.04, overwrite: true });
           }
 
           if (prefersReduced) continue;
 
-          // Body lean
-          const leanX = Math.max(-12, Math.min(12, (dx / 40) * resp));
-          const leanY = Math.max(-12, Math.min(12, (dy / 50) * resp));
+          // Body lean — increased bounds
+          const leanX = Math.max(-20, Math.min(20, (dx / 30) * resp));
+          const leanY = Math.max(-20, Math.min(20, (dy / 40) * resp));
           if (blob.body && !scaredStates.current[i]?.isScared) {
             gsap.to(blob.body, {
               rotateY: leanX, rotateX: -leanY,
-              duration: 0.6, ease: 'power2.out', overwrite: 'auto'
+              duration: 0.5, ease: 'power2.out', overwrite: 'auto'
             });
           }
 

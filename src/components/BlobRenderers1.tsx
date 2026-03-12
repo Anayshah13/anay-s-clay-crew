@@ -7,8 +7,9 @@ import type { BlobConfig } from './blobConfigs';
  * Focused thin-line mouth, thick glasses, CLI laptop
  */
 export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
+  const isDark = (common as any).isDark;
   return (
-    <BlobCharacter {...(common as any)} eyeSize={22} mouthWidth={18} mouthHeight={3} mouthRadius="2px"
+    <BlobCharacter {...(common as any)} eyeSize={22} eyelidClose={isDark ? 0.8 : 0} mouthWidth={18} mouthHeight={3} mouthRadius="2px"
       eyebrows={
         <div style={{ display: 'flex', gap: '24px', marginBottom: '-3px' }}>
           <div style={{ width: 18, height: 4, background: 'rgba(0,0,0,0.45)', borderRadius: 2, transform: 'rotate(-5deg)' }} />
@@ -26,30 +27,37 @@ export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
         </div>
       }
       accessoryTop={
-        <div style={{ position: 'absolute', top: -14, right: '8%' }}>
-          <div style={{ background: '#1a1a2e', color: '#DAFC92', fontSize: 9, fontWeight: 900, fontFamily: 'monospace', padding: '3px 7px', borderRadius: 4, border: '2px solid #DAFC92', letterSpacing: 1 }}>DJ</div>
+        /* Google colored propeller beanie */
+        <div style={{ position: 'absolute', top: -16, left: '50%', transform: 'translateX(-50%)' }}>
+          <div style={{ width: 44, height: 28, background: '#4285F4', borderRadius: '17px 17px 0 0', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '33%', background: '#EA4335' }} />
+            <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '33%', background: '#FBBC05' }} />
+            <div style={{ position: 'absolute', top: 0, left: '33%', right: '33%', bottom: 0, background: '#34A853' }} />
+          </div>
+          <div style={{ position: 'absolute', bottom: -2, left: 0, width: 46, height: 4, background: '#4285F4', borderRadius: 2 }} />
+          <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', width: 2, height: 12, background: '#555' }} />
+          <div data-propeller style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', width: 30, height: 4, background: '#999', borderRadius: 2 }} />
         </div>
       }
       accessoryBody={
         <>
-          {/* Laptop with >_ terminal */}
-          <div style={{ position: 'absolute', bottom: '24%', left: '50%', transform: 'translateX(-50%)' }}>
-            <div style={{ width: 76, height: 54, background: '#2d2d2d', borderRadius: 7, position: 'relative', boxShadow: 'inset -2px -3px 6px rgba(0,0,0,0.4)' }}>
-              <div style={{ position: 'absolute', inset: 4, background: '#0d1117', borderRadius: 3, overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', top: 6, left: 5, display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <span style={{ color: '#DAFC92', fontSize: 10, fontFamily: 'monospace', fontWeight: 700 }}>{'>_'}</span>
+          {/* Laptop held in right hand */}
+          <div style={{ position: 'absolute', top: '35%', right: -36, transform: 'rotate(-20deg)', transformOrigin: 'bottom center', zIndex: 10 }}>
+            <div style={{ width: 66, height: 44, background: '#2d2d2d', borderRadius: 5, position: 'relative', boxShadow: 'inset -2px -3px 6px rgba(0,0,0,0.4)' }}>
+              <div style={{ position: 'absolute', inset: 3, background: '#0d1117', borderRadius: 2, overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 4, left: 4, display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <span style={{ color: '#DAFC92', fontSize: 8, fontFamily: 'monospace', fontWeight: 700 }}>{'>_'}</span>
                 </div>
-                <div data-code-line style={{ position: 'absolute', top: 18, left: 5, width: 32, height: 2.5, background: '#4ECDC4', borderRadius: 1, opacity: 0.8 }} />
-                <div data-code-line style={{ position: 'absolute', top: 25, left: 7, width: 24, height: 2.5, background: '#DAFC92', borderRadius: 1, opacity: 0.6 }} />
-                <div data-code-line style={{ position: 'absolute', top: 32, left: 5, width: 34, height: 2.5, background: '#9B59FF', borderRadius: 1, opacity: 0.5 }} />
-                <div data-laptop-flash style={{ position: 'absolute', inset: 0, background: 'rgba(218,252,146,0)', borderRadius: 3 }} />
+                <div data-code-line style={{ position: 'absolute', top: 14, left: 4, width: 26, height: 2, background: '#4ECDC4', borderRadius: 1, opacity: 0.8 }} />
+                <div data-code-line style={{ position: 'absolute', top: 20, left: 6, width: 20, height: 2, background: '#DAFC92', borderRadius: 1, opacity: 0.6 }} />
+                <div data-laptop-flash style={{ position: 'absolute', inset: 0, background: 'rgba(218,252,146,0)', borderRadius: 2 }} />
               </div>
-              <div style={{ position: 'absolute', bottom: -6, left: -4, width: 84, height: 6, background: '#444', borderRadius: '0 0 4px 4px' }} />
+              <div style={{ position: 'absolute', bottom: -5, left: -3, width: 72, height: 5, background: '#444', borderRadius: '0 0 3px 3px' }} />
             </div>
           </div>
-          {/* DJSCE badge */}
-          <div style={{ position: 'absolute', top: '50%', left: '14%' }}>
-            <div style={{ background: '#1a1a2e', color: '#DAFC92', fontSize: 8, fontWeight: 900, fontFamily: 'monospace', padding: '3px 5px', borderRadius: 4, border: '1.5px solid #DAFC92', lineHeight: 1.5 }}>DJSCE</div>
+          {/* DJSCE badge on chest */}
+          <div style={{ position: 'absolute', top: '55%', left: '50%', transform: 'translateX(-50%)' }}>
+            <div style={{ background: '#080854ff', color: '#DAFC92', fontSize: 8, fontWeight: 900, fontFamily: 'monospace', padding: '3px 5px', borderRadius: 4, border: '1.5px solid #DAFC92', lineHeight: 1.5 }}>DJSCE</div>
           </div>
         </>
       }
@@ -71,22 +79,6 @@ export function renderMinecraft(cfg: BlobConfig, common: Record<string, unknown>
           <div style={{ width: 18, height: 5, background: 'rgba(0,0,0,0.55)', borderRadius: 1 }} />
         </div>
       }
-      faceChildren={
-        // Creeper face on belly
-        <div style={{ position: 'absolute', bottom: '22%', left: '50%', transform: 'translateX(-50%)', zIndex: 3 }}>
-          {/* Creeper eyes */}
-          <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginBottom: 3 }}>
-            <div style={{ width: 10, height: 10, background: '#1a3d1a', borderRadius: 2 }} />
-            <div style={{ width: 10, height: 10, background: '#1a3d1a', borderRadius: 2 }} />
-          </div>
-          {/* Creeper mouth — M shape */}
-          <div style={{ display: 'flex', gap: 0, justifyContent: 'center' }}>
-            <div style={{ width: 6, height: 8, background: '#1a3d1a', borderRadius: '0 0 2px 2px' }} />
-            <div style={{ width: 4, height: 4, background: '#1a3d1a', borderRadius: 2, marginTop: 4 }} />
-            <div style={{ width: 6, height: 8, background: '#1a3d1a', borderRadius: '0 0 2px 2px' }} />
-          </div>
-        </div>
-      }
       accessoryTop={
         // Pixelated crown
         <div style={{ position: 'absolute', top: -22, left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'flex-end', gap: 2 }}>
@@ -100,7 +92,7 @@ export function renderMinecraft(cfg: BlobConfig, common: Record<string, unknown>
       accessoryBody={
         <>
           {/* Diamond sword — right arm */}
-          <div data-mc-sword style={{ position: 'absolute', top: '20%', right: -40, transform: 'rotate(-15deg)', transformOrigin: 'bottom center' }}>
+          <div data-mc-sword style={{ position: 'absolute', top: '30%', right: -20, transform: 'rotate(15deg)', transformOrigin: 'bottom center' }}>
             {/* Blade — diamond blue */}
             <div style={{ width: 8, height: 55, background: 'linear-gradient(180deg, #5DADE2 0%, #85C1E9 50%, #5DADE2 100%)', borderRadius: '4px 4px 2px 2px', position: 'relative', boxShadow: '0 0 8px rgba(93,173,226,0.5)' }}>
               {/* Crossguard */}
@@ -110,8 +102,8 @@ export function renderMinecraft(cfg: BlobConfig, common: Record<string, unknown>
             </div>
           </div>
           {/* TNT block — left arm */}
-          <div style={{ position: 'absolute', top: '40%', left: -28 }}>
-            <div style={{ width: 20, height: 20, background: '#E74C3C', borderRadius: 3, position: 'relative', border: '2px solid #C0392B' }}>
+          <div style={{ position: 'absolute', top: '50%', left: -28 }}>
+            <div style={{ width: 30, height: 30, background: '#ec3d29ff', borderRadius: 3, position: 'relative', border: '2px solid #C0392B' }}>
               <span style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'white', fontSize: 6, fontWeight: 900, fontFamily: 'monospace' }}>TNT</span>
             </div>
           </div>
@@ -128,42 +120,25 @@ export function renderMinecraft(cfg: BlobConfig, common: Record<string, unknown>
 export function renderLego(cfg: BlobConfig, common: Record<string, unknown>) {
   return (
     // EMOTION: PURE JOY — enormous smile, eyes squinting happy, raised cheeks
-    <BlobCharacter {...(common as any)} mouthWidth={52} mouthHeight={26} mouthRadius="0 0 60% 60%"
+    <BlobCharacter {...(common as any)} mouthWidth={64} mouthHeight={32} mouthRadius="0 0 70% 70%"
       eyebrows={
         // Squinted happy brows — curve inward-down indicating scrunched happy cheeks
         <div style={{ display: 'flex', gap: '18px', marginBottom: '-6px' }}>
-          <div style={{ width: 18, height: 5, background: 'rgba(0,0,0,0.35)', borderRadius: 4, transform: 'rotate(-12deg)' }} />
-          <div style={{ width: 18, height: 5, background: 'rgba(0,0,0,0.35)', borderRadius: 4, transform: 'rotate(12deg)' }} />
-        </div>
-      }
-      accessoryTop={
-        /* LEGO stud hair — 3 circles on top */
-        <div style={{ position: 'absolute', top: -8, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 5 }}>
-          {[0,1,2].map(i => (
-            <div key={i} style={{ width: 11, height: 11, background: '#FFD93D', border: '2px solid rgba(0,0,0,0.2)', borderRadius: '50%', boxShadow: 'inset -2px -2px 4px rgba(0,0,0,0.15)' }} />
-          ))}
+          <div style={{ width: 18, height: 6, background: 'rgba(0,0,0,0.4)', borderRadius: 4, transform: 'rotate(-15deg)' }} />
+          <div style={{ width: 18, height: 6, background: 'rgba(0,0,0,0.4)', borderRadius: 4, transform: 'rotate(15deg)' }} />
         </div>
       }
       accessoryBody={
         <>
           {/* Big LEGO 2x4 brick */}
-          <div style={{ position: 'absolute', bottom: '30%', left: '50%', transform: 'translateX(-50%)' }}>
+          <div style={{ position: 'absolute', bottom: '20%', left: '50%', transform: 'translateX(-50%)' }}>
             <div style={{ width: 52, height: 24, background: '#E8230A', borderRadius: 4, position: 'relative', boxShadow: 'inset -3px -4px 8px rgba(0,0,0,0.25), inset 2px 3px 5px rgba(255,255,255,0.15)' }}>
               <div style={{ position: 'absolute', top: -7, left: 3, display: 'flex', gap: 5 }}>
                 {[0,1,2,3].map(i => (
                   <div key={i} style={{ width: 9, height: 8, background: '#E8230A', borderRadius: '50% 50% 0 0', border: '1.5px solid rgba(0,0,0,0.2)', boxShadow: 'inset -1px -2px 3px rgba(0,0,0,0.2)' }} />
                 ))}
               </div>
-              <span style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'rgba(255,255,255,0.25)', fontSize: 8, fontWeight: 900, fontFamily: 'sans-serif', letterSpacing: 1 }}>LEGO</span>
-            </div>
-          </div>
-          {/* Instruction booklet */}
-          <div style={{ position: 'absolute', top: '38%', left: -20, transform: 'rotate(15deg)' }}>
-            <div style={{ width: 20, height: 26, background: 'white', borderRadius: 2, position: 'relative', boxShadow: '1px 1px 4px rgba(0,0,0,0.2)' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 9, background: '#E8230A', borderRadius: '2px 2px 0 0' }} />
-              <div style={{ position: 'absolute', top: 3, left: '50%', transform: 'translateX(-50%)', width: 12, height: 5, background: '#FFD93D', borderRadius: 1 }} />
-              <div style={{ position: 'absolute', top: 13, left: 3, width: 13, height: 1.5, background: '#ccc', borderRadius: 1 }} />
-              <div style={{ position: 'absolute', top: 17, left: 3, width: 10, height: 1.5, background: '#ccc', borderRadius: 1 }} />
+              <span style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'rgba(255, 255, 255, 0.74)', fontSize: 8, fontWeight: 900, fontFamily: 'sans-serif', letterSpacing: 1 }}>LEGO</span>
             </div>
           </div>
         </>
@@ -207,20 +182,10 @@ export function renderCprog(cfg: BlobConfig, common: Record<string, unknown>) {
       }
       accessoryBody={
         <>
-          {/* 1497 — DOMINANT chest jersey number */}
-          <div style={{ position: 'absolute', top: '46%', left: '50%', transform: 'translateX(-50%)' }}>
-            <span style={{ color: '#DAFC92', fontSize: 28, fontWeight: 900, fontFamily: "'Impact', 'Bebas Neue', 'Arial Black', monospace", textShadow: '0 2px 8px rgba(0,0,0,0.5)', letterSpacing: 1 }}>1497</span>
-          </div>
-          {/* LeetCode clipboard */}
-          <div style={{ position: 'absolute', bottom: '22%', right: -22 }}>
-            <div style={{ width: 22, height: 28, background: '#2d2d2d', borderRadius: '2px 2px 3px 3px', position: 'relative', boxShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
-              <div style={{ position: 'absolute', top: -3, left: '50%', transform: 'translateX(-50%)', width: 8, height: 5, background: '#555', borderRadius: '2px 2px 0 0' }} />
-              <div style={{ position: 'absolute', top: 4, left: 3, right: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-                <div style={{ height: 1.5, background: '#FFA116', borderRadius: 1, opacity: 0.9 }} />
-                <div style={{ height: 1.5, background: 'rgba(255,255,255,0.4)', borderRadius: 1 }} />
-                <div style={{ height: 1.5, background: 'rgba(255,255,255,0.3)', borderRadius: 1 }} />
-              </div>
-              <div style={{ position: 'absolute', bottom: 3, left: '50%', transform: 'translateX(-50%)', fontSize: 6, color: '#FFA116', fontWeight: 900, fontFamily: 'monospace' }}>LC</div>
+          {/* LeetCode logo on chest */}
+          <div style={{ position: 'absolute', top: '48%', left: '50%', transform: 'translateX(-50%)' }}>
+            <div style={{ width: 34, height: 34, background: '#2d2d2d', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #555', boxShadow: '0 2px 4px rgba(0,0,0,0.4)' }}>
+              <span style={{ color: '#FFA116', fontSize: 20, fontWeight: 900, fontFamily: 'monospace' }}>LC</span>
             </div>
           </div>
         </>
@@ -402,20 +367,4 @@ export function renderHackathon(cfg: BlobConfig, common: Record<string, unknown>
   );
 }
 
-/**
- * THE DOODLER (Graphic Designer) — kept for backward compat if used
- * Now renderGraphicDesigner is the back-row blob but this stays in file
- */
-export function renderDoodler(cfg: BlobConfig, common: Record<string, unknown>) {
-  // Back row — no accessories, just body/eyes/mouth
-  return (
-    <BlobCharacter {...(common as any)} mouthWidth={22} mouthHeight={8} mouthRadius="0 50% 50% 0"
-      eyebrows={
-        <div style={{ display: 'flex', gap: '16px', marginBottom: '-2px' }}>
-          <div style={{ width: 14, height: 3.5, background: 'rgba(0,0,0,0.4)', borderRadius: 2, transform: 'rotate(-4deg)' }} />
-          <div style={{ width: 14, height: 3.5, background: 'rgba(0,0,0,0.4)', borderRadius: 2, transform: 'rotate(-14deg) translateY(-4px)' }} />
-        </div>
-      }
-    />
-  );
-}
+

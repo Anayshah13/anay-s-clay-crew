@@ -60,7 +60,7 @@ export const BLOB_CONFIGS: BlobConfig[] = [
   },
   {
     id: 'lego', color: '#FFD93D', shape: SHAPES.C, w: 175, h: 210,
-    x: '74%', bottom: '-5px', z: 14, row: 'front',
+    x: '70%', bottom: '-5px', z: 14, row: 'front',
     // Joyful, strong enthusiasm
     anim: { breathDuration: 1.9, leftArmRange: [-20, 15], leftArmDuration: 2.0, rightArmRange: [-10, 40], rightArmDuration: 1.5, legSwayDuration: 1.6, cursorResponsiveness: 1.2, eyeLag: 0.08, fearRadius: 155 },
   },
@@ -104,9 +104,10 @@ export const BLOB_CONFIGS: BlobConfig[] = [
 
   // ── BACK ROW ───────────────────────────────────────────────────────────────
   {
-    id: 'philosopher', color: '#667eea', shape: SHAPES.J, w: 128, h: 154,
+    id: 'clumsy', color: '#667eea', shape: SHAPES.J, w: 128, h: 154,
     x: '72%', bottom: '280px', z: 7, row: 'back',
-    anim: { breathDuration: 3.0, leftArmRange: [-8, 12], leftArmDuration: 3.0, rightArmRange: [-10, 18], rightArmDuration: 3.5, legSwayDuration: 2.0, cursorResponsiveness: 0.5, eyeLag: 0.22, fearRadius: 180 },
+    // Clumsy is very unstable, high sway, big ranges
+    anim: { breathDuration: 0.8, leftArmRange: [-45, 45], leftArmDuration: 0.6, rightArmRange: [-40, 50], rightArmDuration: 0.7, legSwayDuration: 0.5, cursorResponsiveness: 2.5, eyeLag: 0.05, fearRadius: 180 },
   },
   {
     id: 'sleepy', color: '#FFD93D', shape: SHAPES.G, w: 122, h: 146,
@@ -129,19 +130,19 @@ export const BLOB_CONFIGS: BlobConfig[] = [
   },
   {
     id: 'angry', color: '#FF4757', shape: SHAPES.F, w: 112, h: 112,
-    x: '45%', bottom: '270px', z: 3, row: 'back',
+    x: '43%', bottom: '280px', z: 3, row: 'back',
     // RAPID TWITCH — 0.3× duration
     anim: { breathDuration: 0.45, leftArmRange: [-2, 3], leftArmDuration: 0.3, rightArmRange: [-2, 3], rightArmDuration: 0.3, legSwayDuration: 0.3, cursorResponsiveness: 0.5, eyeLag: 0.05, fearRadius: 80 },
   },
   {
     id: 'detective', color: '#4A3728', shape: SHAPES.H, w: 120, h: 144,
-    x: '88%', bottom: '210px', z: 2, row: 'back',
+    x: '75%', bottom: '180px', z: 10, row: 'back',  
     anim: { breathDuration: 2.7, leftArmRange: [-10, 15], leftArmDuration: 2.5, rightArmRange: [-12, 20], rightArmDuration: 2.9, legSwayDuration: 1.9, cursorResponsiveness: 0.6, eyeLag: 0.14, fearRadius: 160 },
   },
   {
     // REPLACED: was 'wildcard'. Now: THE TINY STRANGER
     id: 'tinystranger', color: '#C9B1FF', shape: SHAPES.F, w: 72, h: 72,
-    x: '96%', bottom: '215px', z: 8, row: 'back',
+    x: '93%', bottom: '320px', z: 12, row: 'back',
     // Minimal — just breathing, very responsive eyes
     anim: { breathDuration: 3.5, leftArmRange: [-2, 2], leftArmDuration: 4.0, rightArmRange: [-2, 2], rightArmDuration: 4.5, legSwayDuration: 4.0, cursorResponsiveness: 0.4, eyeLag: 0.04, fearRadius: 120 },
   },

@@ -148,6 +148,12 @@ const HeroPage: React.FC = () => {
           transition: 'background 0.6s ease, border-color 0.6s ease',
         }}
       >
+        <div style={{ position: 'absolute', top: 18, right: 20, display: 'flex', gap: 8, zIndex: 10 }}>
+          <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#FF5F56' }} />
+          <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#FFBD2E' }} />
+          <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#27C93F' }} />
+        </div>
+
         <p data-animate style={{ color: textColor, fontSize: isMobile ? '1.4rem' : '2.5rem', fontWeight: 700, lineHeight: 1.2, marginBottom: 4, transition: 'color 0.6s' }}>
           Hi, I'm
         </p>
@@ -213,6 +219,9 @@ const HeroPage: React.FC = () => {
             </a>
           ))}
         </div>
+
+        {/* Cursor at bottom right */}
+        <img src="/cursor.png" alt="Cursor" style={{ position: 'absolute', bottom: -20, right: -20, width: 100, height: 50, zIndex: 20, pointerEvents: 'none' }} />
       </div>
     </div>
   );

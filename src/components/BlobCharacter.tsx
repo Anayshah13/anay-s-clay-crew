@@ -62,8 +62,8 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
     rightArm: rightArmRef.current,
   }));
 
-  const leftEyePx = eyeSizeLeft ?? eyeSize;
-  const rightEyePx = eyeSizeRight ?? eyeSize;
+  const leftEyePx = (eyeSizeLeft ?? eyeSize) * 1.3;
+  const rightEyePx = (eyeSizeRight ?? eyeSize) * 1.3;
 
   const cssVars = {
     '--blob-color': color,

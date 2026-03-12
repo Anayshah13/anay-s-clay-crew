@@ -52,18 +52,25 @@ export function renderPuzzle(cfg: BlobConfig, common: Record<string, unknown>) {
 }
 
 /**
- * THE MOVIE BUFF (used as chef's slot for backward compat)
+ * THE CLUMSY PERSON — indigo #667eea — BACK ROW
+ * BACK ROW: Bandage on head, concerned brows, highly unstable
  */
-export function renderMovieBuff(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderClumsy(cfg: BlobConfig, common: Record<string, unknown>) {
   return (
-    <BlobCharacter {...(common as any)} eyeSize={26} mouthWidth={18} mouthHeight={16} mouthRadius="50%"
-      faceChildren={
-        <div style={{ position: 'absolute', top: '14%', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 2, zIndex: 3 }}>
-          <div style={{ width: 34, height: 16, background: 'rgba(0,0,0,0.85)', borderRadius: 3, border: '2px solid #999' }} />
-          <div style={{ width: 5, height: 2, background: '#999', borderRadius: 1 }} />
-          <div style={{ width: 34, height: 16, background: 'rgba(0,0,0,0.85)', borderRadius: 3, border: '2px solid #999' }} />
-          <div style={{ position: 'absolute', left: -9, top: 5, width: 11, height: 2, background: '#999' }} />
-          <div style={{ position: 'absolute', right: -9, top: 5, width: 11, height: 2, background: '#999' }} />
+    <BlobCharacter {...(common as any)} eyeSize={22} mouthWidth={18} mouthHeight={12} mouthRadius="50%"
+      eyebrows={
+        // Wobbly, concerned brows
+        <div style={{ display: 'flex', gap: '14px', marginBottom: '-4px' }}>
+          <div style={{ width: 14, height: 4, background: 'rgba(0,0,0,0.5)', borderRadius: 2, transform: 'rotate(-25deg)' }} />
+          <div style={{ width: 14, height: 4, background: 'rgba(0,0,0,0.5)', borderRadius: 2, transform: 'rotate(25deg)' }} />
+        </div>
+      }
+      accessoryTop={
+        // Bandage on head
+        <div style={{ position: 'absolute', top: 5, left: '20%', transform: 'rotate(-15deg)' }}>
+          <div style={{ width: 18, height: 8, background: '#f5d5cc', borderRadius: 2, border: '1px solid #dca79a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 4, height: 4, background: 'white', opacity: 0.6 }} />
+          </div>
         </div>
       }
     />
@@ -76,17 +83,22 @@ export function renderMovieBuff(cfg: BlobConfig, common: Record<string, unknown>
  * BACK ROW: keep accessories (just visible)
  */
 export function renderSleepy(cfg: BlobConfig, common: Record<string, unknown>) {
+  const c = common as any;
+  // Sleepy is awake if not dark, OR if explicitly woken up
+  const isAwake = !c.isDark || c.isSleepyAwake;
+  const isNightSleep = c.isDark && !c.isSleepyAwake;
+  
   return (
     // EMOTION: SLEEPINESS — drooping heavy lids via eyelidClose, droopy line mouth
-    <BlobCharacter {...(common as any)}
+    <BlobCharacter {...c}
       eyeSize={20}
-      eyelidClose={0.65}
-      mouthWidth={14} mouthHeight={3} mouthRadius="0 0 50% 50%"
+      eyelidClose={isAwake ? 0.1 : 0.85}
+      mouthWidth={14} mouthHeight={isAwake ? 12 : 3} mouthRadius={isAwake ? "50%" : "0 0 50% 50%"}
       eyebrows={
         // Very heavy droopy brows — inner corners up (opposite of anger)
         <div style={{ display: 'flex', gap: '16px', marginBottom: '-2px' }}>
-          <div style={{ width: 16, height: 4, background: 'rgba(0,0,0,0.3)', borderRadius: 4, transform: 'rotate(14deg)' }} />
-          <div style={{ width: 16, height: 4, background: 'rgba(0,0,0,0.3)', borderRadius: 4, transform: 'rotate(-14deg)' }} />
+          <div style={{ width: 16, height: 4, background: 'rgba(0,0,0,0.3)', borderRadius: 4, transform: isAwake ? 'rotate(-5deg)' : 'rotate(14deg)' }} />
+          <div style={{ width: 16, height: 4, background: 'rgba(0,0,0,0.3)', borderRadius: 4, transform: isAwake ? 'rotate(5deg)' : 'rotate(-14deg)' }} />
         </div>
       }
       accessoryTop={
@@ -111,7 +123,7 @@ export function renderSleepy(cfg: BlobConfig, common: Record<string, unknown>) {
       }
     >
       {/* Z z z floats */}
-      {['Z', 'z', 'z'].map((z, zi) => (
+      {isNightSleep && ['Z', 'z', 'z'].map((z, zi) => (
         <div key={zi} data-zzz style={{
           position: 'absolute', top: -8 - zi * 14, right: 2 + zi * 9,
           fontSize: 13 + zi * 4, fontWeight: 700,
@@ -123,21 +135,11 @@ export function renderSleepy(cfg: BlobConfig, common: Record<string, unknown>) {
 }
 
 /**
- * THE ROBOT — back compat, not in new config but kept as fallback
- */
-export function renderRobot(cfg: BlobConfig, common: Record<string, unknown>) {
-  return (
-    <BlobCharacter {...(common as any)} mouthWidth={14} mouthHeight={4} mouthRadius="2px 2px 0 0" />
-  );
-}
-
-/**
  * THE GRAPHIC DESIGNER — coral red #FF6B6B — BACK ROW
  * BACK ROW: No accessories, creative absorbed smirk mouth
  */
 export function renderGraphicDesigner(cfg: BlobConfig, common: Record<string, unknown>) {
   return (
-    // Back row — no accessories
     // MOUTH: creative asymmetric smirk
     <BlobCharacter {...(common as any)} eyeSize={22}
       mouthWidth={22} mouthHeight={7} mouthRadius="0 70% 60% 10%"
@@ -146,6 +148,31 @@ export function renderGraphicDesigner(cfg: BlobConfig, common: Record<string, un
           <div style={{ width: 14, height: 3.5, background: 'rgba(0,0,0,0.4)', borderRadius: 2, transform: 'rotate(-4deg)' }} />
           <div style={{ width: 14, height: 3.5, background: 'rgba(0,0,0,0.4)', borderRadius: 2, transform: 'rotate(-14deg) translateY(-5px)' }} />
         </div>
+      }
+      accessoryTop={
+        /* Beret hat */
+        <div style={{ position: 'absolute', top: -14, left: '46%', transform: 'translateX(-50%) rotate(-10deg)' }}>
+          <div style={{ width: 34, height: 14, background: '#222', borderRadius: '17px 17px 4px 4px' }} />
+          <div style={{ position: 'absolute', top: -3, left: '50%', width: 4, height: 4, background: '#222', borderRadius: '50%' }} />
+        </div>
+      }
+      accessoryBody={
+        <>
+          {/* Color palette */}
+          <div style={{ position: 'absolute', bottom: '25%', left: -22, transform: 'rotate(-15deg)' }}>
+            <div style={{ width: 28, height: 20, background: '#e8c9a5', borderRadius: '14px', position: 'relative' }}>
+              <div style={{ position: 'absolute', right: 4, top: 4, width: 6, height: 6, background: '#fff', borderRadius: '50%' }} />
+              <div style={{ position: 'absolute', left: 4, top: 4, width: 6, height: 6, background: '#FF4757', borderRadius: '50%' }} />
+              <div style={{ position: 'absolute', left: 10, top: 12, width: 6, height: 6, background: '#4285F4', borderRadius: '50%' }} />
+            </div>
+          </div>
+          {/* Stylus / pencil */}
+          <div style={{ position: 'absolute', top: '35%', right: -14, transform: 'rotate(25deg)' }}>
+            <div style={{ width: 4, height: 24, background: '#feca57', borderRadius: 2, position: 'relative' }}>
+              <div style={{ position: 'absolute', top: -4, left: 0, width: 4, height: 4, background: '#333', borderRadius: '2px 2px 0 0' }} />
+            </div>
+          </div>
+        </>
       }
     />
   );
@@ -202,19 +229,37 @@ export function renderAstronaut(cfg: BlobConfig, common: Record<string, unknown>
     // MOUTH: small nervous smile
     <BlobCharacter {...(common as any)} eyeSize={20} mouthWidth={12} mouthHeight={7} mouthRadius="0 0 60% 60%"
       faceChildren={
-        /* Helmet ring — counts as facial feature, keep it */
-        <div style={{
-          position: 'absolute', top: '-14%', left: '50%', transform: 'translateX(-50%)',
-          width: cfg.w * 0.78, height: cfg.w * 0.78,
-          border: '4px solid rgba(255,255,255,0.45)',
-          borderRadius: '50%',
-          background: 'rgba(100,180,255,0.12)',
-          zIndex: 0, pointerEvents: 'none'
-        }}>
-          <div style={{ position: 'absolute', top: '15%', left: '15%', width: '25%', height: '12%', background: 'rgba(255,255,255,0.12)', borderRadius: '50%', transform: 'rotate(-30deg)' }} />
-          {/* DJSA visor text */}
-          <div style={{ position: 'absolute', bottom: '20%', left: '50%', transform: 'translateX(-50%)', fontSize: 7, color: 'rgba(218,252,146,0.8)', fontWeight: 900, fontFamily: 'monospace', letterSpacing: 1 }}>DJSA</div>
-        </div>
+        /* Proper Astronaut Spacesuit + Helmet */
+        <>
+          {/* Outer Helmet Dome */}
+          <div style={{
+            position: 'absolute', top: '-18%', left: '50%', transform: 'translateX(-50%)',
+            width: cfg.w * 0.85, height: cfg.w * 0.85,
+            border: '8px solid rgba(220,230,250,0.95)',
+            borderRadius: '50%',
+            background: 'rgba(100,180,255,0.25)',
+            boxShadow: 'inset 0 0 16px rgba(100,200,255,0.4)',
+            zIndex: 4, pointerEvents: 'none'
+          }}>
+            <div style={{ position: 'absolute', top: '15%', left: '15%', width: '30%', height: '14%', background: 'rgba(255,255,255,0.2)', borderRadius: '50%', transform: 'rotate(-30deg)' }} />
+          </div>
+          {/* Neck ring */}
+          <div style={{ position: 'absolute', top: '55%', left: '50%', transform: 'translateX(-50%)', width: cfg.w * 0.65, height: 10, background: '#aaa', borderRadius: '50%', border: '2px solid #666', zIndex: 3 }} />
+        </>
+      }
+      accessoryBody={
+        <>
+          {/* Chest control panel */}
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translateX(-50%)', width: 44, height: 34, background: '#eee', borderRadius: 4, border: '2px solid #ccc', boxShadow: '0 4px 6px rgba(0,0,0,0.2)' }}>
+            <div style={{ position: 'absolute', top: 4, left: 4, width: 12, height: 8, background: '#222', borderRadius: 2 }} />
+            <div style={{ position: 'absolute', top: 4, right: 4, width: 6, height: 6, background: '#FF4757', borderRadius: '50%' }} />
+            <div style={{ position: 'absolute', top: 14, right: 4, width: 6, height: 6, background: '#4285F4', borderRadius: '50%' }} />
+            <div style={{ position: 'absolute', bottom: 4, left: 4, width: 24, height: 6, background: '#ccc', borderRadius: 2 }} />
+          </div>
+          {/* Small jetpack tanks sticking out back */}
+          <div style={{ position: 'absolute', top: '25%', left: -14, width: 18, height: 44, background: '#ddd', borderRadius: 6, border: '2px solid #bbb', zIndex: -1 }} />
+          <div style={{ position: 'absolute', top: '25%', right: -14, width: 18, height: 44, background: '#ddd', borderRadius: 6, border: '2px solid #bbb', zIndex: -1 }} />
+        </>
       }
     />
   );
@@ -239,16 +284,26 @@ export function renderDetective(cfg: BlobConfig, common: Record<string, unknown>
         </div>
       }
       faceChildren={
-        // Pipe at mouth corner
-        <div style={{ position: 'absolute', bottom: '22%', right: '18%', zIndex: 5 }}>
-          <div style={{ width: 12, height: 4, background: '#6B4423', borderRadius: 2, position: 'relative' }}>
-            <div style={{ position: 'absolute', right: -5, top: -9, width: 8, height: 11, background: '#5B3413', borderRadius: '3px 3px 0 0' }} />
+        // Cigarette in mouth corner
+        <div style={{ position: 'absolute', bottom: '22%', right: '16%', zIndex: 5, transform: 'rotate(-10deg)', transformOrigin: 'left center' }}>
+          <div style={{ width: 18, height: 3.5, background: '#fff', borderRadius: 2, position: 'relative' }}>
+            <div style={{ position: 'absolute', right: 0, top: 0, width: 4, height: '100%', background: '#ff7e67', borderRadius: '0 2px 2px 0' }} />
+            {/* Smoke wisp */}
+            <div style={{ position: 'absolute', right: -6, top: -8, fontSize: 8, color: 'rgba(255,255,255,0.6)', transform: 'rotate(20deg)' }}>≈</div>
           </div>
         </div>
       }
       accessoryBody={
-        // Just a floating ? for personality — small
-        <div data-det-q style={{ position: 'absolute', top: -14, left: '60%', fontSize: 14, color: 'rgba(255,255,255,0.45)', fontWeight: 700 }}>?</div>
+        <>
+          {/* Magnifying Glass */}
+          <div style={{ position: 'absolute', top: '35%', right: -28, transform: 'rotate(-25deg)' }}>
+            <div style={{ width: 8, height: 26, background: '#5B3413', borderRadius: '0 0 4px 4px', position: 'relative', left: 10 }}>
+              <div style={{ position: 'absolute', top: -20, left: -10, width: 28, height: 28, border: '4px solid #gold', background: 'rgba(200,220,255,0.4)', borderRadius: '50%', boxShadow: '0 2px 5px rgba(0,0,0,0.3)', borderColor: '#DAA520' }}>
+                <div style={{ position: 'absolute', top: 2, left: 2, width: 8, height: 4, background: 'rgba(255,255,255,0.6)', borderRadius: '50%', transform: 'rotate(-45deg)' }} />
+              </div>
+            </div>
+          </div>
+        </>
       }
     />
   );
@@ -268,27 +323,6 @@ export function renderTinyStranger(cfg: BlobConfig, common: Record<string, unkno
       mouthWidth={14} mouthHeight={5} mouthRadius="0 0 60% 60%"
       // No arms, no accessories, no eyebrows — pure alien wide-eyed innocence
       hideLeftArm hideRightArm
-    />
-  );
-}
-
-/**
- * THE PHILOSOPHER — indigo #667eea — BACK ROW
- * BACK ROW: No accessories, pressed thoughtful lips
- */
-export function renderPhilosopher(cfg: BlobConfig, common: Record<string, unknown>) {
-  return (
-    // MOUTH: pressed thoughtful straight line
-    <BlobCharacter {...(common as any)} eyeSize={20}
-      mouthWidth={20} mouthHeight={3} mouthRadius="3px"
-      faceChildren={
-        // Lennon round glasses — back row, smaller
-        <div style={{ position: 'absolute', top: '17%', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 3, zIndex: 3 }}>
-          <div style={{ width: 22, height: 22, border: '2.5px solid rgba(200,180,120,0.8)', borderRadius: '50%', background: 'rgba(255,255,255,0.06)' }} />
-          <div style={{ width: 4, height: 2, background: 'rgba(200,180,120,0.8)', borderRadius: 1 }} />
-          <div style={{ width: 22, height: 22, border: '2.5px solid rgba(200,180,120,0.8)', borderRadius: '50%', background: 'rgba(255,255,255,0.06)' }} />
-        </div>
-      }
     />
   );
 }
@@ -330,23 +364,3 @@ export function renderAngry(cfg: BlobConfig, common: Record<string, unknown>) {
     </BlobCharacter>
   );
 }
-
-// Legacy compat exports
-export function renderCool(cfg: BlobConfig, common: Record<string, unknown>) {
-  return renderGraphicDesigner(cfg, common);
-}
-
-export function renderInjured(cfg: BlobConfig, common: Record<string, unknown>) {
-  return renderNerdBlob(cfg, common);
-}
-
-export function renderWildcard(cfg: BlobConfig, common: Record<string, unknown>) {
-  return renderTinyStranger(cfg, common);
-}
-
-export function renderMarsRover(cfg: BlobConfig, common: Record<string, unknown>) {
-  return renderFunnyGuy(cfg, common);
-}
-
-// Forward reference imports for compat
-import { renderFunnyGuy } from './BlobRenderers1';
