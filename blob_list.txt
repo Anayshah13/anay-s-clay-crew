@@ -1,0 +1,42 @@
++-------+--------------------+---------+--------------------------------------------------------------+-------------------------+
+| Sr No | Name / Persona     | Color   | Accessories                                                  | Position (x, bottom)    |
++-------+--------------------+---------+--------------------------------------------------------------+-------------------------+
+| 1     | THE DEV            | #DAFC92 | Thick nerdy glasses, DJSCE badge, Laptop with >_ terminal    | x: 56%, bottom: -10px   |
+| 2     | THE LOL PLAYER     | #4ECDC4 | Crown, LoL sword, AWS badge, WINNER ribbon                   | x: 40%, bottom: -15px   |
+| 3     | THE LEGO BUILDER   | #FFD93D | Stud hair, Instruction manual, Red 2x4 LEGO brick            | x: 74%, bottom: -5px    |
+| 4     | THE C. PROG        | #1E488F | Floating '{}' brackets, LeetCode clipboard, '1497' badge     | x: 48%, bottom: 140px   |
+| 5     | THE NERD           | #A8E6CF | Thick glasses, 'D3' corner badge, Red book                   | x: 65%, bottom: 120px   |
+| 6     | THE MARS ROVER     | #C0392B | Halo, Rover wheel, Wrench, ROS2 device                       | x: 80%, bottom: 150px   |
+| 7     | THE INJURED        | #98D8C8 | Bandages, Walking stick, Arm in plaster cast                 | x: 38%, bottom: 160px   |
+| 8     | THE HACKATHON      | #9B59FF | Winner medal, Energy drink, '5 HRS' clock, Eye bags          | x: 88%, bottom: 20px    |
+| 9     | THE CHEF           | #FF8C42 | Chef hat, Vada Pav in pan, Steam, Apron, Oven mitt           | x: 60%, bottom: 200px   |
+| 10    | THE PUZZLE SOLVER  | #667eea | Rubik's cube, Lightbulb, Orbiting '?', Glasses               | x: 72%, bottom: 280px   |
+| 11    | THE SLEEPY ONE     | #FFD93D | Night cap, DJSCE hoodie pouch, Teddy bear, 'Z z z' floats    | x: 53%, bottom: 300px   |
+| 12    | THE COOL ONE       | #2F3542 | Headphones, DJCSI badge, Lime star, '500+' connections       | x: 82%, bottom: 270px   |
+| 13    | THE ASTRONAUT      | #E8E8FF | DJSA visor overlay, Mars flag, Antariksh rover, Jetpack      | x: 64%, bottom: 340px   |
+| 14    | THE ANGRY          | #FF4757 | V-shaped eyebrows, Jagged teeth frown                        | x: 45%, bottom: 270px   |
+| 15    | THE DETECTIVE      | #4A3728 | Deerstalker hat, Monocle, Magnifying glass, Pipe             | x: 88%, bottom: 210px   |
+| 16    | THE WILDCARD       | #DAFC92 | GitHub Octocat flag, '13' chest number, Enthusiastic wave    | x: 76%, bottom: 370px   |
++-------+--------------------+---------+--------------------------------------------------------------+-------------------------+
+
++-------+-------------------------+---------+----------------------------------------------------------+---------------------------+
+| Sr No | Name / Persona          | Color   | Accessories                                              | Position (x, bottom)      |
++-------+-------------------------+---------+----------------------------------------------------------+---------------------------+
+| 1     | THE DEV                 | #DAFC92 | Thick glasses, DJSCE pin badge, laptop with >_ terminal  | x: 56%, bottom: -10px     |
+| 2     | THE MINECRAFT PLAYER    | #5B8C5A | Creeper belly, diamond sword, pixel crown, TNT block     | x: 40%, bottom: -15px     |
+| 3     | THE LEGO BUILDER        | #FFD93D | 3 stud hair, giant red 2x4 brick, instruction booklet    | x: 74%, bottom: -5px      |
+| 4     | THE FUNNY GUY           | #FF8C00 | Jester hat, microphone, buck teeth, asymmetric eyes      | x: 30%, bottom: -10px     |
+| 5     | THE POP CULTURE FREAK   | #E91E8C | Arc reactor, Pokeball, lightsaber, lightning bolt scar   | x: 82%, bottom: -5px      |
+| 6     | THE HACKATHON           | #9B59FF | Eye bags, energy drink, 5 HRS chest, sweat drops         | x: 88%, bottom: 20px      |
+| 7     | THE C. PROGRAMMER       | #1E488F | {} brackets orbiting, LC clipboard, 1497 jersey number   | x: 48%, bottom: 140px     |
+| 8     | THE NERD                | #A8E6CF | Oversized thick glasses, red book, DJ badge corner       | x: 65%, bottom: 120px     |
+| 9     | THE GRAPHIC DESIGNER    | #FF6B6B | Paint palette, paintbrush, beret, color wheel orbit      | x: 72%, bottom: 260px     |
+| 10    | THE CHEF                | #FF8C42 | Tall chef hat, vada pav pan, steam wisps, apron stripe   | x: 60%, bottom: 200px     |
+| 11    | THE ANGRY               | #FF4757 | V eyebrows, jagged teeth frown, crossed arms, tap foot   | x: 45%, bottom: 260px     |
+| 12    | THE SLEEPY ONE          | #FFD93D | Night cap, hoodie pouch, teddy bear, Z z z floats        | x: 53%, bottom: 300px     |
+| 13    | THE PUZZLE SOLVER       | #667eea | Rubik's cube, orbiting ? marks, lightbulb above head     | x: 82%, bottom: 270px     |
+| 14    | THE DETECTIVE           | #4A3728 | Deerstalker hat, monocle, magnifying glass, pipe         | x: 88%, bottom: 210px     |
+| 15    | THE ASTRONAUT           | #E8E8FF | Space helmet ring, DJSA visor, Mars flag, zero-g idle    | x: 64%, bottom: 340px     |
+| 16    | THE PHILOSOPHER         | #667eea | Lightbulb, Lennon glasses, chin stroke arm, ? floats     | x: 58%, bottom: 370px     |
+| 17    | THE TINY STRANGER       | #C9B1FF | No accessories — massive eyes only, tiny smile           | x: 96%, bottom: 215px     |
++-------+-------------------------+---------+----------------------------------------------------------+---------------------------+

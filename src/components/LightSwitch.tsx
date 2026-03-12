@@ -16,11 +16,11 @@ const LightSwitch: React.FC<LightSwitchProps> = ({ isDark, onToggle }) => {
   const hasToggled = useRef(false);
   const idleTl = useRef<gsap.core.Tween | null>(null);
 
-  // Harmonic idle sway
+  // Harmonic idle sway (made it swing more noticeably)
   useEffect(() => {
     if (!cordRef.current) return;
     idleTl.current = gsap.to(cordRef.current, {
-      rotation: 3, duration: 2.5, ease: 'sine.inOut',
+      rotation: 30, duration: 3, ease: 'sine.inOut',
       yoyo: true, repeat: -1, transformOrigin: 'top center'
     });
     return () => { idleTl.current?.kill(); };
@@ -41,8 +41,8 @@ const LightSwitch: React.FC<LightSwitchProps> = ({ isDark, onToggle }) => {
     currentStretch.current = dy;
 
     // Elastic stretch with diminishing returns
-    const stretch = Math.min(dy * 0.8, 80);
-    const scaleY = 1 + stretch / 60;
+    const stretch = Math.min(dy * 0.8, 100);
+    const scaleY = 1 + stretch / 120;
 
     gsap.set(cordRef.current, { scaleY, transformOrigin: 'top center' });
 
@@ -60,7 +60,7 @@ const LightSwitch: React.FC<LightSwitchProps> = ({ isDark, onToggle }) => {
     isDragging.current = false;
 
     const stretch = currentStretch.current;
-    const shouldToggle = stretch > 40;
+    const shouldToggle = stretch > 60; // Require a strong pull
 
     if (cordRef.current) {
       // Elastic snap back with harmonic bounce
@@ -95,20 +95,10 @@ const LightSwitch: React.FC<LightSwitchProps> = ({ isDark, onToggle }) => {
     }
   }, [onToggle]);
 
-  // Fallback click for quick taps
+  // Fallback click disabled - only toggle on pull as requested
   const handleClick = useCallback(() => {
-    if (currentStretch.current > 5) return; // was a drag
-    if (!cordRef.current) { onToggle(); return; }
-    gsap.to(cordRef.current, {
-      scaleY: 1.35, duration: 0.12, ease: 'power2.out',
-      onComplete: () => {
-        onToggle();
-        gsap.to(cordRef.current, {
-          scaleY: 1, duration: 1.0, ease: 'elastic.out(1.2, 0.25)',
-        });
-      }
-    });
-  }, [onToggle]);
+    // DO NOTHING — force user to pull
+  }, []);
 
   return (
     <div
@@ -127,7 +117,7 @@ const LightSwitch: React.FC<LightSwitchProps> = ({ isDark, onToggle }) => {
         transition: 'color 0.6s',
       }}>{isDark ? 'DARK' : 'LIGHT'}</span>
       <div ref={cordRef} style={{
-        width: 2, height: 65,
+        width: 3, height: 110, // Made thicker and significantly longer
         background: isDark
           ? 'linear-gradient(to bottom, #555, #888)'
           : 'linear-gradient(to bottom, #999, #bbb)',
@@ -143,19 +133,19 @@ const LightSwitch: React.FC<LightSwitchProps> = ({ isDark, onToggle }) => {
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
           style={{
-            width: 20, height: 20, borderRadius: '50%',
+            width: 32, height: 32, borderRadius: '50%', // Made ball significantly bigger
             background: isDark
               ? 'radial-gradient(circle at 35% 35%, #ddd, #999)'
               : 'radial-gradient(circle at 35% 35%, #888, #555)',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
-            marginBottom: -10,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+            marginBottom: -16,
             transition: 'background 0.3s',
             cursor: 'grab',
           }}
         />
       </div>
       <div style={{
-        marginTop: 14, fontSize: 14,
+        marginTop: 22, fontSize: 18, // Bigger emoji to match the bigger string
         opacity: 0.5,
         transition: 'opacity 0.3s',
       }}>

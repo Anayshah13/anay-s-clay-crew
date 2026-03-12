@@ -107,16 +107,18 @@
 
 .blobArmLeft {
   composes: blobArm;
-  top: 38%;
+  top: 52%;
   left: -10px;
   transform: rotate(var(--arm-left-angle, 25deg));
+  transform-origin: top center;
 }
 
 .blobArmRight {
   composes: blobArm;
-  top: 38%;
+  top: 52%;
   right: -10px;
   transform: rotate(var(--arm-right-angle, -25deg));
+  transform-origin: top center;
 }
 
 .blobLeg {
@@ -155,65 +157,36 @@
   pointer-events: none;
 }
 
-.blobAccessory {
-  position: absolute;
-  pointer-events: none;
-}
 
-.blobEyebrow {
-  position: absolute;
-  width: 14px;
-  height: 3px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 2px;
-  top: -6px;
-}
 
-.blobGlasses {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 3;
-  pointer-events: none;
-}
-
-.blobGlassesLens {
-  width: var(--lens-size, 24px);
-  height: var(--lens-size, 24px);
-  border: 2px solid rgba(0, 0, 0, 0.6);
-  border-radius: var(--lens-radius, 4px);
-  background: var(--lens-bg, rgba(255, 255, 255, 0.05));
-}
-
-.blobGlassesBridge {
-  width: 5px;
-  height: 2px;
-  background: rgba(0, 0, 0, 0.6);
-}
-
-/* Row-based depth filters */
+/* Row-based depth filters — dramatically differentiated so depth is perceivable */
 .rowBack {
-  filter: saturate(0.7);
-  transform: scale(0.82);
+  /* Heavy atmospheric depth: very desaturated + darkened */
+  filter: saturate(0.55) brightness(0.75) blur(0.4px);
 }
 
 .rowMid {
-  filter: saturate(0.88);
-  transform: scale(0.91);
+  /* Medium depth */
+  filter: saturate(0.82) brightness(0.9)
+    drop-shadow(0 20px 40px rgba(0,0,0,0.4));
 }
 
 .rowFront {
-  filter: saturate(1);
+  /* Full vivid + strong claymorphism shadow */
+  filter: saturate(1.05)
+    drop-shadow(0 30px 60px rgba(0,0,0,0.6));
 }
 
+/* Mobile layout */
 @media (max-width: 768px) {
   .blobBase {
-    --blob-width: calc(var(--blob-width) * 0.65) !important;
-    --blob-height: calc(var(--blob-height) * 0.65) !important;
+    transform-origin: center bottom;
+  }
+  .rowFront {
+    filter: saturate(1.05) drop-shadow(0 18px 36px rgba(0,0,0,0.55));
+  }
+  .rowMid {
+    filter: saturate(0.82) brightness(0.9) drop-shadow(0 12px 24px rgba(0,0,0,0.38));
   }
 }
 
