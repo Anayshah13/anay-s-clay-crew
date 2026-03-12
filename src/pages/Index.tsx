@@ -187,6 +187,7 @@ const HeroPage: React.FC = () => {
             border: `1px solid rgba(255,255,255,0.25)`,
             transition: 'transform 0.2s, color 0.6s, border-color 0.6s',
           }}
+            onClick={() => window.location.href = 'mailto:anayshah13@gmail.com'}
             onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
             onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}>
             <Mail size={16} /> Contact Me
@@ -197,6 +198,7 @@ const HeroPage: React.FC = () => {
             background: 'transparent', color: mutedText, border: '1px solid rgba(255,255,255,0.15)', cursor: 'pointer',
             transition: 'transform 0.2s, color 0.6s, border-color 0.6s',
           }}
+            onClick={() => window.open('https://github.com/Anayshah13', '_blank')}
             onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
             onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}>
             GitHub <ExternalLink size={14}/>
@@ -205,12 +207,12 @@ const HeroPage: React.FC = () => {
         
         <div data-animate style={{ display: 'flex', gap: 16 }}>
           {[
-            { icon: <Github size={20} />, label: 'GitHub' },
-            { icon: <Linkedin size={20} />, label: 'LinkedIn' },
-            { icon: <Instagram size={20} />, label: 'Instagram' },
-            { icon: <Mail size={20} />, label: 'Email' },
+            { icon: <Github size={20} />, label: 'GitHub', href: 'https://github.com/Anayshah13' },
+            { icon: <Linkedin size={20} />, label: 'LinkedIn', href: 'https://linkedin.com/in/anay-shah' },
+            { icon: <Instagram size={20} />, label: 'Instagram', href: 'https://instagram.com/anay_shah' },
+            { icon: <Mail size={20} />, label: 'Email', href: 'mailto:anayshah13@gmail.com' },
           ].map((social) => (
-            <a key={social.label} href="#"
+            <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer"
               style={{ width: 40, height: 40, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', background: iconBg, color: iconColor, transition: 'transform 0.2s, background 0.6s, color 0.6s' }}
               onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.1)')}
               onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
