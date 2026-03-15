@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import BlobCrowd from '@/components/BlobCrowd';
 import LightSwitch from '@/components/LightSwitch';
+import AboutSection from '@/components/AboutSection';
 import { Github, Linkedin, Instagram, ExternalLink, ArrowRight, Mail } from 'lucide-react';
 
 function useIsMobile() {
@@ -104,7 +105,8 @@ const HeroPage: React.FC = () => {
     : 'linear-gradient(135deg, rgba(218, 252, 146, 0.1), rgba(27,57,112,0.05) 50%, rgba(179,153,255,0.3) 100%)';
 
   return (
-    <div className="relative w-full h-screen overflow-hidden" style={{ background: bgColor, transition: 'background 0.6s ease' }}>
+    <div className="w-full relative bg-black">
+      <div className="sticky top-0 z-0 w-full h-screen overflow-hidden" style={{ background: bgColor, transition: 'background 0.6s ease' }}>
 
       <style>{`
         @keyframes blink {
@@ -266,6 +268,8 @@ const HeroPage: React.FC = () => {
         <div style={{ width: 1, height: 40, background: isDark ? 'linear-gradient(to bottom, transparent, rgba(218,252,146,0.6))' : 'linear-gradient(to bottom, transparent, rgba(27,57,112,0.5))' }} />
         <div style={{ width: 10, height: 10, borderBottom: `2px solid ${isDark ? '#DAFC92' : '#1B3970'}`, borderRight: `2px solid ${isDark ? '#DAFC92' : '#1B3970'}`, transform: 'rotate(45deg)', marginTop: -6 }} />
       </div>
+      </div>
+      <AboutSection isDark={isDark} />
     </div>
   );
 };

@@ -8,8 +8,9 @@ import type { BlobConfig } from './blobConfigs';
  */
 export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
   const isDark = (common as any).isDark;
+  const passedEyelidClose = (common as any).eyelidClose;
   return (
-    <BlobCharacter {...(common as any)} eyeSize={22} eyelidClose={isDark ? 0.8 : 0} mouthWidth={18} mouthHeight={3} mouthRadius="2px"
+    <BlobCharacter {...(common as any)} eyeSize={22} eyelidClose={passedEyelidClose !== undefined ? passedEyelidClose : (isDark ? 0.8 : 0)} mouthWidth={18} mouthHeight={3} mouthRadius="2px"
       eyebrows={
         <div style={{ display: 'flex', gap: '24px', marginBottom: '-3px' }}>
           <div style={{ width: 18, height: 4, background: 'rgba(0,0,0,0.45)', borderRadius: 2, transform: 'rotate(-5deg)' }} />

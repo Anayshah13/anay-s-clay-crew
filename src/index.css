@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:wght@700;800;900&family=Outfit:wght@700;800;900&family=Bebas+Neue&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -96,4 +96,73 @@
 
 .animate-wave-flag {
   animation: wave-flag 1.5s ease-in-out infinite;
+}
+
+.about-calendar {
+  width: 100%;
+}
+
+.about-calendar > article {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.about-calendar svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  display: block;
+  margin: 0 auto;
+}
+
+.about-calendar text {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  fill: #0E0E0Eb6 !important;
+  color: #0E0E0Eb6 !important;
+}
+
+/* Legend "Less / More" label and total count text */
+.about-calendar span,
+.about-calendar footer,
+.about-calendar [class*="legend"] {
+  color: #0e0e0eb6 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.65rem !important;
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+@keyframes levitate { 
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.neo-spin { animation: spin 10s linear infinite; }
+.neo-spin-reverse { animation: spin-reverse 12s linear infinite; }
+
+.neo-levitate {
+  animation: levitate 4s ease-in-out infinite;
+}
+
+.anay-spin-img {
+  animation: spin 9s linear infinite;
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease;
+  transform: translateZ(0); /* hardware accel */
+}
+
+.anay-spin-img:hover {
+  animation: none; /* Stops spin */
+  transform: rotate(0deg) scale(1.15) !important;
+  box-shadow: 12px 12px 0 #DAFC92 !important;
+  z-index: 50;
+}
+
+.neo-graphic-hover {
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.neo-graphic-hover:hover {
+  transform: scale(1.15) !important;
+  filter: drop-shadow(6px 6px 0 #0E0E0E) saturate(1.5);
+  animation-play-state: paused;
 }
