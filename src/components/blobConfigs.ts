@@ -136,7 +136,7 @@ export const BLOB_CONFIGS: BlobConfig[] = [
   },
   {
     id: 'detective', color: '#4A3728', shape: SHAPES.H, w: 120, h: 144,
-    x: '75%', bottom: '180px', z: 10, row: 'back',  
+    x: '75%', bottom: '180px', z: 10, row: 'back',
     anim: { breathDuration: 2.7, leftArmRange: [-10, 15], leftArmDuration: 2.5, rightArmRange: [-12, 20], rightArmDuration: 2.9, legSwayDuration: 1.9, cursorResponsiveness: 0.6, eyeLag: 0.14, fearRadius: 160 },
   },
   {

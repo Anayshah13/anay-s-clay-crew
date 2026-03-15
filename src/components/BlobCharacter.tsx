@@ -32,6 +32,8 @@ export interface BlobProps {
   legVariant?: 'normal' | 'pegRight';
   rowClass?: string;
   eyeScale?: number;
+  isDark?: boolean;
+  id?: string;
 }
 
 const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
@@ -42,7 +44,7 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
   legWidth = 22, legHeight = 24, zIndex = 1,
   style, children, faceChildren, accessoryTop, accessoryBody,
   eyebrows, hideLeftArm, hideRightArm, className, legVariant = 'normal',
-  rowClass, eyeScale
+  rowClass, eyeScale, isDark, id
 }: BlobProps, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -85,11 +87,21 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
 
   const rowCls = rowClass ? (styles as any)[rowClass] || '' : '';
 
+  const shadowColor = isDark === false ? 'rgba(0,0,0,0.15)' : (isDark === true ? 'rgba(0,0,0,0.45)' : 'rgba(0,0,0,0.3)');
+  const isFront = rowClass === 'rowFront';
+  const isBack = rowClass === 'rowBack';
+  const shadowWidth = isFront ? '85%' : (isBack ? '55%' : '75%');
+  const shadowHeight = isFront ? 14 : (isBack ? 7 : 10);
+  const shadowOpacity = isBack ? 0.6 : 1;
+
+  const isLightModeBoost = isDark === false && ['dev', 'lego', 'astronaut'].includes(id || '');
+  const dropShadowStr = isLightModeBoost ? 'drop-shadow(0 4px 20px rgba(27,57,112,0.2))' : undefined;
+
   return (
     <div
       ref={containerRef}
       className={`${styles.blobBase} ${rowCls} ${className || ''}`}
-      style={{ ...cssVars, zIndex }}
+      style={{ ...cssVars, zIndex, filter: dropShadowStr }}
     >
       <div ref={bodyRef} className={styles.blobInner} style={{ perspective: '400px' }}>
         <div className={styles.blobHighlight} />
@@ -97,13 +109,14 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
         {/* Ground shadow — grounds every blob so they don't float */}
         <div style={{
           position: 'absolute',
-          bottom: -8,
-          left: '10%',
-          width: '80%',
-          height: 12,
-          background: 'radial-gradient(ellipse, rgba(0,0,0,0.35) 0%, transparent 70%)',
+          bottom: -6,
+          left: '12.5%',
+          width: shadowWidth,
+          height: shadowHeight,
+          background: `radial-gradient(ellipse, ${shadowColor} 0%, transparent 70%)`,
           pointerEvents: 'none',
           zIndex: -1,
+          opacity: shadowOpacity
         }} />
 
         {accessoryTop}

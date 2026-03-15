@@ -105,6 +105,12 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
         });
       }
 
+      // Spinning propeller on dev beanie
+      const propeller = crowdRef.current?.querySelector('[data-propeller]');
+      if (propeller) {
+        gsap.to(propeller, { rotationY: 360, duration: 0.4, repeat: -1, ease: 'linear' });
+      }
+
       // Minecraft sword arm raise — rhythmic
       const mcIdx = BLOB_CONFIGS.findIndex(c => c.id === 'minecraft');
       if (mcIdx >= 0) {
@@ -122,9 +128,11 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
         const lg = blobElementRefs.current[legoIdx];
         if (lg?.leftArm) {
           const legoLoop = () => {
-            gsap.to(lg.leftArm, { rotation: -50, duration: 0.6, ease: 'power2.out', onComplete: () => {
-              gsap.to(lg.leftArm, { rotation: 20, duration: 0.5, ease: 'power2.in', delay: 0.5 });
-            }});
+            gsap.to(lg.leftArm, {
+              rotation: -50, duration: 0.6, ease: 'power2.out', onComplete: () => {
+                gsap.to(lg.leftArm, { rotation: 20, duration: 0.5, ease: 'power2.in', delay: 0.5 });
+              }
+            });
             gsap.delayedCall(4, legoLoop);
           };
           gsap.delayedCall(2, legoLoop);
@@ -140,11 +148,15 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
           const erraticBounce = () => {
             const dy = -12 - Math.random() * 10;
             const dur = 0.15 + Math.random() * 0.1;
-            gsap.to(fb.container, { y: dy, duration: dur, ease: 'power2.out', onComplete: () => {
-              gsap.to(fb.container, { y: 0, duration: 0.3 + Math.random() * 0.2, ease: 'bounce.out', onComplete: () => {
-                gsap.delayedCall(0.3 + Math.random() * 0.8, erraticBounce);
-              }});
-            }});
+            gsap.to(fb.container, {
+              y: dy, duration: dur, ease: 'power2.out', onComplete: () => {
+                gsap.to(fb.container, {
+                  y: 0, duration: 0.3 + Math.random() * 0.2, ease: 'bounce.out', onComplete: () => {
+                    gsap.delayedCall(0.3 + Math.random() * 0.8, erraticBounce);
+                  }
+                });
+              }
+            });
           };
           gsap.delayedCall(1, erraticBounce);
         }
@@ -236,9 +248,11 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
         if (!blob.container) continue;
         const rect = blob.container.getBoundingClientRect();
         if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom) {
-          gsap.to(blob.container, { y: -32, duration: 0.2, ease: 'power2.out', onComplete: () => {
-            gsap.to(blob.container, { y: 0, duration: 0.6, ease: 'bounce.out' });
-          }});
+          gsap.to(blob.container, {
+            y: -32, duration: 0.2, ease: 'power2.out', onComplete: () => {
+              gsap.to(blob.container, { y: 0, duration: 0.6, ease: 'bounce.out' });
+            }
+          });
           if (blob.leftPupil) gsap.to(blob.leftPupil, { rotation: 360, duration: 0.5 });
           if (blob.rightPupil) gsap.to(blob.rightPupil, { rotation: 360, duration: 0.5 });
           if (blob.mouth) gsap.to(blob.mouth, { scaleX: 1.5, scaleY: 1.5, duration: 0.2, yoyo: true, repeat: 1 });
@@ -317,6 +331,7 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
 
         const common = {
           key: cfg.id,
+          id: cfg.id,
           ref: setRef(i),
           color: cfg.color,
           width: mobileW,
@@ -331,22 +346,22 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
         };
 
         switch (cfg.id) {
-          case 'dev':            return renderDev(cfg, common);
-          case 'minecraft':      return renderMinecraft(cfg, common);
-          case 'lego':           return renderLego(cfg, common);
-          case 'cprog':          return renderCprog(cfg, common);
-          case 'funnyguy':       return renderFunnyGuy(cfg, common);
-          case 'popculture':     return renderPopCulture(cfg, common);
-          case 'hackathon':      return renderHackathon(cfg, common);
-          case 'nerd':           return renderNerdBlob(cfg, common);
-          case 'chef':           return renderChef(cfg, common);
-          case 'clumsy':         return renderClumsy(cfg, common);
-          case 'sleepy':         return renderSleepy(cfg, common);
-          case 'graphicdesigner':return renderGraphicDesigner(cfg, common);
-          case 'astronaut':      return renderAstronaut(cfg, common);
-          case 'angry':          return renderAngry(cfg, common);
-          case 'detective':      return renderDetective(cfg, common);
-          case 'tinystranger':   return renderTinyStranger(cfg, common);
+          case 'dev': return renderDev(cfg, common);
+          case 'minecraft': return renderMinecraft(cfg, common);
+          case 'lego': return renderLego(cfg, common);
+          case 'cprog': return renderCprog(cfg, common);
+          case 'funnyguy': return renderFunnyGuy(cfg, common);
+          case 'popculture': return renderPopCulture(cfg, common);
+          case 'hackathon': return renderHackathon(cfg, common);
+          case 'nerd': return renderNerdBlob(cfg, common);
+          case 'chef': return renderChef(cfg, common);
+          case 'clumsy': return renderClumsy(cfg, common);
+          case 'sleepy': return renderSleepy(cfg, common);
+          case 'graphicdesigner': return renderGraphicDesigner(cfg, common);
+          case 'astronaut': return renderAstronaut(cfg, common);
+          case 'angry': return renderAngry(cfg, common);
+          case 'detective': return renderDetective(cfg, common);
+          case 'tinystranger': return renderTinyStranger(cfg, common);
           default:
             return null;
         }

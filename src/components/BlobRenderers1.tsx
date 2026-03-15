@@ -27,16 +27,26 @@ export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
         </div>
       }
       accessoryTop={
-        /* Google colored propeller beanie */
+        /* Google colored propeller beanie (Intern) */
         <div style={{ position: 'absolute', top: -16, left: '50%', transform: 'translateX(-50%)' }}>
           <div style={{ width: 44, height: 28, background: '#4285F4', borderRadius: '17px 17px 0 0', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '33%', background: '#EA4335' }} />
-            <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '33%', background: '#FBBC05' }} />
-            <div style={{ position: 'absolute', top: 0, left: '33%', right: '33%', bottom: 0, background: '#34A853' }} />
+            <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '25%', background: '#4285F4' }} />{/* Blue */}
+            <div style={{ position: 'absolute', top: 0, left: '25%', bottom: 0, width: '25%', background: '#34A853' }} />{/* Green */}
+            <div style={{ position: 'absolute', top: 0, left: '50%', bottom: 0, width: '25%', background: '#FBBC05' }} />{/* Yellow */}
+            <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '25%', background: '#EA4335' }} />{/* Red */}
           </div>
-          <div style={{ position: 'absolute', bottom: -2, left: 0, width: 46, height: 4, background: '#4285F4', borderRadius: 2 }} />
-          <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', width: 2, height: 12, background: '#555' }} />
-          <div data-propeller style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', width: 30, height: 4, background: '#999', borderRadius: 2 }} />
+          {/* Green rim */}
+          <div style={{ position: 'absolute', bottom: -2, left: -6, width: 56, height: 6, background: '#34A853', borderRadius: 3 }} />
+          {/* Wire stem */}
+          <div style={{ position: 'absolute', top: -18, left: '50%', transform: 'translateX(-50%)', width: 2, height: 18, background: '#555' }} />
+          {/* Beads */}
+          <div style={{ position: 'absolute', top: -6, left: '50%', transform: 'translateX(-50%)', width: 4, height: 4, background: '#4285F4', borderRadius: '50%' }} />{/* Blue */}
+          <div style={{ position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)', width: 4, height: 4, background: '#FBBC05', borderRadius: '50%' }} />{/* Yellow */}
+          <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', width: 4, height: 4, background: '#EA4335', borderRadius: '50%' }} />{/* Red */}
+          {/* Propeller Blade */}
+          <div data-propeller style={{ position: 'absolute', top: -17, left: '50%', marginLeft: -20, width: 40, height: 4, background: '#4285F4', borderRadius: 2, transformOrigin: 'center center' }} />
+          {/* Top bead/wire loop */}
+          <div style={{ position: 'absolute', top: -20, left: '50%', transform: 'translateX(-50%)', width: 3, height: 3, background: '#34A853', borderRadius: '50%' }} />{/* Green */}
         </div>
       }
       accessoryBody={
@@ -134,7 +144,7 @@ export function renderLego(cfg: BlobConfig, common: Record<string, unknown>) {
           <div style={{ position: 'absolute', bottom: '20%', left: '50%', transform: 'translateX(-50%)' }}>
             <div style={{ width: 52, height: 24, background: '#E8230A', borderRadius: 4, position: 'relative', boxShadow: 'inset -3px -4px 8px rgba(0,0,0,0.25), inset 2px 3px 5px rgba(255,255,255,0.15)' }}>
               <div style={{ position: 'absolute', top: -7, left: 3, display: 'flex', gap: 5 }}>
-                {[0,1,2,3].map(i => (
+                {[0, 1, 2, 3].map(i => (
                   <div key={i} style={{ width: 9, height: 8, background: '#E8230A', borderRadius: '50% 50% 0 0', border: '1.5px solid rgba(0,0,0,0.2)', boxShadow: 'inset -1px -2px 3px rgba(0,0,0,0.2)' }} />
                 ))}
               </div>
@@ -272,7 +282,7 @@ export function renderPopCulture(cfg: BlobConfig, common: Record<string, unknown
           {/* Pikachu lightning bolt scar on left cheek */}
           <div style={{ position: 'absolute', bottom: '30%', left: '12%', zIndex: 4 }}>
             <svg width="16" height="22" viewBox="0 0 16 22">
-              <polyline points="8,0 2,10 8,10 0,22" fill="none" stroke="#FFD700" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <polyline points="8,0 2,10 8,10 0,22" fill="none" stroke="#FFD700" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
           {/* Star pupils overlay */}

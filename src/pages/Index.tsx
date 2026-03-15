@@ -22,6 +22,7 @@ const HeroPage: React.FC = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDark, setIsDark] = useState(true);
   const cardRef = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
   // Typewriter effect
@@ -59,6 +60,22 @@ const HeroPage: React.FC = () => {
     });
   }, []);
 
+  // Handle scroll to fade out indicator
+  useEffect(() => {
+    const onScroll = () => {
+      if (scrollIndicatorRef.current && window.scrollY > 10) {
+        gsap.to(scrollIndicatorRef.current, { opacity: 0, duration: 0.4 });
+        window.removeEventListener('scroll', onScroll);
+      }
+    };
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (scrollIndicatorRef.current) gsap.to(scrollIndicatorRef.current, { y: 8, duration: 1.8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+  }, []);
+
   const bgColor = isDark ? '#0B1426' : '#DAFC92';
   // Standardizing text boxes so they are consistent
   const textColor = '#f5f5f5'; // Always light text to contrast the dark navy card
@@ -73,9 +90,27 @@ const HeroPage: React.FC = () => {
   const btnPrimaryBg = '#DAFC92';
   const btnPrimaryText = '#0B1426'; // Dark blue text
 
+  const handleDotClick = (e: React.MouseEvent, type: 'red' | 'green') => {
+    if (!cardRef.current) return;
+    if (type === 'red') {
+      gsap.fromTo(cardRef.current, { scaleX: 0.97, scaleY: 0.97 }, { scaleX: 1, scaleY: 1, duration: 0.6, ease: 'elastic.out' });
+    } else {
+      gsap.fromTo(cardRef.current, { scale: 1.03 }, { scale: 1, duration: 0.6, ease: 'elastic.out' });
+    }
+  };
+
+  const gradientBorder = isDark 
+    ? 'linear-gradient(135deg, rgba(218,252,146,0.1) 0%, rgba(255,255,255,0.05) 35%, rgba(179,153,255,0.1) 100%'
+    : 'linear-gradient(135deg, rgba(218, 252, 146, 0.1), rgba(27,57,112,0.05) 50%, rgba(179,153,255,0.3) 100%)';
 
   return (
     <div className="relative w-full h-screen overflow-hidden" style={{ background: bgColor, transition: 'background 0.6s ease' }}>
+
+      <style>{`
+        @keyframes blink {
+          50% { opacity: 0; }
+        }
+      `}</style>
 
       {/* === ABSTRACT BACKGROUND SPLASH === */}
       {/* Large organic blob shapes for visual interest */}
@@ -138,33 +173,45 @@ const HeroPage: React.FC = () => {
           background: cardBg,
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          border: `1px solid ${cardBorder}`,
+          border: 'none',
           boxShadow: isDark ? '0 10px 40px rgba(0,0,0,0.3)' : '0 10px 40px rgba(13,42,110,0.15)',
           borderRadius: 16,
           padding: isMobile ? '24px 20px' : '40px 48px',
           width: isMobile ? '92vw' : undefined,
           minWidth: isMobile ? undefined : 420,
           maxWidth: isMobile ? undefined : 520,
-          transition: 'background 0.6s ease, border-color 0.6s ease',
+          transition: 'background 0.6s ease',
         }}
       >
+        <div style={{ position: 'absolute', zIndex: -1, inset: -1, borderRadius: 17, background: gradientBorder, pointerEvents: 'none', transition: 'background 0.6s ease' }} />
+
         <div style={{ position: 'absolute', top: 18, right: 20, display: 'flex', gap: 8, zIndex: 10 }}>
-          <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#FF5F56' }} />
+          <div 
+            onClick={(e) => handleDotClick(e, 'red')}
+            onMouseEnter={e => { gsap.to(e.target, { scale: 1.3, boxShadow: '0 0 6px rgba(255,92,92,0.8)', duration: 0.2 }); }}
+            onMouseLeave={e => { gsap.to(e.target, { scale: 1, boxShadow: 'none', duration: 0.2 }); }}
+            style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#FF5F56', cursor: 'pointer' }} 
+          />
           <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#FFBD2E' }} />
-          <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#27C93F' }} />
+          <div 
+            onClick={(e) => handleDotClick(e, 'green')}
+            onMouseEnter={e => { gsap.to(e.target, { scale: 1.3, boxShadow: '0 0 6px rgba(218,252,146,0.8)', duration: 0.2 }); }}
+            onMouseLeave={e => { gsap.to(e.target, { scale: 1, boxShadow: 'none', duration: 0.2 }); }}
+            style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#27C93F', cursor: 'pointer' }} 
+          />
         </div>
 
-        <p data-animate style={{ color: textColor, fontSize: isMobile ? '1.4rem' : '2.5rem', fontWeight: 700, lineHeight: 1.2, marginBottom: 4, transition: 'color 0.6s' }}>
+        <p data-animate style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 4, transition: 'color 0.6s' }}>
           Hi, I'm
         </p>
-        <h1 data-animate style={{ fontSize: isMobile ? '2.8rem' : '4.5rem', fontWeight: 700, lineHeight: 1.05, marginBottom: 8, color: anayNameColor }}>
+        <h1 data-animate style={{ fontSize: 'clamp(3.8rem, 7vw, 6.5rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 0.88, marginBottom: 8, color: anayNameColor }}>
           Anay Shah
         </h1>
         {/* Typewriter — fix clipping: smaller font, overflow visible, nowrap */}
         <div data-animate style={{ height: isMobile ? '2.5rem' : '3rem', display: 'flex', alignItems: 'center', marginBottom: isMobile ? 20 : 32, overflow: 'visible' }}>
-          <span style={{ color: textColor, fontSize: isMobile ? '0.85rem' : '1rem', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace', transition: 'color 0.6s', whiteSpace: 'nowrap' }}>
+          <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.15rem', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace', transition: 'color 0.6s', whiteSpace: 'nowrap' }}>
             {displayedText}
-            <span className="animate-cursor-blink" style={{ marginLeft: 2, display: 'inline-block', width: 3, height: '1.2em', background: '#DAFC92', verticalAlign: 'middle' }} />
+            <span style={{ marginLeft: 2, display: 'inline-block', width: 3, height: '1.2em', background: '#DAFC92', color: '#DAFC92', fontWeight: 300, verticalAlign: 'middle', animation: 'blink 1s step-end infinite' }} />
           </span>
         </div>
 
@@ -192,24 +239,13 @@ const HeroPage: React.FC = () => {
             onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}>
             <Mail size={16} /> Contact Me
           </button>
-          <button style={{
-            padding: '12px 24px', borderRadius: 12, fontWeight: 600, fontSize: 14,
-            display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
-            background: 'transparent', color: mutedText, border: '1px solid rgba(255,255,255,0.15)', cursor: 'pointer',
-            transition: 'transform 0.2s, color 0.6s, border-color 0.6s',
-          }}
-            onClick={() => window.open('https://github.com/Anayshah13', '_blank')}
-            onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
-            onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}>
-            GitHub <ExternalLink size={14}/>
-          </button>
         </div>
         
         <div data-animate style={{ display: 'flex', gap: 16 }}>
           {[
             { icon: <Github size={20} />, label: 'GitHub', href: 'https://github.com/Anayshah13' },
-            { icon: <Linkedin size={20} />, label: 'LinkedIn', href: 'https://linkedin.com/in/anay-shah' },
-            { icon: <Instagram size={20} />, label: 'Instagram', href: 'https://instagram.com/anay_shah' },
+            { icon: <Linkedin size={20} />, label: 'LinkedIn', href: 'https://linkedin.com/in/Anayshah' },
+            { icon: <Instagram size={20} />, label: 'Instagram', href: 'https://instagram.com/anay_shah13' },
             { icon: <Mail size={20} />, label: 'Email', href: 'mailto:anayshah13@gmail.com' },
           ].map((social) => (
             <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer"
@@ -224,6 +260,11 @@ const HeroPage: React.FC = () => {
 
         {/* Cursor at bottom right */}
         <img src="/cursor.png" alt="Cursor" style={{ position: 'absolute', bottom: -20, right: -20, width: 100, height: 50, zIndex: 20, pointerEvents: 'none' }} />
+      </div>
+
+      <div ref={scrollIndicatorRef} style={{ position: 'fixed', right: 28, top: '50%', transform: 'translateY(-50%)', zIndex: 50, display: 'flex', flexDirection: 'column', alignItems: 'center', pointerEvents: 'none' }}>
+        <div style={{ width: 1, height: 40, background: isDark ? 'linear-gradient(to bottom, transparent, rgba(218,252,146,0.6))' : 'linear-gradient(to bottom, transparent, rgba(27,57,112,0.5))' }} />
+        <div style={{ width: 10, height: 10, borderBottom: `2px solid ${isDark ? '#DAFC92' : '#1B3970'}`, borderRight: `2px solid ${isDark ? '#DAFC92' : '#1B3970'}`, transform: 'rotate(45deg)', marginTop: -6 }} />
       </div>
     </div>
   );
