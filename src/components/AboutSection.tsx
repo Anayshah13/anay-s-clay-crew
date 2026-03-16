@@ -237,7 +237,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
         <div style={{ position: 'absolute', width: '32px', height: '10px', background: '#FF5C5C', top: '16px', left: '5px' }} />
         <div style={{ position: 'absolute', width: '10px', height: '32px', background: '#FF5C5C', top: '5px', left: '16px' }} />
       </div>
-      
+
       {/* Purple solid square - spinning */}
       <div className="neo-spin neo-graphic-hover" style={{
         position: 'absolute', top: '75%', right: '8%', zIndex: 0, cursor: 'grab',
@@ -245,19 +245,19 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
       }} />
 
       {/* Thick lime zigzag - levitating */}
-      <svg className="neo-levitate neo-graphic-hover" width="40" height="60" viewBox="0 0 40 60" 
-           style={{ position: 'absolute', bottom: '15%', left: '8%', zIndex: 0, cursor: 'crosshair', opacity: 0.9 }}>
+      <svg className="neo-levitate neo-graphic-hover" width="40" height="60" viewBox="0 0 40 60"
+        style={{ position: 'absolute', bottom: '15%', left: '8%', zIndex: 0, cursor: 'crosshair', opacity: 0.9 }}>
         <polyline points="0,0 20,20 0,40 20,60" fill="none" stroke="#DAFC92" strokeWidth="8" strokeLinejoin="miter" />
       </svg>
 
       {/* Yellow 12-point burst badge */}
-      <svg className="neo-spin-reverse neo-graphic-hover" width="70" height="70" viewBox="0 0 100 100" 
+      <svg className="neo-spin-reverse neo-graphic-hover" width="70" height="70" viewBox="0 0 100 100"
         style={{ position: 'absolute', top: '16%', right: '18%', zIndex: 1, cursor: 'pointer' }}>
         <polygon points={burst12} fill="#FFBE0B" />
       </svg>
 
       {/* Orange 10-point badge */}
-      <svg className="neo-spin neo-graphic-hover" width="60" height="60" viewBox="0 0 100 100" 
+      <svg className="neo-spin neo-graphic-hover" width="60" height="60" viewBox="0 0 100 100"
         style={{ position: 'absolute', bottom: '35%', right: '10%', zIndex: 1, cursor: 'pointer' }}>
         <polygon points={burst10} fill="#FF5C5C" />
       </svg>

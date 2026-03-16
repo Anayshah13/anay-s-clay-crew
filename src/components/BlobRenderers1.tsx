@@ -10,7 +10,7 @@ export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
   const isDark = (common as any).isDark;
   const passedEyelidClose = (common as any).eyelidClose;
   return (
-    <BlobCharacter {...(common as any)} eyeSize={22} eyelidClose={passedEyelidClose !== undefined ? passedEyelidClose : (isDark ? 0.8 : 0)} mouthWidth={18} mouthHeight={3} mouthRadius="2px"
+    <BlobCharacter {...(common as any)} eyeSize={22} eyelidClose={passedEyelidClose !== undefined ? passedEyelidClose : (isDark ? 0.8 : 0)} mouthWidth={0} mouthHeight={0} mouthRadius="0"
       eyebrows={
         <div style={{ display: 'flex', gap: '24px', marginBottom: '-3px' }}>
           <div style={{ width: 18, height: 4, background: 'rgba(0,0,0,0.45)', borderRadius: 2, transform: 'rotate(-5deg)' }} />
@@ -18,14 +18,18 @@ export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
         </div>
       }
       faceChildren={
-        /* Thick nerdy glasses */
-        <div style={{ position: 'absolute', top: '14%', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 1, zIndex: 3 }}>
-          <div style={{ width: 34, height: 32, border: '4px solid #333', borderRadius: 8, background: 'rgba(200,230,255,0.15)' }} />
-          <div style={{ width: 7, height: 3.5, background: '#333', borderRadius: 2 }} />
-          <div style={{ width: 34, height: 32, border: '4px solid #333', borderRadius: 8, background: 'rgba(200,230,255,0.15)' }} />
-          <div style={{ position: 'absolute', left: -11, top: 12, width: 13, height: 2.5, background: '#333' }} />
-          <div style={{ position: 'absolute', right: -11, top: 12, width: 13, height: 2.5, background: '#333' }} />
-        </div>
+        <>
+          {/* Thick nerdy glasses */}
+          <div style={{ position: 'absolute', top: '14%', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 1, zIndex: 3 }}>
+            <div style={{ width: 34, height: 32, border: '4px solid #333', borderRadius: 8, background: 'rgba(200,230,255,0.15)' }} />
+            <div style={{ width: 7, height: 3.5, background: '#333', borderRadius: 2 }} />
+            <div style={{ width: 34, height: 32, border: '4px solid #333', borderRadius: 8, background: 'rgba(200,230,255,0.15)' }} />
+            <div style={{ position: 'absolute', left: -11, top: 12, width: 13, height: 2.5, background: '#333' }} />
+            <div style={{ position: 'absolute', right: -11, top: 12, width: 13, height: 2.5, background: '#333' }} />
+          </div>
+          {/* Coral filled D-mouth — flat top, rounded bottom */}
+          <div style={{ marginTop: 4, width: 28, height: 15, background: '#FF5C5C', borderRadius: '5px 5px 30px 30px' }} />
+        </>
       }
       accessoryTop={
         /* Google colored propeller beanie (Intern) */
@@ -65,10 +69,6 @@ export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
               </div>
               <div style={{ position: 'absolute', bottom: -5, left: -3, width: 72, height: 5, background: '#444', borderRadius: '0 0 3px 3px' }} />
             </div>
-          </div>
-          {/* DJSCE badge on chest */}
-          <div style={{ position: 'absolute', top: '55%', left: '50%', transform: 'translateX(-50%)' }}>
-            <div style={{ background: '#080854ff', color: '#DAFC92', fontSize: 8, fontWeight: 900, fontFamily: 'monospace', padding: '3px 5px', borderRadius: 4, border: '1.5px solid #DAFC92', lineHeight: 1.5 }}>DJSCE</div>
           </div>
         </>
       }

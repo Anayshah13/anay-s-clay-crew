@@ -67,6 +67,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Space Grotesk', sans-serif;
@@ -80,8 +81,16 @@
 }
 
 @keyframes cursor-blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .animate-cursor-blink {
@@ -89,9 +98,19 @@
 }
 
 @keyframes wave-flag {
-  0%, 100% { transform: skewX(0deg); }
-  25% { transform: skewX(8deg); }
-  75% { transform: skewX(-8deg); }
+
+  0%,
+  100% {
+    transform: skewX(0deg);
+  }
+
+  25% {
+    transform: skewX(8deg);
+  }
+
+  75% {
+    transform: skewX(-8deg);
+  }
 }
 
 .animate-wave-flag {
@@ -102,7 +121,7 @@
   width: 100%;
 }
 
-.about-calendar > article {
+.about-calendar>article {
   width: 100%;
   margin: 0 auto;
 }
@@ -131,15 +150,37 @@
   font-size: 0.65rem !important;
 }
 
-@keyframes spin { 100% { transform: rotate(360deg); } }
-@keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
-@keyframes levitate { 
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-.neo-spin { animation: spin 10s linear infinite; }
-.neo-spin-reverse { animation: spin-reverse 12s linear infinite; }
+@keyframes spin-reverse {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes levitate {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.neo-spin {
+  animation: spin 10s linear infinite;
+}
+
+.neo-spin-reverse {
+  animation: spin-reverse 12s linear infinite;
+}
 
 .neo-levitate {
   animation: levitate 4s ease-in-out infinite;
@@ -148,11 +189,13 @@
 .anay-spin-img {
   animation: spin 9s linear infinite;
   transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease;
-  transform: translateZ(0); /* hardware accel */
+  transform: translateZ(0);
+  /* hardware accel */
 }
 
 .anay-spin-img:hover {
-  animation: none; /* Stops spin */
+  animation: none;
+  /* Stops spin */
   transform: rotate(0deg) scale(1.15) !important;
   box-shadow: 12px 12px 0 #DAFC92 !important;
   z-index: 50;
@@ -161,6 +204,7 @@
 .neo-graphic-hover {
   transition: transform 0.2s ease, filter 0.2s ease;
 }
+
 .neo-graphic-hover:hover {
   transform: scale(1.15) !important;
   filter: drop-shadow(6px 6px 0 #0E0E0E) saturate(1.5);
