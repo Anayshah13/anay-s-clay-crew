@@ -270,6 +270,8 @@ const HeroPage: React.FC = () => {
         </div>
       </div>
       <AboutSection isDark={isDark} />
+      {/* Tall scroll spacer — drives zoom transition. About section is sticky so it pins while this spacer scrolls */}
+      <div id="about-scroll-wrapper" style={{ height: 'calc(100vh + 60vw)', position: 'relative', marginTop: '-100vh' }} />
     </div>
   );
 };

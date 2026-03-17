@@ -12,7 +12,7 @@ export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
   return (
     <BlobCharacter {...(common as any)} eyeSize={22} eyelidClose={passedEyelidClose !== undefined ? passedEyelidClose : (isDark ? 0.8 : 0)} mouthWidth={0} mouthHeight={0} mouthRadius="0"
       eyebrows={
-        <div style={{ display: 'flex', gap: '24px', marginBottom: '-3px' }}>
+        <div data-dev-eyebrows style={{ display: 'flex', gap: '24px', marginBottom: '-3px' }}>
           <div style={{ width: 18, height: 4, background: 'rgba(0,0,0,0.45)', borderRadius: 2, transform: 'rotate(-5deg)' }} />
           <div style={{ width: 18, height: 4, background: 'rgba(0,0,0,0.45)', borderRadius: 2, transform: 'rotate(5deg)' }} />
         </div>
@@ -20,15 +20,19 @@ export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
       faceChildren={
         <>
           {/* Thick nerdy glasses */}
-          <div style={{ position: 'absolute', top: '14%', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 1, zIndex: 3 }}>
+          <div data-dev-glasses style={{ position: 'absolute', top: '14%', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 1, zIndex: 3 }}>
             <div style={{ width: 34, height: 32, border: '4px solid #333', borderRadius: 8, background: 'rgba(200,230,255,0.15)' }} />
             <div style={{ width: 7, height: 3.5, background: '#333', borderRadius: 2 }} />
             <div style={{ width: 34, height: 32, border: '4px solid #333', borderRadius: 8, background: 'rgba(200,230,255,0.15)' }} />
             <div style={{ position: 'absolute', left: -11, top: 12, width: 13, height: 2.5, background: '#333' }} />
             <div style={{ position: 'absolute', right: -11, top: 12, width: 13, height: 2.5, background: '#333' }} />
           </div>
+          {/* Sweat drop — hidden by default, shown during intimidation */}
+          <div data-dev-sweat style={{ position: 'absolute', top: '8%', right: '14%', zIndex: 5, opacity: 0, pointerEvents: 'none' }}>
+            <div style={{ width: 6, height: 10, background: 'rgba(120,180,255,0.85)', borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%', transform: 'rotate(15deg)' }} />
+          </div>
           {/* Coral filled D-mouth — flat top, rounded bottom */}
-          <div style={{ marginTop: 4, width: 28, height: 15, background: '#FF5C5C', borderRadius: '5px 5px 30px 30px' }} />
+          <div data-dev-mouth style={{ marginTop: 4, width: 28, height: 15, background: '#FF5C5C', borderRadius: '5px 5px 30px 30px' }} />
         </>
       }
       accessoryTop={

@@ -5,6 +5,7 @@ import { GitHubCalendar } from 'react-github-calendar';
 import { BLOB_CONFIGS } from './blobConfigs';
 import { renderDev } from './BlobRenderers1';
 import type { BlobRef } from '@/hooks/useBlobCrowd';
+import SkillsSection from './SkillsSection';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -45,6 +46,9 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
   const pulseRef = useRef<HTMLDivElement>(null);
   const devBlobRef = useRef<BlobRef | null>(null);
   const [photoIndex, setPhotoIndex] = useState(0);
+  const ovalRef = useRef<HTMLDivElement>(null);
+  const skillsOverlayRef = useRef<HTMLDivElement>(null);
+  const trembleRef = useRef<gsap.core.Tween | null>(null);
 
   // ── Propeller spin ──────────────────────────────────────────────────────
   useEffect(() => {
@@ -155,6 +159,138 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
     return () => ctx.revert();
   }, []);
 
+  // ── Scroll-driven zoom transition ────────────────────────────────────────
+  useEffect(() => {
+    const container = containerRef.current;
+    const oval = ovalRef.current;
+    const overlay = skillsOverlayRef.current;
+    if (!container || !oval || !overlay) return;
+
+    const ctx = gsap.context(() => {
+      const wrapper = document.getElementById('about-scroll-wrapper');
+      if (!wrapper) return;
+
+      // Compute mouth viewport position + transform-origin relative to container
+      const getOrigin = () => {
+        const mouth = document.querySelector<HTMLElement>('[data-dev-mouth]');
+        if (!mouth) return { originStr: '35% 88%', vx: window.innerWidth * 0.35, vy: window.innerHeight * 0.88 };
+        const cr = container.getBoundingClientRect();
+        const mr = mouth.getBoundingClientRect();
+        const ox = ((mr.left + mr.width / 2 - cr.left) / cr.width * 100).toFixed(1);
+        const oy = ((mr.top + mr.height / 2 - cr.top) / cr.height * 100).toFixed(1);
+        return { originStr: `${ox}% ${oy}%`, vx: mr.left + mr.width / 2, vy: mr.top + mr.height / 2 };
+      };
+
+      // Set initial oval: tiny, at mouth position, invisible
+      const initOrigin = getOrigin();
+      gsap.set(oval, {
+        position: 'fixed', background: '#FF5C5C', zIndex: 995,
+        opacity: 0, width: 28, height: 15,
+        borderRadius: '5px 5px 50% 50%',
+        xPercent: -50, yPercent: -50,
+        left: initOrigin.vx, top: initOrigin.vy,
+        pointerEvents: 'none',
+      });
+      gsap.set(overlay, { opacity: 0, visibility: 'hidden', position: 'fixed', inset: 0, zIndex: 1000, pointerEvents: 'none' });
+
+      // Tremble tween (paused; driven by scroll progress)
+      const bodyEl = devBlobRef.current?.body;
+      const tremble = gsap.to(bodyEl || container, {
+        x: 3, duration: 0.08, repeat: -1, yoyo: true, ease: 'none', paused: true,
+      });
+      trembleRef.current = tremble;
+
+      // Main scrub timeline
+      const tl = gsap.timeline({ paused: true });
+
+      // 0.00–0.17  dead zone (nothing)
+      tl.set({}, {}, 0.17);
+
+      // 0.17–0.35  eyebrows rise, mouth widens slightly
+      tl.to('[data-dev-eyebrows]', { y: -10, ease: 'power2.out', duration: 0.18 }, 0.17);
+      tl.to('[data-dev-mouth]', { width: 36, height: 22, ease: 'power1.out', duration: 0.18 }, 0.17);
+
+      // 0.25–0.55  oval fades in and starts growing from mouth
+      tl.to(oval, { opacity: 1, duration: 0.02 }, 0.25);
+      tl.to(oval, { width: '200vw', height: '200vw', borderRadius: '50%', ease: 'power3.in', duration: 0.60 }, 0.25);
+
+      // 0.35–0.55  sweat appears
+      tl.to('[data-dev-sweat]', { opacity: 1, duration: 0.15 }, 0.35);
+
+      // 0.50–0.75  mouth rounds into big oval (seamless with overlay)
+      tl.to('[data-dev-mouth]', { width: 52, height: 44, borderRadius: '50%', ease: 'power2.in', duration: 0.20 }, 0.50);
+
+      // 0.17–1.00  whole about section zooms toward mouth (scale up)
+      tl.to(container, { scale: 8, ease: 'power3.in', duration: 0.83 }, 0.17);
+
+      // 0.88–1.00  skills overlay fades in
+      tl.to(overlay, { visibility: 'visible', opacity: 1, pointerEvents: 'auto', duration: 0.05 }, 0.88);
+      tl.from('.skills-heading', { y: -30, opacity: 0, ease: 'power3.out', duration: 0.06 }, 0.88);
+      tl.from('.skill-box', { y: 40, opacity: 0, stagger: 0.02, ease: 'back.out(1.2)', duration: 0.07 }, 0.90);
+      tl.from('.skill-link-circle', { scale: 0, opacity: 0, stagger: 0.015, ease: 'back.out(1.4)', duration: 0.06 }, 0.93);
+
+      let originSet = false;
+
+      ScrollTrigger.create({
+        trigger: wrapper,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1.5,
+        onUpdate: (self) => {
+          const p = self.progress;
+          tl.progress(p);
+
+          // One-time: set transform origin to mouth position
+          if (!originSet && p > 0.005) {
+            originSet = true;
+            const { originStr, vx, vy } = getOrigin();
+            container.style.transformOrigin = originStr;
+            gsap.set(oval, { left: vx, top: vy });
+          }
+
+          // Migrate oval center from mouth toward viewport center
+          if (p > 0.25) {
+            if (p < 0.50) {
+              const { vx: mx, vy: my } = getOrigin();
+              const f = (p - 0.25) / 0.25;
+              gsap.set(oval, {
+                left: mx + (window.innerWidth / 2 - mx) * f,
+                // top: my + (window.innerHeight / 2 - my) * f,
+              });
+            } else {
+              gsap.set(oval, { left: '50%', top: '50%' });
+            }
+          }
+
+          // Tremble during fear phase
+          if (p > 0.17 && p < 0.75) {
+            tremble.play();
+          } else {
+            tremble.pause();
+            if (bodyEl) gsap.set(bodyEl, { x: 0 });
+          }
+        },
+        onLeaveBack: () => {
+          originSet = false;
+          tl.progress(0);
+          tremble.pause();
+          if (bodyEl) gsap.set(bodyEl, { x: 0 });
+          gsap.set(container, { scale: 1, transformOrigin: '50% 50%' });
+          gsap.set('[data-dev-eyebrows]', { y: 0 });
+          gsap.set('[data-dev-mouth]', { width: 28, height: 15, borderRadius: '5px 5px 30px 30px' });
+          gsap.set('[data-dev-sweat]', { opacity: 0 });
+          gsap.set(oval, { opacity: 0, width: 28, height: 15, borderRadius: '5px 5px 50% 50%' });
+          gsap.set(overlay, { opacity: 0, visibility: 'hidden', pointerEvents: 'none' });
+        },
+      });
+    }, container);
+
+    return () => {
+      ctx.revert();
+      trembleRef.current?.kill();
+    };
+  }, []);
+
   const devCfg = BLOB_CONFIGS.find(b => b.id === 'dev');
   const devCommon = devCfg ? {
     key: 'dev-about', id: 'dev', ref: devBlobRef,
@@ -185,7 +321,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
   return (
     <div
       ref={containerRef}
-      style={{ background: '#1B3970', color: '#F5F0E8', borderTop: B, position: 'relative' }}
+      style={{ background: '#1B3970', color: '#F5F0E8', borderTop: B, position: 'sticky', top: 0 }}
       className="w-full h-screen overflow-hidden flex flex-col"
     >
       {/* ═══════════════════ BACKGROUND DECORATION ═══════════════════════════ */}
@@ -474,7 +610,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
                 marginRight: '9px', transformOrigin: 'center', flexShrink: 0
               }} />
               <span style={{ fontFamily: MONO, fontSize: '0.6rem', color: '#DAFC92', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Git Activity</span>
-              <span style={{ fontFamily: MONO, fontSize: '0.48rem', color: '#B399FF', marginLeft: 'auto', fontWeight: 700 }}>Anayshah13</span>
+              <span style={{ fontFamily: MONO, fontSize: '0.52rem', color: '#B399FF', marginLeft: 'auto', fontWeight: 700 }}>Anayshah13</span>
             </div>
 
             {/* Calendar — library defaults, custom green theme */}
@@ -496,6 +632,14 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Coral oval overlay — zooms from blob mouth to cover full screen */}
+      <div ref={ovalRef} />
+
+      {/* Skills overlay — appears once oval has covered the screen */}
+      <div ref={skillsOverlayRef}>
+        <SkillsSection />
       </div>
     </div>
   );
