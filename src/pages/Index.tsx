@@ -3,6 +3,8 @@ import gsap from 'gsap';
 import BlobCrowd from '@/components/BlobCrowd';
 import LightSwitch from '@/components/LightSwitch';
 import AboutSection from '@/components/AboutSection';
+import Lenis from 'lenis';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Github, Linkedin, Instagram, ExternalLink, ArrowRight, Mail } from 'lucide-react';
 
 function useIsMobile() {
@@ -16,6 +18,8 @@ function useIsMobile() {
 }
 
 const TITLES = ['Developer.', 'Hackathon Winner.', 'Competitive Programmer.', 'UI Animator.'];
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HeroPage: React.FC = () => {
   const [titleIndex, setTitleIndex] = useState(0);
@@ -47,6 +51,31 @@ const HeroPage: React.FC = () => {
     }
     return () => clearTimeout(timeout);
   }, [displayedText, isDeleting, titleIndex]);
+
+  // Lenis smooth scroll setup
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 0.8,
+      touchMultiplier: 1.5,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   // Card stagger animation
   useEffect(() => {
@@ -271,7 +300,7 @@ const HeroPage: React.FC = () => {
       </div>
       <AboutSection isDark={isDark} />
       {/* Tall scroll spacer — drives zoom transition. About section is sticky so it pins while this spacer scrolls */}
-      <div id="about-scroll-wrapper" style={{ height: 'calc(100vh + 60vw)', position: 'relative', marginTop: '-100vh' }} />
+      <div id="about-scroll-wrapper" style={{ height: 'calc(100vh + 50vw)', position: 'relative', marginTop: '-100vh' }} />
     </div>
   );
 };

@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { GitHubCalendar } from 'react-github-calendar';
 import { BLOB_CONFIGS } from './blobConfigs';
-import { renderDev } from './BlobRenderers1';
+import { renderAboutDev } from './BlobRenderers1';
 import type { BlobRef } from '@/hooks/useBlobCrowd';
 import SkillsSection from './SkillsSection';
 
@@ -46,7 +46,6 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
   const pulseRef = useRef<HTMLDivElement>(null);
   const devBlobRef = useRef<BlobRef | null>(null);
   const [photoIndex, setPhotoIndex] = useState(0);
-  const ovalRef = useRef<HTMLDivElement>(null);
   const skillsOverlayRef = useRef<HTMLDivElement>(null);
   const trembleRef = useRef<gsap.core.Tween | null>(null);
 
@@ -162,72 +161,64 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
   // ── Scroll-driven zoom transition ────────────────────────────────────────
   useEffect(() => {
     const container = containerRef.current;
-    const oval = ovalRef.current;
     const overlay = skillsOverlayRef.current;
-    if (!container || !oval || !overlay) return;
+    if (!container || !overlay) return;
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     *  TWEAK THESE
+     * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    const DEAD_ZONE = 0.50;  // 0–1: fraction of scroll before anything happens
+    const ZOOM_SCALE = 22;    // how far we zoom into the mouth (try 30–100)
+    const TREMBLE_MAX_PX = 10;    // px: peak shake amplitude
+    const ZOOM_TARGET_X_OFFSET = -20;  // px: nudge zoom point right (+) / left (-)
+    const ZOOM_TARGET_Y_OFFSET = -160; // px: nudge zoom point down (+) / up (-)
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
     const ctx = gsap.context(() => {
       const wrapper = document.getElementById('about-scroll-wrapper');
       if (!wrapper) return;
 
-      // Compute mouth viewport position + transform-origin relative to container
-      const getOrigin = () => {
+      // Compute transform-origin from mouth position + tweakable offsets
+      const computeOrigin = () => {
         const mouth = document.querySelector<HTMLElement>('[data-dev-mouth]');
-        if (!mouth) return { originStr: '35% 88%', vx: window.innerWidth * 0.35, vy: window.innerHeight * 0.88 };
+        if (!mouth) return '35% 88%';
         const cr = container.getBoundingClientRect();
         const mr = mouth.getBoundingClientRect();
-        const ox = ((mr.left + mr.width / 2 - cr.left) / cr.width * 100).toFixed(1);
-        const oy = ((mr.top + mr.height / 2 - cr.top) / cr.height * 100).toFixed(1);
-        return { originStr: `${ox}% ${oy}%`, vx: mr.left + mr.width / 2, vy: mr.top + mr.height / 2 };
+        const cx = mr.left + mr.width / 2 + ZOOM_TARGET_X_OFFSET;
+        const cy = mr.top + mr.height / 2 + ZOOM_TARGET_Y_OFFSET;
+        const ox = ((cx - cr.left) / cr.width * 100).toFixed(1);
+        const oy = ((cy - cr.top) / cr.height * 100).toFixed(1);
+        return `${ox}% ${oy}%`;
       };
 
-      // Set initial oval: tiny, at mouth position, invisible
-      const initOrigin = getOrigin();
-      gsap.set(oval, {
-        position: 'fixed', background: '#FF5C5C', zIndex: 995,
-        opacity: 0, width: 28, height: 15,
-        borderRadius: '5px 5px 50% 50%',
-        xPercent: -50, yPercent: -50,
-        left: initOrigin.vx, top: initOrigin.vy,
-        pointerEvents: 'none',
-      });
       gsap.set(overlay, { opacity: 0, visibility: 'hidden', position: 'fixed', inset: 0, zIndex: 1000, pointerEvents: 'none' });
 
-      // Tremble tween (paused; driven by scroll progress)
       const bodyEl = devBlobRef.current?.body;
       const tremble = gsap.to(bodyEl || container, {
-        x: 3, duration: 0.08, repeat: -1, yoyo: true, ease: 'none', paused: true,
+        x: TREMBLE_MAX_PX, duration: 0.08, repeat: -1, yoyo: true, ease: 'none', paused: true,
       });
       trembleRef.current = tremble;
 
-      // Main scrub timeline
       const tl = gsap.timeline({ paused: true });
 
-      // 0.00–0.17  dead zone (nothing)
-      tl.set({}, {}, 0.17);
+      // dead zone — nothing
+      tl.set({}, {}, DEAD_ZONE);
 
-      // 0.17–0.35  eyebrows rise, mouth widens slightly
-      tl.to('[data-dev-eyebrows]', { y: -10, ease: 'power2.out', duration: 0.18 }, 0.17);
-      tl.to('[data-dev-mouth]', { width: 36, height: 22, ease: 'power1.out', duration: 0.18 }, 0.17);
+      // blob fear: eyebrows shoot up
+      tl.to('[data-dev-eyebrows]', { y: -12, ease: 'power2.out', duration: 0.20 }, DEAD_ZONE);
 
-      // 0.25–0.55  oval fades in and starts growing from mouth
-      tl.to(oval, { opacity: 1, duration: 0.02 }, 0.25);
-      tl.to(oval, { width: '200vw', height: '200vw', borderRadius: '50%', ease: 'power3.in', duration: 0.60 }, 0.25);
+      // blob's mouth widens open as we zoom in
+      tl.to('[data-dev-mouth]', { width: 36, height: 24, ease: 'power1.out', duration: 0.15 }, DEAD_ZONE);
+      tl.to('[data-dev-mouth]', { zIndex: 999, width: 240, height: 220, borderRadius: '50%', ease: 'power2.in', duration: 0.35 }, DEAD_ZONE + 0.10);
 
-      // 0.35–0.55  sweat appears
-      tl.to('[data-dev-sweat]', { opacity: 1, duration: 0.15 }, 0.35);
+      // ZOOM — whole container scales toward the mouth
+      tl.to(container, { scale: ZOOM_SCALE, ease: 'power3.in', duration: 1 - DEAD_ZONE }, DEAD_ZONE);
 
-      // 0.50–0.75  mouth rounds into big oval (seamless with overlay)
-      tl.to('[data-dev-mouth]', { width: 52, height: 44, borderRadius: '50%', ease: 'power2.in', duration: 0.20 }, 0.50);
-
-      // 0.17–1.00  whole about section zooms toward mouth (scale up)
-      tl.to(container, { scale: 8, ease: 'power3.in', duration: 0.83 }, 0.17);
-
-      // 0.88–1.00  skills overlay fades in
-      tl.to(overlay, { visibility: 'visible', opacity: 1, pointerEvents: 'auto', duration: 0.05 }, 0.88);
-      tl.from('.skills-heading', { y: -30, opacity: 0, ease: 'power3.out', duration: 0.06 }, 0.88);
-      tl.from('.skill-box', { y: 40, opacity: 0, stagger: 0.02, ease: 'back.out(1.2)', duration: 0.07 }, 0.90);
-      tl.from('.skill-link-circle', { scale: 0, opacity: 0, stagger: 0.015, ease: 'back.out(1.4)', duration: 0.06 }, 0.93);
+      // skills section appears once zoom is max
+      tl.to(overlay, { visibility: 'visible', opacity: 1, pointerEvents: 'auto', duration: 0.05 }, 0.90);
+      tl.from('.skills-heading', { y: -30, opacity: 0, ease: 'power3.out', duration: 0.05 }, 0.90);
+      tl.from('.skill-box', { y: 40, opacity: 0, stagger: 0.015, ease: 'back.out(1.2)', duration: 0.06 }, 0.92);
+      tl.from('.skill-link-circle', { scale: 0, opacity: 0, stagger: 0.01, ease: 'back.out(1.4)', duration: 0.05 }, 0.95);
 
       let originSet = false;
 
@@ -235,35 +226,17 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
         trigger: wrapper,
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 1.5,
+        scrub: 2,
         onUpdate: (self) => {
           const p = self.progress;
           tl.progress(p);
-
-          // One-time: set transform origin to mouth position
+          // lock origin once on first scroll move
           if (!originSet && p > 0.005) {
             originSet = true;
-            const { originStr, vx, vy } = getOrigin();
-            container.style.transformOrigin = originStr;
-            gsap.set(oval, { left: vx, top: vy });
+            container.style.transformOrigin = computeOrigin();
           }
-
-          // Migrate oval center from mouth toward viewport center
-          if (p > 0.25) {
-            if (p < 0.50) {
-              const { vx: mx, vy: my } = getOrigin();
-              const f = (p - 0.25) / 0.25;
-              gsap.set(oval, {
-                left: mx + (window.innerWidth / 2 - mx) * f,
-                // top: my + (window.innerHeight / 2 - my) * f,
-              });
-            } else {
-              gsap.set(oval, { left: '50%', top: '50%' });
-            }
-          }
-
-          // Tremble during fear phase
-          if (p > 0.17 && p < 0.75) {
+          // tremble during fear phase
+          if (p > DEAD_ZONE && p < 0.88) {
             tremble.play();
           } else {
             tremble.pause();
@@ -279,7 +252,6 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
           gsap.set('[data-dev-eyebrows]', { y: 0 });
           gsap.set('[data-dev-mouth]', { width: 28, height: 15, borderRadius: '5px 5px 30px 30px' });
           gsap.set('[data-dev-sweat]', { opacity: 0 });
-          gsap.set(oval, { opacity: 0, width: 28, height: 15, borderRadius: '5px 5px 50% 50%' });
           gsap.set(overlay, { opacity: 0, visibility: 'hidden', pointerEvents: 'none' });
         },
       });
@@ -293,10 +265,10 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
 
   const devCfg = BLOB_CONFIGS.find(b => b.id === 'dev');
   const devCommon = devCfg ? {
-    key: 'dev-about', id: 'dev', ref: devBlobRef,
+    id: 'dev', ref: devBlobRef,
     color: devCfg.color, width: 130, height: Math.round(130 * (devCfg.h / devCfg.w)),
-    shape: devCfg.shape, zIndex: 10,
-    style: { position: 'relative', width: '100%', height: '100%', pointerEvents: 'none', opacity: 0.98 },
+    shape: devCfg.shape, zIndex: 9999,
+    style: { position: 'relative', width: '100%', height: '100%', pointerEvents: 'none', opacity: 1 },
     rowClass: 'rowFront', eyelidClose: 0, isDark,
   } : null;
 
@@ -321,7 +293,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
   return (
     <div
       ref={containerRef}
-      style={{ background: '#1B3970', color: '#F5F0E8', borderTop: B, position: 'sticky', top: 0 }}
+      style={{ background: '#1B3970', color: '#F5F0E8', borderTop: B, position: 'sticky', top: 0, overflowX: 'hidden' }}
       className="w-full h-screen overflow-hidden flex flex-col"
     >
       {/* ═══════════════════ BACKGROUND DECORATION ═══════════════════════════ */}
@@ -491,15 +463,17 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
         </div>
 
         {/* ── RIGHT — photo + git tracker ── */}
-        <div className="flex flex-col gap-3 w-1/2 h-full">
+        <div className="flex flex-col gap-3 w-1/2 h-full relative">
 
           {/* PHOTO FRAME */}
           <div ref={photoAreaRef}
             className="about-photo-frame"
             style={{
               flex: '0 0 54%', border: B, boxShadow: '8px 8px 0 #DAFC92', borderRadius: 0,
-              background: '#0d1f35', display: 'flex', flexDirection: 'column', overflow: 'hidden',
+              background: '#0d1f35', display: 'flex', flexDirection: 'column',
               cursor: 'pointer',
+              position: 'relative',
+              zIndex: 50,
             }}
             onMouseEnter={e => {
               gsap.to(e.currentTarget, { scale: 1.025, boxShadow: '14px 14px 0 #DAFC92', duration: 0.18, ease: 'power1.out', overwrite: 'auto' });
@@ -528,14 +502,16 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
             {/* Photo + polaroid area */}
             <div style={{
               flex: 1, position: 'relative', background: '#0d1f35', display: 'flex',
-              alignItems: 'center', justifyContent: 'center', overflow: 'hidden'
+              alignItems: 'center', justifyContent: 'center'
             }}>
-              {/* Subtle inner dot grid */}
-              <div style={{
-                position: 'absolute', inset: 0, pointerEvents: 'none',
-                backgroundImage: 'radial-gradient(circle, rgba(218,252,146,0.05) 1px, transparent 1px)',
-                backgroundSize: '18px 18px'
-              }} />
+              {/* Inner clipping area for dot grid and polaroids so they don't leak */}
+              <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+                {/* Subtle inner dot grid */}
+                <div style={{
+                  position: 'absolute', inset: 0, pointerEvents: 'none',
+                  backgroundImage: 'radial-gradient(circle, rgba(218,252,146,0.05) 1px, transparent 1px)',
+                  backgroundSize: '18px 18px'
+                }} />
 
               {/* Polaroid stack */}
               {[2, 1, 0].map(layer => {
@@ -567,20 +543,21 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
                 );
               })}
 
-              {/* cursor.png — floating sticker in photo area top-right */}
-              <img
-                src="/cursor.png"
-                alt="cursor"
-                style={{
-                  position: 'absolute', top: 10, right: 12, width: '56px', zIndex: 25,
-                  transform: 'rotate(12deg)', filter: 'drop-shadow(3px 3px 0 #0E0E0E)',
-                  pointerEvents: 'none', opacity: 0.92,
-                }}
-              />
+                {/* cursor.png — floating sticker in photo area top-right */}
+                <img
+                  src="/cursor.png"
+                  alt="cursor"
+                  style={{
+                    position: 'absolute', top: 10, right: 12, width: '56px', zIndex: 25,
+                    transform: 'rotate(12deg)', filter: 'drop-shadow(3px 3px 0 #0E0E0E)',
+                    pointerEvents: 'none', opacity: 0.92,
+                  }}
+                />
+              </div>
 
-              {/* Dev blob — bottom-left */}
-              <div style={{ position: 'absolute', bottom: -12, left: 4, zIndex: 20, width: '120px', height: '120px', pointerEvents: 'none' }}>
-                {devCfg && devCommon ? renderDev(devCfg, devCommon) : null}
+              {/* Dev blob — bottom-left, OUTSIDE the inner overflow: hidden so mouth can overlap everything */}
+              <div style={{ position: 'absolute', bottom: -12, left: 4, zIndex: 9999, width: '120px', height: '120px', pointerEvents: 'none' }}>
+                {devCfg && devCommon ? <React.Fragment key="dev-about">{renderAboutDev(devCfg, devCommon)}</React.Fragment> : null}
               </div>
             </div>
           </div>
@@ -591,6 +568,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
               flex: '0 0 auto', border: B, boxShadow: '8px 8px 0 #DAFC92', borderRadius: 0,
               background: '#F5F0E8', display: 'flex', flexDirection: 'column', overflow: 'hidden',
               cursor: 'pointer',
+              position: 'relative', zIndex: 10,
             }}
             onMouseEnter={e => {
               gsap.to(e.currentTarget, { scale: 1.025, boxShadow: '14px 14px 0 #DAFC92', duration: 0.18, ease: 'power1.out', overwrite: 'auto' });
@@ -634,10 +612,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
         </div>
       </div>
 
-      {/* Coral oval overlay — zooms from blob mouth to cover full screen */}
-      <div ref={ovalRef} />
-
-      {/* Skills overlay — appears once oval has covered the screen */}
+      {/* Skills overlay — appears at end of zoom */}
       <div ref={skillsOverlayRef}>
         <SkillsSection />
       </div>

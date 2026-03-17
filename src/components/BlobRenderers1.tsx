@@ -3,10 +3,78 @@ import BlobCharacter from './BlobCharacter';
 import type { BlobConfig } from './blobConfigs';
 
 /**
- * THE DEV — lime #DAFC92 — FRONT CENTER
+ * THE DEV — lime #DAFC92 — FRONT CENTER (LANDING SCREEN - BIGGER)
  * Focused thin-line mouth, thick glasses, CLI laptop
  */
 export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
+  const isDark = (common as any).isDark;
+  const passedEyelidClose = (common as any).eyelidClose;
+  return (
+    <BlobCharacter {...(common as any)} eyeSize={32} eyelidClose={passedEyelidClose !== undefined ? passedEyelidClose : (isDark ? 0.8 : 0)} mouthWidth={0} mouthHeight={0} mouthRadius="0"
+      eyebrows={
+        <div data-dev-eyebrows style={{ display: 'flex', gap: '32px', marginBottom: '-5px' }}>
+          <div style={{ width: 24, height: 6, background: 'rgba(0,0,0,0.45)', borderRadius: 3, transform: 'rotate(-5deg)' }} />
+          <div style={{ width: 24, height: 6, background: 'rgba(0,0,0,0.45)', borderRadius: 3, transform: 'rotate(5deg)' }} />
+        </div>
+      }
+      faceChildren={
+        <>
+          {/* Thick nerdy glasses - LARGER */}
+          <div data-dev-glasses style={{ position: 'absolute', top: '14%', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 2, zIndex: 3 }}>
+            <div style={{ width: 46, height: 42, border: '5px solid #333', borderRadius: 10, background: 'rgba(200,230,255,0.15)' }} />
+            <div style={{ width: 9, height: 5, background: '#333', borderRadius: 2 }} />
+            <div style={{ width: 46, height: 42, border: '5px solid #333', borderRadius: 10, background: 'rgba(200,230,255,0.15)' }} />
+            <div style={{ position: 'absolute', left: -14, top: 16, width: 17, height: 3.5, background: '#333' }} />
+            <div style={{ position: 'absolute', right: -14, top: 16, width: 17, height: 3.5, background: '#333' }} />
+          </div>
+          {/* Coral filled D-mouth — LARGER */}
+          <div data-dev-mouth style={{ marginTop: 6, width: 38, height: 21, background: '#FF5C5C', borderRadius: '7px 7px 40px 40px', zIndex: 999 }} />
+        </>
+      }
+      accessoryTop={
+        /* Google colored propeller beanie (Intern) - LARGER */
+        <div style={{ position: 'absolute', top: -22, left: '50%', transform: 'translateX(-50%)' }}>
+          <div style={{ width: 58, height: 38, background: '#4285F4', borderRadius: '24px 24px 0 0', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '25%', background: '#4285F4' }} />
+            <div style={{ position: 'absolute', top: 0, left: '25%', bottom: 0, width: '25%', background: '#34A853' }} />
+            <div style={{ position: 'absolute', top: 0, left: '50%', bottom: 0, width: '25%', background: '#FBBC05' }} />
+            <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '25%', background: '#EA4335' }} />
+          </div>
+          <div style={{ position: 'absolute', bottom: -3, left: -8, width: 74, height: 8, background: '#34A853', borderRadius: 4 }} />
+          <div style={{ position: 'absolute', top: -24, left: '50%', transform: 'translateX(-50%)', width: 3, height: 24, background: '#555' }} />
+          <div style={{ position: 'absolute', top: -8, left: '50%', transform: 'translateX(-50%)', width: 5, height: 5, background: '#4285F4', borderRadius: '50%' }} />
+          <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)', width: 5, height: 5, background: '#FBBC05', borderRadius: '50%' }} />
+          <div style={{ position: 'absolute', top: -20, left: '50%', transform: 'translateX(-50%)', width: 5, height: 5, background: '#EA4335', borderRadius: '50%' }} />
+          <div data-propeller style={{ position: 'absolute', top: -23, left: '50%', marginLeft: -26, width: 52, height: 5, background: '#4285F4', borderRadius: 3, transformOrigin: 'center center' }} />
+          <div style={{ position: 'absolute', top: -26, left: '50%', transform: 'translateX(-50%)', width: 4, height: 4, background: '#34A853', borderRadius: '50%' }} />
+        </div>
+      }
+      accessoryBody={
+        <>
+          {/* Laptop held in right hand - LARGER */}
+          <div style={{ position: 'absolute', top: '35%', right: -48, transform: 'rotate(-20deg)', transformOrigin: 'bottom center', zIndex: 10 }}>
+            <div style={{ width: 88, height: 58, background: '#2d2d2d', borderRadius: 6, position: 'relative', boxShadow: 'inset -3px -4px 8px rgba(0,0,0,0.4)' }}>
+              <div style={{ position: 'absolute', inset: 4, background: '#0d1117', borderRadius: 3, overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 5, left: 5, display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <span style={{ color: '#DAFC92', fontSize: 10, fontFamily: 'monospace', fontWeight: 700 }}>{'>_'}</span>
+                </div>
+                <div data-code-line style={{ position: 'absolute', top: 18, left: 5, width: 34, height: 3, background: '#4ECDC4', borderRadius: 1.5, opacity: 0.8 }} />
+                <div data-code-line style={{ position: 'absolute', top: 26, left: 8, width: 26, height: 3, background: '#DAFC92', borderRadius: 1.5, opacity: 0.6 }} />
+                <div data-laptop-flash style={{ position: 'absolute', inset: 0, background: 'rgba(218,252,146,0)', borderRadius: 3 }} />
+              </div>
+              <div style={{ position: 'absolute', bottom: -6, left: -4, width: 96, height: 6, background: '#444', borderRadius: '0 0 4px 4px' }} />
+            </div>
+          </div>
+        </>
+      }
+    />
+  );
+}
+
+/**
+ * THE DEV — lime #DAFC92 (ABOUT US SCREEN - SMALLER)
+ */
+export function renderAboutDev(cfg: BlobConfig, common: Record<string, unknown>) {
   const isDark = (common as any).isDark;
   const passedEyelidClose = (common as any).eyelidClose;
   return (
@@ -27,16 +95,12 @@ export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
             <div style={{ position: 'absolute', left: -11, top: 12, width: 13, height: 2.5, background: '#333' }} />
             <div style={{ position: 'absolute', right: -11, top: 12, width: 13, height: 2.5, background: '#333' }} />
           </div>
-          {/* Sweat drop — hidden by default, shown during intimidation */}
-          <div data-dev-sweat style={{ position: 'absolute', top: '8%', right: '14%', zIndex: 5, opacity: 0, pointerEvents: 'none' }}>
-            <div style={{ width: 6, height: 10, background: 'rgba(120,180,255,0.85)', borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%', transform: 'rotate(15deg)' }} />
-          </div>
           {/* Coral filled D-mouth — flat top, rounded bottom */}
-          <div data-dev-mouth style={{ marginTop: 4, width: 28, height: 15, background: '#FF5C5C', borderRadius: '5px 5px 30px 30px' }} />
+          <div data-dev-mouth style={{ marginTop: 4, width: 28, height: 15, background: '#FF5C5C', borderRadius: '5px 5px 30px 30px', zIndex: 999 }} />
         </>
       }
       accessoryTop={
-        /* Google colored propeller beanie (Intern) */
+        /* Google colored propeller beanie */
         <div style={{ position: 'absolute', top: -16, left: '50%', transform: 'translateX(-50%)' }}>
           <div style={{ width: 44, height: 28, background: '#4285F4', borderRadius: '17px 17px 0 0', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '25%', background: '#4285F4' }} />{/* Blue */}
@@ -60,18 +124,18 @@ export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
       }
       accessoryBody={
         <>
-          {/* Laptop held in right hand */}
-          <div style={{ position: 'absolute', top: '35%', right: -36, transform: 'rotate(-20deg)', transformOrigin: 'bottom center', zIndex: 10 }}>
-            <div style={{ width: 66, height: 44, background: '#2d2d2d', borderRadius: 5, position: 'relative', boxShadow: 'inset -2px -3px 6px rgba(0,0,0,0.4)' }}>
-              <div style={{ position: 'absolute', inset: 3, background: '#0d1117', borderRadius: 2, overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', top: 4, left: 4, display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <span style={{ color: '#DAFC92', fontSize: 8, fontFamily: 'monospace', fontWeight: 700 }}>{'>_'}</span>
+          {/* Laptop held in right hand - DECREASED SIZE, SHIFTED RIGHT */}
+          <div style={{ position: 'absolute', top: '35%', right: -46, transform: 'rotate(-20deg)', transformOrigin: 'bottom center', zIndex: 10 }}>
+            <div style={{ width: 50, height: 33, background: '#2d2d2d', borderRadius: 4, position: 'relative', boxShadow: 'inset -2px -3px 5px rgba(0,0,0,0.4)' }}>
+              <div style={{ position: 'absolute', inset: 2.5, background: '#0d1117', borderRadius: 2, overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 3, left: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <span style={{ color: '#DAFC92', fontSize: 6, fontFamily: 'monospace', fontWeight: 700 }}>{'>_'}</span>
                 </div>
-                <div data-code-line style={{ position: 'absolute', top: 14, left: 4, width: 26, height: 2, background: '#4ECDC4', borderRadius: 1, opacity: 0.8 }} />
-                <div data-code-line style={{ position: 'absolute', top: 20, left: 6, width: 20, height: 2, background: '#DAFC92', borderRadius: 1, opacity: 0.6 }} />
+                <div data-code-line style={{ position: 'absolute', top: 10, left: 3, width: 19, height: 1.5, background: '#4ECDC4', borderRadius: 1, opacity: 0.8 }} />
+                <div data-code-line style={{ position: 'absolute', top: 15, left: 4.5, width: 15, height: 1.5, background: '#DAFC92', borderRadius: 1, opacity: 0.6 }} />
                 <div data-laptop-flash style={{ position: 'absolute', inset: 0, background: 'rgba(218,252,146,0)', borderRadius: 2 }} />
               </div>
-              <div style={{ position: 'absolute', bottom: -5, left: -3, width: 72, height: 5, background: '#444', borderRadius: '0 0 3px 3px' }} />
+              <div style={{ position: 'absolute', bottom: -4, left: -2.5, width: 55, height: 4, background: '#444', borderRadius: '0 0 2.5px 2.5px' }} />
             </div>
           </div>
         </>

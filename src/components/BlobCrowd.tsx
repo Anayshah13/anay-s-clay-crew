@@ -346,22 +346,22 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
         };
 
         switch (cfg.id) {
-          case 'dev': return renderDev(cfg, common);
-          case 'minecraft': return renderMinecraft(cfg, common);
-          case 'lego': return renderLego(cfg, common);
-          case 'cprog': return renderCprog(cfg, common);
-          case 'funnyguy': return renderFunnyGuy(cfg, common);
-          case 'popculture': return renderPopCulture(cfg, common);
-          case 'hackathon': return renderHackathon(cfg, common);
-          case 'nerd': return renderNerdBlob(cfg, common);
-          case 'chef': return renderChef(cfg, common);
-          case 'clumsy': return renderClumsy(cfg, common);
-          case 'sleepy': return renderSleepy(cfg, common);
-          case 'graphicdesigner': return renderGraphicDesigner(cfg, common);
-          case 'astronaut': return renderAstronaut(cfg, common);
-          case 'angry': return renderAngry(cfg, common);
-          case 'detective': return renderDetective(cfg, common);
-          case 'tinystranger': return renderTinyStranger(cfg, common);
+          case 'dev': return <React.Fragment key={cfg.id}>{renderDev(cfg, common)}</React.Fragment>;
+          case 'minecraft': return <React.Fragment key={cfg.id}>{renderMinecraft(cfg, common)}</React.Fragment>;
+          case 'lego': return <React.Fragment key={cfg.id}>{renderLego(cfg, common)}</React.Fragment>;
+          case 'cprog': return <React.Fragment key={cfg.id}>{renderCprog(cfg, common)}</React.Fragment>;
+          case 'funnyguy': return <React.Fragment key={cfg.id}>{renderFunnyGuy(cfg, common)}</React.Fragment>;
+          case 'popculture': return <React.Fragment key={cfg.id}>{renderPopCulture(cfg, common)}</React.Fragment>;
+          case 'hackathon': return <React.Fragment key={cfg.id}>{renderHackathon(cfg, common)}</React.Fragment>;
+          case 'nerd': return <React.Fragment key={cfg.id}>{renderNerdBlob(cfg, common)}</React.Fragment>;
+          case 'chef': return <React.Fragment key={cfg.id}>{renderChef(cfg, common)}</React.Fragment>;
+          case 'clumsy': return <React.Fragment key={cfg.id}>{renderClumsy(cfg, common)}</React.Fragment>;
+          case 'sleepy': return <React.Fragment key={cfg.id}>{renderSleepy(cfg, common)}</React.Fragment>;
+          case 'graphicdesigner': return <React.Fragment key={cfg.id}>{renderGraphicDesigner(cfg, common)}</React.Fragment>;
+          case 'astronaut': return <React.Fragment key={cfg.id}>{renderAstronaut(cfg, common)}</React.Fragment>;
+          case 'angry': return <React.Fragment key={cfg.id}>{renderAngry(cfg, common)}</React.Fragment>;
+          case 'detective': return <React.Fragment key={cfg.id}>{renderDetective(cfg, common)}</React.Fragment>;
+          case 'tinystranger': return <React.Fragment key={cfg.id}>{renderTinyStranger(cfg, common)}</React.Fragment>;
           default:
             return null;
         }

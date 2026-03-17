@@ -35,6 +35,7 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
+  z-index: 50; /* Keep face above legs */
 }
 
 .blobEyeRow {
