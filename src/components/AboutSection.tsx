@@ -169,8 +169,8 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
      * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     const DEAD_ZONE = 0.50;  // 0–1: fraction of scroll before anything happens
     const ZOOM_SCALE = 22;    // how far we zoom into the mouth (try 30–100)
-    const TREMBLE_MAX_PX = 10;    // px: peak shake amplitude
-    const ZOOM_TARGET_X_OFFSET = -20;  // px: nudge zoom point right (+) / left (-)
+    const TREMBLE_MAX_PX = 30;    // px: peak shake amplitude
+    const ZOOM_TARGET_X_OFFSET = -30;  // px: nudge zoom point right (+) / left (-)
     const ZOOM_TARGET_Y_OFFSET = -160; // px: nudge zoom point down (+) / up (-)
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
@@ -505,7 +505,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
               alignItems: 'center', justifyContent: 'center'
             }}>
               {/* Inner clipping area for dot grid and polaroids so they don't leak */}
-              <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {/* Subtle inner dot grid */}
                 <div style={{
                   position: 'absolute', inset: 0, pointerEvents: 'none',
@@ -513,35 +513,35 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
                   backgroundSize: '18px 18px'
                 }} />
 
-              {/* Polaroid stack */}
-              {[2, 1, 0].map(layer => {
-                const rotations = [-4, 2.5, -1.5];
-                const offsets = [{ x: -20, y: 16 }, { x: 16, y: -10 }, { x: 0, y: 0 }];
-                const pIdx = (photoIndex + layer) % photos.length;
-                const isTop = layer === 0;
-                return (
-                  <div key={layer} style={{
-                    position: 'absolute', width: '62%',
-                    background: '#F5F0E8', border: '4px solid #0E0E0E',
-                    boxShadow: isTop ? '6px 6px 0 #0E0E0E' : '3px 3px 0 rgba(0,0,0,0.4)',
-                    borderRadius: 0, padding: '6px 6px 30px 6px',
-                    transform: `rotate(${rotations[layer]}deg) translate(${offsets[layer].x}px,${offsets[layer].y}px)`,
-                    zIndex: isTop ? 10 : layer + 1,
-                  }}>
-                    <img src={photos[pIdx]} alt={POLAROID_LABELS[pIdx]}
-                      style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block', borderRadius: 0, border: '2px solid #ddd' }}
-                    />
-                    <div style={{
-                      position: 'absolute', bottom: 0, left: 0, right: 0, height: '30px',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F5F0E8'
+                {/* Polaroid stack */}
+                {[2, 1, 0].map(layer => {
+                  const rotations = [-4, 2.5, -1.5];
+                  const offsets = [{ x: -20, y: 16 }, { x: 16, y: -10 }, { x: 0, y: 0 }];
+                  const pIdx = (photoIndex + layer) % photos.length;
+                  const isTop = layer === 0;
+                  return (
+                    <div key={layer} style={{
+                      position: 'absolute', width: '62%',
+                      background: '#F5F0E8', border: '4px solid #0E0E0E',
+                      boxShadow: isTop ? '6px 6px 0 #0E0E0E' : '3px 3px 0 rgba(0,0,0,0.4)',
+                      borderRadius: 0, padding: '6px 6px 30px 6px',
+                      transform: `rotate(${rotations[layer]}deg) translate(${offsets[layer].x}px,${offsets[layer].y}px)`,
+                      zIndex: isTop ? 10 : layer + 1,
                     }}>
-                      <span style={{ fontFamily: MONO, fontSize: '0.57rem', color: '#1B3970', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                        {POLAROID_LABELS[pIdx]}
-                      </span>
+                      <img src={photos[pIdx]} alt={POLAROID_LABELS[pIdx]}
+                        style={{ width: '100%', aspectRatio: '4/3', objectFit: 'cover', display: 'block', borderRadius: 0, border: '2px solid #ddd' }}
+                      />
+                      <div style={{
+                        position: 'absolute', bottom: 0, left: 0, right: 0, height: '30px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F5F0E8'
+                      }}>
+                        <span style={{ fontFamily: MONO, fontSize: '0.57rem', color: '#1B3970', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                          {POLAROID_LABELS[pIdx]}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
 
                 {/* cursor.png — floating sticker in photo area top-right */}
                 <img
