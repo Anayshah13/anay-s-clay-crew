@@ -1,0 +1,730 @@
+/* ═══════════════════════════════════════════════════════
+   PROJECTS TIMELINE — CSS MODULE
+   Color palette: #DAFC92 #1E1E24 #FF5C5C #B399FF #FFBE0B #0E0E0E #F5F0E8
+   ═══════════════════════════════════════════════════════ */
+
+/* ── SECTION ──────────────────────────────────────────── */
+.section {
+  position: relative;
+  width: 100%;
+  background: #111111; /* Onyx base */
+  overflow: hidden;
+  padding: 0 0 120px;
+}
+
+/* ── BACKGROUND ───────────────────────────────────────── */
+.bgDots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(218,252,146,0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.bgDiagonals {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bgGlyph {
+  position: absolute;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 900;
+  color: #DAFC92;
+  opacity: 0.08;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  animation: bgGlyphFloat 6s ease-in-out infinite;
+}
+
+@keyframes bgGlyphFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+.bgCircle {
+  position: absolute;
+  border: 5px solid var(--shape-color, rgba(218,252,146,0.1));
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+  animation: bgShapeSpin 20s linear infinite;
+}
+
+.bgSquare {
+  position: absolute;
+  background: var(--shape-color, #DAFC92);
+  opacity: 0.1;
+  z-index: 0;
+  pointer-events: none;
+  animation: bgShapeSpin 12s linear infinite;
+}
+
+.bgTriangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 40px solid var(--shape-color, #FF5C5C);
+  opacity: 0.1;
+  z-index: 0;
+  pointer-events: none;
+  animation: bgShapeSpin 15s linear infinite reverse;
+}
+
+.bgStar {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: var(--shape-color, #B399FF);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  opacity: 0.1;
+  z-index: 0;
+  pointer-events: none;
+  animation: bgShapeSpin 18s linear infinite;
+}
+
+@keyframes bgShapeSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── HEADING ──────────────────────────────────────────── */
+.heading {
+  position: relative;
+  z-index: 10;
+  text-align: left;
+  padding: 80px 8vw 40px;
+}
+
+.headingText {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4.5rem, 9vw, 8rem);
+  color: #DAFC92;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  margin: 0;
+}
+
+.headingUnderline {
+  width: 180px;
+  height: 7px;
+  background: #DAFC92;
+  margin-top: -6px;
+  /* no border-radius — neobrutalist */
+}
+
+.headingSubtitle {
+  margin-top: 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: rgba(245,240,232,0.55);
+  letter-spacing: 0.06em;
+}
+
+.monoTag {
+  color: #DAFC92;
+  opacity: 0.8;
+}
+
+/* ── TIMELINE WRAPPER ─────────────────────────────────── */
+.wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* ── SVG PATH ─────────────────────────────────────────── */
+.svg {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: 1000px; /* massive absolute canvas mapping 1:1 with viewBox */
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.dotFlicker {
+  animation: svgDotPulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes svgDotPulse {
+  0% { opacity: 0.2; stroke-width: 1px; filter: drop-shadow(0 0 2px #DAFC92); }
+  100% { opacity: 1; stroke-width: 4px; filter: drop-shadow(0 0 10px #DAFC92); }
+}
+
+.progressLine {
+  animation: lineGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes lineGlow {
+  0%, 100% { filter: drop-shadow(0 0 5px #DAFC92) drop-shadow(0 0 12px rgba(218,252,146,0.4)); }
+  50%       { filter: drop-shadow(0 0 12px #DAFC92) drop-shadow(0 0 24px rgba(218,252,146,0.6)); }
+}
+
+/* ── DEV BLOB WALKER ──────────────────────────────────── */
+.blobWalker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  pointer-events: none;
+  width: 124px;
+  height: 124px;
+}
+
+/* ── BLOB ANATOMY ─────────────────────────────────────── */
+.devBlob {
+  position: relative;
+  width: 124px;  /* Modified bigger size */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* "no black borders" applied by reducing border width and color */
+.blobBody {
+  width: 92px;
+  height: 100px;
+  background: #DAFC92;
+  border-radius:50%;
+  border: 1.5px solid rgba(0,0,0,0.8); /* significantly reduced */
+  box-shadow:
+    inset -8px -12px 20px rgba(0,0,0,0.22),
+    inset 4px 6px 12px rgba(255,255,255,0.2),
+    0 12px 30px rgba(0,0,0,0.5);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 6px;
+  gap: 3px;
+  transition: transform 0.3s ease;
+}
+
+.blobHighlight {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 14px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.blobFace {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  margin-top: 8px;
+}
+
+/* Exactly overlap Specs and Eyes */
+.blobGlasses {
+  display: flex;
+  align-items: center;
+  gap: 1px;            
+  margin-bottom: -30px;   
+  z-index: 12;
+  position: relative;
+}
+
+.glassLens {
+  width: 28px;
+  height: 26px;
+  border: 2px solid #1a1a1a;
+  border-radius: 5px;
+  background: rgba(200,230,255,0.12);
+  position: relative;
+}
+
+.glassBridge {
+  width: 6px;
+  height: 2.5px;
+  background: #1a1a1a;
+  border-radius: 2px;
+}
+
+.blobEyes {
+  display: flex;
+  gap: 8px;                /* Pitch = 26w + 8g = 34 -> Perfectly centers in lens */
+  z-index: 10;
+  position: relative;
+}
+
+/* Enhanced larger eye sizes */
+.blobEye {
+  width: 26px;
+  height: 26px;
+  background: white;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.blobPupil {
+  width: 14px;
+  height: 14px;
+  background: #0E0E0E;
+  border-radius: 50%;
+}
+
+.blobMouth {
+  width: 22px;
+  height: 10px;
+  background: #FF5C5C;
+  border-radius: 3px 3px 18px 18px;
+  border: 1px solid #0E0E0E;
+  margin-top: 12px;
+  z-index: 15;
+}
+
+/* Propeller hat */
+.propellerHat {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.hatBody {
+  width: 36px;
+  height: 22px;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  display: flex;
+  border: 1.5px solid #0E0E0E; /* reduced */
+}
+
+.hatSegment {
+  flex: 1;
+}
+
+.propellerBlade {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  margin-left: -16px;
+  width: 32px;
+  height: 4px;
+  background: #3b82f6;
+  border-radius: 2px;
+  animation: propSpin 0.5s linear infinite;
+  transform-origin: center center;
+}
+
+@keyframes propSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Laptop on one side, held by one hand */
+.blobAccessories {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 40px;
+  z-index: 20;
+}
+
+.blobArmLeft {
+  position: absolute;
+  top: 8px;
+  left: 2px;
+  width: 16px;
+  height: 8px;
+  background: #DAFC92;
+  border: 1.5px solid #0E0E0E;
+  border-radius: 999px;
+  z-index: 22;
+  transform: rotate(20deg);
+  animation: armSwayL 1.8s ease-in-out infinite;
+}
+
+.laptopHand {
+  position: absolute;
+  top: 10px;
+  right: -24px; /* Shifted laptop further right */
+  display: flex;
+  align-items: center;
+}
+
+.blobArmRight {
+  width: 18px;
+  height: 8px;
+  background: #DAFC92;
+  border: 1.5px solid #0E0E0E;
+  border-radius: 999px;
+  z-index: 22;
+  transform: rotate(-5deg);
+  margin-right: -4px;
+}
+
+/* Clean border-less laptop */
+.blobComputer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 21;
+}
+
+.computerScreen {
+  width: 28px;
+  height: 20px;
+  background: #252528;
+  border-radius: 3px 3px 0 0;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  gap: 2px;
+}
+
+.computerCode {
+  height: 2px;
+  background: #4ECDC4;
+  width: 80%;
+  border-radius: 1px;
+}
+.computerScreen::after {
+  content: '';
+  height: 2px;
+  background: #DAFC92;
+  width: 50%;
+  border-radius: 1px;
+}
+
+.computerBase {
+  width: 32px;
+  height: 4px;
+  background: #B399FF;
+  border-radius: 0 0 2px 2px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  margin-top: 0px;
+}
+
+@keyframes armSwayL {
+  0%,100% { transform: rotate(20deg); }
+  50%     { transform: rotate(35deg); }
+}
+
+
+.blobLegs {
+  display: flex;
+  gap: 8px;
+  margin-top: -4px;
+}
+
+.blobLeg {
+  width: 10px;
+  height: 18px;
+  background: #DAFC92;
+  border: 1.5px solid #0E0E0E;
+  border-radius: 0 0 6px 6px;
+  animation: legWalk 0.7s ease-in-out infinite alternate;
+}
+
+.blobLeg:last-child {
+  animation-direction: alternate-reverse;
+}
+
+@keyframes legWalk {
+  from { transform: rotate(-10deg); }
+  to   { transform: rotate(10deg); }
+}
+
+/* ── EVENTS CONTAINER ─────────────────────────────────── */
+.events {
+  position: relative;
+  width: 100%;
+}
+
+.eventRow {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space out the card and image to opposite sides */
+  padding: 0 6vw;
+  transform: translateY(-50%);
+}
+
+.rowLeft {
+  flex-direction: row;
+}
+
+.rowRight {
+  flex-direction: row-reverse;
+}
+
+/* ── PROJECT CARD ─────────────────────────────────────── */
+.card {
+  background: #F5F0E8;
+  border: 4px solid #0E0E0E;
+  border-radius: 0;
+  overflow: hidden;
+  width: 100%;
+  max-width: 320px; /* text description is smaller */
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.18s ease;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  height: 42px;
+}
+
+.cardNum {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.cardDate {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(245,240,232,0.6);
+  letter-spacing: 0.1em;
+}
+
+.cardBody {
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.hackathonBadge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 5px 10px;
+  letter-spacing: 0.04em;
+  border: 2px solid #0E0E0E;
+  width: fit-content;
+}
+
+/* Hidden by default, revealed via GSAP */
+.projDescWrapper {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+}
+
+.cardDesc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: #111111;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.projTechWrapper {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+}
+
+.techRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px; /* visually separated */
+}
+
+.techPill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border: 2px solid #0E0E0E;
+  letter-spacing: 0.04em;
+}
+
+.cardLinks {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.cardLink {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border: 3px solid;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cardLink:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 5px 5px 0 #0E0E0E;
+}
+
+/* ── PROJECT IMAGE ────────────────────────────────────── */
+/* Image box highly bigger than card */
+.imgWrapper {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 650px; /* highly bigger than 320px text box */
+}
+
+.projectImage {
+  border: 4px solid;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #1E1E24;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.imageBrowserBar {
+  height: 32px;
+  background: #0E0E0E;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  flex-shrink: 0;
+}
+
+.macIconsArea {
+  display: flex;
+  gap: 6px;
+}
+
+.imageBrowserUrl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: rgba(218,252,146,0.4);
+}
+
+.projectImageInner {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.imageDotGrid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(218,252,146,0.07) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+
+/* Labels centered in big image box */
+.imageLabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.4rem; /* larger label */
+  font-weight: 700;
+  padding: 12px 24px;
+  letter-spacing: 0.08em;
+  border: 4px solid #0E0E0E;
+  z-index: 1;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .imgWrapper {
+    max-width: 450px;
+  }
+}
+
+@media (max-width: 900px) {
+  .rowLeft,
+  .rowRight {
+    position: relative !important;
+    top: auto !important;
+    transform: none;
+    flex-direction: column;
+    padding: 0 5vw;
+    margin-bottom: 60px;
+  }
+
+  .card, .imgWrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .svg {
+    display: none;
+  }
+
+  .blobWalker {
+    display: none;
+  }
+
+  .events {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: auto !important;
+    position: relative;
+    padding-left: 40px;
+  }
+
+  /* Simple vertical line on mobile */
+  .events::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, transparent, rgba(218,252,146,0.5) 10%, rgba(218,252,146,0.5) 90%, transparent);
+  }
+
+  .eventRow {
+    position: relative !important;
+    top: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .headingText { font-size: 3.5rem; }
+  .card { max-width: 100%; }
+}

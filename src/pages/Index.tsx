@@ -3,6 +3,9 @@ import gsap from 'gsap';
 import BlobCrowd from '@/components/BlobCrowd';
 import LightSwitch from '@/components/LightSwitch';
 import AboutSection from '@/components/AboutSection';
+import SkillsSection from '@/components/SkillsSection';
+import ContactSection from '@/components/ContactSection';
+import ProjectsTimeline from '@/components/ProjectsTimeline';
 import Lenis from 'lenis';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Github, Linkedin, Instagram, ExternalLink, ArrowRight, Mail } from 'lucide-react';
@@ -235,7 +238,7 @@ const HeroPage: React.FC = () => {
           <p data-animate style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 4, transition: 'color 0.6s' }}>
             Hi, I'm
           </p>
-          <h1 data-animate style={{ fontSize: 'clamp(3.8rem, 7vw, 6.5rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 0.88, marginBottom: 8, color: anayNameColor }}>
+          <h1 data-animate style={{ fontSize: 'clamp(3.8rem, 6vw, 6rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 0.88, marginBottom: 8, color: anayNameColor }}>
             Anay Shah
           </h1>
           {/* Typewriter — fix clipping: smaller font, overflow visible, nowrap */}
@@ -299,8 +302,9 @@ const HeroPage: React.FC = () => {
         </div>
       </div>
       <AboutSection isDark={isDark} />
-      {/* Tall scroll spacer — drives zoom transition. About section is sticky so it pins while this spacer scrolls */}
-      <div id="about-scroll-wrapper" style={{ height: 'calc(100vh + 50vw)', position: 'relative', marginTop: '-100vh' }} />
+      <SkillsSection />
+      <ProjectsTimeline />
+      <ContactSection />
     </div>
   );
 };
