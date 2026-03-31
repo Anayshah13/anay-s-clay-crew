@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Github, Linkedin, Instagram, Mail, Code2, Hand } from 'lucide-react';
@@ -28,9 +28,8 @@ const ContactSection: React.FC = () => {
   const buttonRef = useRef<HTMLAnchorElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
 
-  const typedText1Ref = useRef<HTMLSpanElement>(null);
-  const typedText2Ref = useRef<HTMLSpanElement>(null);
-  const typedText3Ref = useRef<HTMLSpanElement>(null);
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -46,7 +45,7 @@ const ContactSection: React.FC = () => {
       });
 
       // Scatter decorative floaters
-      gsap.utils.toArray('.deco-float').forEach((el: any, i) => {
+      gsap.utils.toArray('.deco-float').forEach((el: HTMLElement, i) => {
         gsap.to(el, {
           y: '+=25',
           rotation: i % 2 === 0 ? 20 : -20,
@@ -70,14 +69,6 @@ const ContactSection: React.FC = () => {
         // Social cards stagger pop
         .from('.pin-card', { scale: 0, rotation: () => Math.random() * 40 - 20, opacity: 0, stagger: 0.08, duration: 0.5, ease: 'back.out(1.5)' }, '-=0.2')
         .from(footerRef.current, { y: 40, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2');
-
-      // Typewriter effect inside terminal starting after entrance
-      if (typedText1Ref.current && typedText2Ref.current && typedText3Ref.current) {
-        tl.to({}, { duration: 0.3 })
-          .to(typedText1Ref.current, { text: 'anayshah10@gmail.com', duration: 0.8, ease: 'none' })
-          .to(typedText2Ref.current, { text: '+91 9152727445', duration: 0.6, ease: 'none' })
-          .to(typedText3Ref.current, { text: 'Kandivali, Mumbai 400067', duration: 0.6, ease: 'none' });
-      }
 
     }, containerRef);
 
@@ -166,17 +157,17 @@ const ContactSection: React.FC = () => {
               <span style={{ marginLeft: 'auto', fontFamily: MONO, fontSize: '0.9rem', fontWeight: 700, letterSpacing: '0.05em' }}>CONTACT.SH</span>
             </div>
             <div style={{ padding: '32px 24px', color: '#DAFC92', fontSize: '1.25rem', lineHeight: 2.2, minHeight: '280px' }}>
-              <div><span style={{ color: '#FFBE0B' }}>$</span> EMAIL: anayshah10@gmail.com<span ref={typedText1Ref}></span></div>
-              <div><span style={{ color: '#FFBE0B' }}>$</span> PHONE: +91 9152727445<span ref={typedText2Ref}></span></div>
-              <div><span style={{ color: '#FFBE0B' }}>$</span> ADDRESS: Kandivali, Mumbai 400067<span ref={typedText3Ref}></span></div>
-
-              <div style={{ display: 'flex', gap: '15px', marginTop: '40px', flexWrap: 'wrap' }}>
-                <div style={{ background: '#0E0E0E', color: '#DAFC92', padding: '6px 14px', border: '2px solid #DAFC92', boxShadow: '4px 4px 0 #0E0E0E', fontWeight: 700, fontSize: '1rem' }}>[AGE : 20]</div>
-                <div style={{ background: '#0E0E0E', color: '#B399FF', padding: '6px 14px', border: '2px solid #B399FF', boxShadow: '4px 4px 0 #0E0E0E', fontWeight: 700, fontSize: '1rem' }}>[NATIONALITY : INDIAN]</div>
-              </div>
-              <div style={{ marginTop: '30px' }}>
-                <span style={{ color: '#FFBE0B' }}>$</span> <span style={{ display: 'inline-block', width: '12px', height: '1.2em', background: '#DAFC92', verticalAlign: 'middle', animation: 'termBlink 1s step-end infinite' }} />
-              </div>
+              <form onSubmit={(e) => { e.preventDefault(); window.location.href = `mailto:anayshah10@gmail.com?subject=Message from ${email}&body=${encodeURIComponent(message)}`; }}>
+                <div style={{ marginBottom: '20px' }}>
+                  <label style={{ color: '#FFBE0B', fontSize: '1rem', display: 'block', marginBottom: '8px' }}>From (Email):</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ width: '100%', padding: '8px', background: '#1B3970', border: '2px solid #DAFC92', color: '#DAFC92', fontFamily: MONO, fontSize: '1rem', boxSizing: 'border-box' }} />
+                </div>
+                <div style={{ marginBottom: '20px' }}>
+                  <label style={{ color: '#FFBE0B', fontSize: '1rem', display: 'block', marginBottom: '8px' }}>Message:</label>
+                  <textarea value={message} onChange={(e) => setMessage(e.target.value)} required rows={4} style={{ width: '100%', padding: '8px', background: '#1B3970', border: '2px solid #DAFC92', color: '#DAFC92', fontFamily: MONO, fontSize: '1rem', boxSizing: 'border-box', resize: 'vertical' }} />
+                </div>
+                <button type="submit" style={{ background: '#FFBE0B', border: '2px solid #0E0E0E', color: '#0E0E0E', padding: '10px 20px', fontFamily: BB, fontSize: '1.2rem', cursor: 'pointer', boxShadow: '4px 4px 0 #0E0E0E' }}>Send Message</button>
+              </form>
             </div>
           </div>
 
@@ -185,19 +176,20 @@ const ContactSection: React.FC = () => {
             ref={stampRef}
             style={{
               position: 'absolute', top: '0vh', left: '35vw',
+              width: '120px', height: '120px',
               background: '#F5F0E8', border: '5px solid #27C93F', color: '#27C93F',
-              padding: '16px 24px', transform: 'rotate(12deg)',
-              fontFamily: BB, fontSize: '3rem', fontWeight: 900,
+              borderRadius: '50%',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              transform: 'rotate(12deg)',
+              fontFamily: BB, fontSize: '1.05rem', fontWeight: 900,
               textShadow: 'none',
-              display: 'flex', flexDirection: 'column', alignItems: 'center',
               zIndex: 30, pointerEvents: 'none',
               outline: '4px solid #F5F0E8', outlineOffset: '-10px',
               mixBlendMode: 'normal', boxShadow: '8px 8px 15px rgba(0,0,0,0.2)'
             }}
           >
-            <div style={{ fontSize: '1.2rem', letterSpacing: '0.3em', opacity: 0.8 }}>STATUS:</div>
-            <div style={{ lineHeight: 0.9 }}>OPEN TO</div>
-            <div style={{ lineHeight: 0.9 }}>INTERNSHIPS</div>
+            <div style={{ fontSize: '0.75rem', letterSpacing: '0.18em', opacity: 0.8, marginBottom: '2px' }}>STATUS:</div>
+            <div style={{ fontSize: '0.95rem', lineHeight: 1, textAlign: 'center' }}>OPEN TO<br />INTERNSHIPS</div>
           </div>
 
           {/* 3. LAVENDER STICKY NOTE */}
@@ -259,25 +251,92 @@ const ContactSection: React.FC = () => {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '16px', position: 'relative', zIndex: 10 }}>
               {SOCIALS.map((social, idx) => {
+                // Sticky note colors from palette
+                const stickyColors = [
+                  '#DAFC92', // Lime Cream
+                  '#B399FF', // Soft Periwinkle
+                  '#FFBE0B', // Amber Gold
+                  '#FF5C5C', // Vibrant Coral
+                  '#1B3970', // Regal Navy
+                  '#0E0E0E', // Onyx Black
+                ];
+                const textColors = [
+                  '#0E0E0E', // for Lime Cream
+                  '#1B3970', // for Periwinkle
+                  '#0E0E0E', // for Amber Gold
+                  '#1B3970', // for Coral
+                  '#DAFC92', // for Navy
+                  '#F5F0E8', // for Parchment
+                ];
                 const tilts = [-3, 4, 2, -3, 5, -2];
                 const pinColors = ['#FF5C5C', '#1B3970', '#DAFC92', '#FFBE0B', '#B399FF', '#FF5C5C'];
+                // Curl SVG always in bottom right (paper fold effect)
+                const curlSVG = (
+                  <svg
+                    width="38" height="38" viewBox="0 0 38 38"
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      right: 0,
+                      zIndex: 3,
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    {/* Paper curl shape - always bottom right */}
+                    <path
+                      d="M0,38 Q18,18 38,0 L38,38 Z"
+                      fill="#e0dccf" // slightly darker than parchment for shadow
+                      opacity="0.85"
+                    />
+                    {/* Highlight for the curl */}
+                    <path
+                      d="M0,38 Q18,18 38,0"
+                      fill="none"
+                      stroke="#bdb9a7"
+                      strokeWidth="2"
+                      opacity="0.5"
+                    />
+                    {/* Main sticky note color overlay for smooth transition */}
+                    <path
+                      d="M0,38 L38,38 L38,34 Q18,34 0,38 Z"
+                      fill="#F5F0E8"
+                      opacity="0.95"
+                    />
+                  </svg>
+                );
                 return (
                   <a
                     key={social.name}
                     href={social.name === 'EMAIL' ? `mailto:${social.handle}` : (social.name === 'RESUME' ? '/Anay_Resume.pdf' : '#')}
                     className="pin-card"
                     style={{
-                      background: '#fff', border: B, boxShadow: '6px 6px 0 #0E0E0E',
-                      padding: '16px 12px', textDecoration: 'none', color: '#0E0E0E',
-                      display: 'flex', flexDirection: 'column', alignItems: 'center',
-                      transform: `rotate(${tilts[idx]}deg)`, position: 'relative',
-                      justifyContent: 'center', minHeight: '120px'
+                      background: stickyColors[idx],
+                      border: B,
+                      boxShadow: '6px 6px 0 #0E0E0E',
+                      padding: '16px 12px',
+                      textDecoration: 'none',
+                      color: textColors[idx],
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      transform: `rotate(${tilts[idx]}deg)`,
+                      position: 'relative',
+                      justifyContent: 'center',
+                      minHeight: '120px',
+                      borderRadius: 16,
+                      overflow: 'hidden',
                     }}
                   >
-                    <div style={{ position: 'absolute', top: '8px', width: '12px', height: '12px', borderRadius: '50%', background: pinColors[idx], border: '2px solid #0E0E0E' }} />
-                    <div style={{ marginBottom: '8px', color: '#1B3970' }}>{social.icon}</div>
+                    {/* Pin visual: head + stem */}
+                    <div style={{ position: 'absolute', top: '6px', left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+                      <div style={{ width: 14, height: 14, borderRadius: '50%', background: pinColors[idx], border: '2px solid #0E0E0E', boxShadow: '0 2px 4px rgba(0,0,0,0.18)' }} />
+                      <div style={{ width: 3, height: 18, background: '#0E0E0E', margin: '0 auto', borderRadius: 2, marginTop: -2, boxShadow: '0 2px 4px rgba(0,0,0,0.10)' }} />
+                    </div>
+                    <div style={{ marginBottom: '8px', color: textColors[idx], marginTop: 18 }}>{social.icon}</div>
                     <span style={{ fontFamily: BB, fontSize: '1.6rem', letterSpacing: '0.05em', margin: 0 }}>{social.name}</span>
                     <span style={{ fontSize: '0.7rem', opacity: 0.7, marginTop: '4px', textAlign: 'center', wordBreak: 'break-all' }}>{social.handle}</span>
+                    {/* Curl effect */}
+                    {curlSVG}
                   </a>
                 );
               })}

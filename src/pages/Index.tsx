@@ -292,8 +292,39 @@ const HeroPage: React.FC = () => {
             ))}
           </div>
 
-          {/* Cursor at bottom right */}
-          <img src="/cursor.png" alt="Cursor" style={{ position: 'absolute', bottom: -20, right: -20, width: 100, height: 50, zIndex: 20, pointerEvents: 'none' }} />
+          {/* Large Circular Open to Internships Badge */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: -38,
+              right: -38,
+              width: 130,
+              height: 130,
+              background: '#F5F0E8',
+              border: '5px solid #27C93F',
+              color: '#27C93F',
+              borderRadius: '50%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 20,
+              pointerEvents: 'none',
+              outline: '5px solid #F5F0E8',
+              outlineOffset: '-10px',
+              boxShadow: '10px 10px 18px rgba(0,0,0,0.22)',
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontWeight: 900,
+              transform: 'rotate(10deg)',
+              textShadow: 'none',
+              gap: 2,
+            }}
+          >
+            <div style={{ fontSize: '1.05rem', letterSpacing: '0.18em', opacity: 0.8, marginBottom: 2 }}>STATUS</div>
+            <div style={{ fontSize: '1.35rem', lineHeight: 1.05, textAlign: 'center', fontWeight: 900 }}>
+              OPEN TO<br />INTERNSHIPS
+            </div>
+          </div>
         </div>
 
         <div ref={scrollIndicatorRef} style={{ position: 'fixed', right: 28, top: '50%', transform: 'translateY(-50%)', zIndex: 50, display: 'flex', flexDirection: 'column', alignItems: 'center', pointerEvents: 'none' }}>
@@ -305,6 +336,218 @@ const HeroPage: React.FC = () => {
       <SkillsSection />
       <ProjectsTimeline />
       <ContactSection />
+
+      {/* --- FOOTER --- */}
+      <footer
+        style={{
+          width: '100%',
+          minHeight: '50vh',
+          background: '#1B3970',
+          color: '#F5F0E8',
+          fontFamily: "'JetBrains Mono', monospace",
+          borderTop: '6px solid #0E0E0E',
+          boxShadow: '0 -8px 0 #0E0E0E',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '48px 32px',
+          position: 'relative',
+          zIndex: 100,
+          flexWrap: 'wrap',
+          gap: 32,
+        }}
+      >
+        {/* Left Section */}
+        <div style={{
+          flex: 1,
+          minWidth: 250,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 16,
+        }}>
+          <img
+            src="/aboutus/anay13.png"
+            alt="Anay Shah Logo"
+            style={{
+              width: 120,
+              height: 120,
+              animation: 'spin 9s linear infinite',
+              transition: 'transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.animation = 'none';
+              e.currentTarget.style.transform = 'scale(1.15)';
+              e.currentTarget.style.boxShadow = '12px 12px 0 #DAFC92';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.animation = 'spin 9s linear infinite';
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          />
+          <div style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: '1.8rem',
+            letterSpacing: '0.08em',
+            color: '#DAFC92',
+            textShadow: '3px 3px 0 #0E0E0E',
+            textAlign: 'center',
+          }}>
+            Work Smart, Not Hard
+          </div>
+          <div style={{
+            fontSize: '0.95rem',
+            color: '#F5F0E8',
+            opacity: 0.8,
+            textAlign: 'center',
+            lineHeight: 1.5,
+          }}>
+            &copy; {new Date().getFullYear()} Anay Shah<br />
+            All Rights Reserved<br />
+            Designed & coded by Anay Shah<br />
+            Contact: anayshah10@gmail.com
+          </div>
+        </div>
+
+        {/* Center Section */}
+        <div style={{
+          flex: 2,
+          minWidth: 300,
+          textAlign: 'center',
+          maxWidth: 600,
+        }}>
+          <div style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: '2.2rem',
+            letterSpacing: '0.08em',
+            color: '#DAFC92',
+            textShadow: '4px 4px 0 #0E0E0E',
+            marginBottom: 18,
+          }}>
+            Anay Shah Portfolio
+          </div>
+          <div style={{
+            fontSize: '1.1rem',
+            color: '#F5F0E8',
+            opacity: 0.93,
+            lineHeight: 1.7,
+            fontWeight: 500,
+          }}>
+            This portfolio is a creative, interactive showcase of my journey as a developer, UI animator, and problem solver.<br />
+            Explore my projects, skills, and achievements, or connect with me for collaborations and opportunities.<br />
+            Designed with a neobrutalist aesthetic, custom React components, and playful animations.<br />
+            Built with React, TypeScript, Vite, GSAP, and a love for bold, expressive design.<br />
+            <span style={{ color: '#DAFC92', fontWeight: 700 }}>Let’s build something amazing together!</span>
+          </div>
+        </div>
+
+        {/* Right Section */}
+        <div style={{
+          flex: 1,
+          minWidth: 250,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 16,
+        }}>
+          <div style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: '1.6rem',
+            letterSpacing: '0.08em',
+            color: '#DAFC92',
+            textShadow: '2px 2px 0 #0E0E0E',
+            textAlign: 'center',
+          }}>
+            Connect with me
+          </div>
+          <div style={{
+            width: '80%',
+            height: '4px',
+            background: '#DAFC92',
+            boxShadow: '0 2px 0 #0E0E0E',
+          }} />
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            gap: 12,
+          }}>
+            <a
+              href="https://instagram.com/anay_shah13"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                padding: '10px 16px',
+                background: 'linear-gradient(135deg, #FF5C5C, #FF8A65)',
+                color: '#F5F0E8',
+                textDecoration: 'none',
+                borderRadius: 25,
+                fontWeight: 600,
+                fontSize: '0.95rem',
+                boxShadow: '4px 4px 0 #0E0E0E',
+                transition: 'transform 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+            >
+              <Instagram size={20} />
+              Instagram
+            </a>
+            <a
+              href="https://linkedin.com/in/Anayshah"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                padding: '10px 16px',
+                background: 'linear-gradient(135deg, #0077B5, #005885)',
+                color: '#F5F0E8',
+                textDecoration: 'none',
+                borderRadius: 25,
+                fontWeight: 600,
+                fontSize: '0.95rem',
+                boxShadow: '4px 4px 0 #0E0E0E',
+                transition: 'transform 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+            >
+              <Linkedin size={20} />
+              LinkedIn
+            </a>
+            <a
+              href="https://github.com/Anayshah13"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                padding: '10px 16px',
+                background: 'linear-gradient(135deg, #333, #24292e)',
+                color: '#F5F0E8',
+                textDecoration: 'none',
+                borderRadius: 25,
+                fontWeight: 600,
+                fontSize: '0.95rem',
+                boxShadow: '4px 4px 0 #0E0E0E',
+                transition: 'transform 0.2s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+            >
+              <Github size={20} />
+              GitHub
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
