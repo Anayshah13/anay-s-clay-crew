@@ -22,6 +22,8 @@ function useIsMobile() {
 
 const TITLES = ['Developer.', 'Hackathon Winner.', 'Competitive Programmer.', 'UI Animator.'];
 
+const BB = "'Bebas Neue', sans-serif";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const HeroPage: React.FC = () => {
@@ -292,8 +294,39 @@ const HeroPage: React.FC = () => {
             ))}
           </div>
 
-          {/* Cursor at bottom right */}
-          <img src="/cursor.png" alt="Cursor" style={{ position: 'absolute', bottom: -20, right: -20, width: 100, height: 50, zIndex: 20, pointerEvents: 'none' }} />
+          {/* Large Circular Open to Internships Badge */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: -20,
+              right: -20,
+              width: 100,
+              height: 100,
+              background: '#F5F0E8',
+              border: '4px solid #27C93F',
+              color: '#27C93F',
+              borderRadius: '50%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 20,
+              pointerEvents: 'none',
+              outline: '4px solid #F5F0E8',
+              outlineOffset: '-8px',
+              boxShadow: '7px 7px 14px rgba(0,0,0,0.20)',
+              fontFamily: BB,
+              fontWeight: 900,
+              transform: 'rotate(10deg)',
+              textShadow: 'none',
+              gap: 1,
+            }}
+          >
+            <div style={{ fontSize: '0.85rem', letterSpacing: '0.15em', opacity: 0.8, marginBottom: 1 }}>STATUS</div>
+            <div style={{ fontSize: '1.1rem', lineHeight: 1.05, textAlign: 'center', fontWeight: 900 }}>
+              OPEN TO<br />INTERNSHIPS
+            </div>
+          </div>
         </div>
 
         <div ref={scrollIndicatorRef} style={{ position: 'fixed', right: 28, top: '50%', transform: 'translateY(-50%)', zIndex: 50, display: 'flex', flexDirection: 'column', alignItems: 'center', pointerEvents: 'none' }}>
@@ -305,6 +338,135 @@ const HeroPage: React.FC = () => {
       <SkillsSection />
       <ProjectsTimeline />
       <ContactSection />
+
+      {/* --- FOOTER --- */}
+      <footer
+        style={{
+          width: '100%',
+          minHeight: '50vh',
+          background: '#1B3970',
+          color: '#F5F0E8',
+          fontFamily: "'JetBrains Mono', monospace",
+          borderTop: '6px solid #0E0E0E',
+          boxShadow: '0 -8px 0 #0E0E0E',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '32px 5vw',
+          position: 'relative',
+          zIndex: 100,
+          gap: 24,
+        }}
+      >
+        {/* Left: Rotating logo and motto */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 180 }}>
+          <div
+            style={{
+              width: 110,
+              height: 110,
+              borderRadius: '50%',
+              overflow: 'hidden',
+              marginBottom: 12,
+              border: '4px solid #DAFC92',
+              boxShadow: '0 4px 16px #0E0E0E44',
+              background: '#fff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'transform 0.4s cubic-bezier(.4,2,.6,1)',
+              animation: 'spinLogo 7s linear infinite',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.09) rotate(-8deg)'}
+            onMouseLeave={e => e.currentTarget.style.transform = 'scale(1) rotate(0deg)'}
+          >
+            <img src="/aboutus/anay13.png" alt="Anay13 Logo" style={{ width: '90%', height: '90%', borderRadius: '50%' }} />
+          </div>
+          <div style={{ fontFamily: BB, fontSize: '1.25rem', color: '#fff', letterSpacing: '0.04em', textShadow: '2px 2px 0 #0E0E0E', marginBottom: 8 }}>Work Smart , Not Hard</div>
+          <div style={{ fontSize: '0.95rem', color: '#B399FF', opacity: 0.8, marginTop: 4 }}>
+            &copy; {new Date().getFullYear()} Anay Shah &mdash; All Rights Reserved
+          </div>
+        </div>
+
+        {/* Center: Context text */}
+        <div style={{
+          flex: 1,
+          maxWidth: 600,
+          fontSize: '1.08rem',
+          color: '#F5F0E8',
+          opacity: 0.93,
+          textAlign: 'center',
+          margin: '0 24px',
+          lineHeight: 1.7,
+          fontWeight: 500,
+          display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+        }}>
+          <div style={{ marginBottom: 10 }}>
+            This portfolio is a creative, interactive showcase of my journey as a developer, UI animator, and problem solver.<br />
+            Explore my projects, skills, and achievements, or connect with me for collaborations and opportunities.<br />
+            Designed with a neobrutalist aesthetic, custom React components, and playful animations.<br />
+            Built with React, TypeScript, Vite, GSAP, and a love for bold, expressive design.
+          </div>
+          <div style={{ width: 80, height: 3, background: '#FFBE0B', borderRadius: 2, margin: '10px auto 0 auto' }} />
+        </div>
+
+        {/* Right: Social pills */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 18, minWidth: 160 }}>
+          <div style={{ display: 'flex', gap: 16 }}>
+            {/* Instagram */}
+            <a href="https://instagram.com/anay_shah13" target="_blank" rel="noopener noreferrer"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                background: '#DAFC92', color: '#1B3970',
+                borderRadius: 999, padding: '8px 18px', fontWeight: 700, fontSize: '1.08rem',
+                boxShadow: '2px 2px 0 #0E0E0E', textDecoration: 'none', border: '2.5px solid #0E0E0E',
+                transition: 'transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.08)'; e.currentTarget.style.boxShadow = '4px 4px 0 #0E0E0E'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '2px 2px 0 #0E0E0E'; }}
+            >
+              <Instagram size={22} style={{ marginRight: 2 }} /> Insta
+            </a>
+            {/* LinkedIn */}
+            <a href="https://linkedin.com/in/Anayshah" target="_blank" rel="noopener noreferrer"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                background: '#F5F0E8', color: '#1B3970',
+                borderRadius: 999, padding: '8px 18px', fontWeight: 700, fontSize: '1.08rem',
+                boxShadow: '2px 2px 0 #0E0E0E', textDecoration: 'none', border: '2.5px solid #0E0E0E',
+                transition: 'transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.08)'; e.currentTarget.style.boxShadow = '4px 4px 0 #0E0E0E'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '2px 2px 0 #0E0E0E'; }}
+            >
+              <Linkedin size={22} style={{ marginRight: 2 }} /> LinkedIn
+            </a>
+            {/* Github */}
+            <a href="https://github.com/Anayshah13" target="_blank" rel="noopener noreferrer"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                background: '#FF5C5C', color: '#fff',
+                borderRadius: 999, padding: '8px 18px', fontWeight: 700, fontSize: '1.08rem',
+                boxShadow: '2px 2px 0 #0E0E0E', textDecoration: 'none', border: '2.5px solid #0E0E0E',
+                transition: 'transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.08)'; e.currentTarget.style.boxShadow = '4px 4px 0 #0E0E0E'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '2px 2px 0 #0E0E0E'; }}
+            >
+              <Github size={22} style={{ marginRight: 2 }} /> Github
+            </a>
+          </div>
+        </div>
+
+        {/* Rotating logo animation keyframes */}
+        <style>{`
+          @keyframes spinLogo {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+      </footer>
     </div>
   );
 };
