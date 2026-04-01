@@ -6,6 +6,7 @@ import AboutSection from '@/components/AboutSection';
 import SkillsSection from '@/components/SkillsSection';
 import ContactSection from '@/components/ContactSection';
 import ProjectsTimeline from '@/components/ProjectsTimeline';
+import AchievementsSection from '@/components/AchievementsSection';
 import Lenis from 'lenis';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Github, Linkedin, Instagram, ExternalLink, ArrowRight, Mail } from 'lucide-react';
@@ -326,6 +327,7 @@ const HeroPage: React.FC = () => {
       <AboutSection isDark={isDark} />
       <SkillsSection />
       <ProjectsTimeline />
+      <AchievementsSection />
       <ContactSection />
 
       {/* --- FOOTER --- */}
