@@ -275,19 +275,6 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
       </div>
 
       {/* ══════════════════════ PALETTE STRIP ════════════════════════════════ */}
-      <div ref={stripRef} className="relative z-10 flex flex-row shrink-0 mt-2"
-        style={{ width: '65%', margin: '0 auto', gap: '5px' }}>
-        {COLORS.map((c) => (
-          <div key={c.hex} style={{
-            flex: 1, height: '36px', minWidth: '60px', background: c.hex, borderRadius: 0,
-            border: '2px solid #0E0E0E',
-            padding: '5px 7px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start',
-          }}>
-            <span style={{ fontFamily: MONO, fontSize: '0.50rem', fontWeight: 700, color: c.textColor, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.2 }}>{c.name}</span>
-            <span style={{ fontFamily: MONO, fontSize: '0.44rem', fontWeight: 400, color: c.textColor, opacity: 0.75, lineHeight: 1.2, marginTop: '1px' }}>{c.hex}</span>
-          </div>
-        ))}
-      </div>
 
       {/* ═════════════════ TWO-COLUMN CONTENT ════════════════════════════════ */}
       {/* flex-1 min-h-0 so it fills exactly the remaining viewport height */}

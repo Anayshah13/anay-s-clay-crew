@@ -9,7 +9,7 @@
   width: 100%;
   background: #111111; /* Onyx base */
   overflow: hidden;
-  padding: 0 0 120px;
+  padding: 100px 0 120px;
 }
 
 /* ── BACKGROUND ───────────────────────────────────────── */
@@ -100,7 +100,7 @@
   position: relative;
   z-index: 10;
   text-align: left;
-  padding: 80px 8vw 40px;
+  padding: 20px 8vw 40px;
 }
 
 .headingText {

@@ -61,14 +61,12 @@ const ContactSection: React.FC = () => {
         .from(terminalRef.current, { x: -250, y: -100, rotation: -25, scale: 0.5, opacity: 0, duration: 0.9, ease: 'back.out(1.3)' }, '-=0.3')
         .from(boardRef.current, { x: 250, y: 150, rotation: 15, scale: 0.5, opacity: 0, duration: 0.9, ease: 'back.out(1.2)' }, '-=0.6')
         .from(stickyRef.current, { x: 0, y: -200, scale: 0, rotation: -40, opacity: 0, duration: 0.7, ease: 'back.out(1.8)' }, '-=0.4')
-        .from(buttonRef.current, { y: 100, scale: 0, opacity: 0, duration: 0.6, ease: 'back.out(2)' }, '-=0.3')
-        // Stamp comes down hard
-        .from(stampRef.current, { scale: 3, rotation: 15, opacity: 0, duration: 0.4, ease: 'power4.in' }, '-=0.4')
-        // Jolt the terminal on stamp impact!
-        .to(terminalRef.current, { y: '+=10', rotation: '-=2', duration: 0.1, yoyo: true, repeat: 1 }, '-=0.0')
-        // Social cards stagger pop
         .from('.pin-card', { scale: 0, rotation: () => Math.random() * 40 - 20, opacity: 0, stagger: 0.08, duration: 0.5, ease: 'back.out(1.5)' }, '-=0.2')
-        .from(footerRef.current, { y: 40, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2');
+        .from(footerRef.current, { y: 40, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
+        // Stamp comes down hard at the very end
+        .from(stampRef.current, { scale: 3, rotation: 15, opacity: 0, duration: 0.4, ease: 'power4.in' }, '+=0.2')
+        // Jolt the terminal on stamp impact!
+        .to(terminalRef.current, { y: '+=10', rotation: '-=2', duration: 0.1, yoyo: true, repeat: 1 }, '-=0.0');
 
     }, containerRef);
 
@@ -80,7 +78,7 @@ const ContactSection: React.FC = () => {
       ref={containerRef}
       style={{
         width: '100%',
-        minHeight: '100vh',
+        minHeight: '110vh',
         background: '#FFBE0B', // Amber Gold background
         position: 'relative',
         overflow: 'hidden',
@@ -113,13 +111,22 @@ const ContactSection: React.FC = () => {
       <div style={{ position: 'absolute', inset: 0, opacity: 0.15, pointerEvents: 'none', backgroundImage: 'repeating-linear-gradient(180deg, transparent, transparent 39px, #0E0E0E 39px, #0E0E0E 40px)' }} />
       <div style={{ position: 'absolute', inset: 0, opacity: 0.08, pointerEvents: 'none', backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 39px, #0E0E0E 39px, #0E0E0E 40px)' }} />
 
-      {/* Scattered Micro-elements */}
-      <div className="deco-float" style={{ position: 'absolute', top: '20%', left: '8%', width: '120px', height: '120px', border: '5px solid #DAFC92', borderRadius: '50%', opacity: 0.8, boxShadow: '8px 8px 0 #0E0E0E' }} />
-      <div className="deco-float" style={{ position: 'absolute', bottom: '15%', right: '12%', width: '150px', height: '150px', border: '5px solid #0E0E0E', background: '#FF5C5C', opacity: 0.4, transform: 'rotate(15deg)' }} />
-      <div className="deco-float" style={{ position: 'absolute', top: '15%', right: '25%', opacity: 0.9, fontSize: '5rem', fontWeight: 'bold', color: '#FFBE0B', textShadow: '4px 4px 0 #0E0E0E' }}>+</div>
-      <div className="deco-float" style={{ position: 'absolute', bottom: '25%', left: '15%', opacity: 0.8, fontSize: '6rem', fontWeight: 'bold', color: '#F5F0E8', textShadow: '6px 6px 0 #1B3970' }}>{"}"}</div>
-      <svg className="deco-float" width="100" height="100" viewBox="0 0 100 100" style={{ position: 'absolute', top: '40%', right: '5%', zIndex: 1 }}>
-        <path d="M50 0 L55 35 L90 25 L65 50 L90 75 L55 65 L50 100 L45 65 L10 75 L35 50 L10 25 L45 35 Z" fill="#DAFC92" stroke="#0E0E0E" strokeWidth="4" />
+      {/* Scattered Micro-elements - Cool graphics carefully positioned on edges */}
+      <div className="deco-float" style={{ position: 'absolute', top: '15%', left: '48%', width: '120px', height: '120px', border: '6px solid #DAFC92', borderRadius: '50%', opacity: 0.8, boxShadow: '8px 8px 0 #0E0E0E', zIndex: 5 }} />
+      {/* Cool Geometric Edge Graphics */}
+      <div className="deco-float" style={{ position: 'absolute', top: '12%', right: '15%', opacity: 0.9, fontSize: '6rem', fontWeight: 900, color: '#B399FF', textShadow: '6px 6px 0 #0E0E0E', zIndex: 5 }}>{'//'}</div>
+      <div className="deco-float" style={{ position: 'absolute', top: '-8%', right: '5%', opacity: 0.9, fontSize: '10rem', fontWeight: 900, color: '#FFBE0B', textShadow: '8px 8px 0 #0E0E0E', zIndex: 5 }}>*</div>
+      <div className="deco-float" style={{ position: 'absolute', bottom: '52%', left: '40%', opacity: 0.9, fontSize: '7rem', fontWeight: 900, color: '#F5F0E8', textShadow: '6px 6px 0 #1B3970', zIndex: 5 }}>{'}'}</div>
+      <div className="deco-float" style={{ position: 'absolute', bottom: '35%', right: '40%', width: '180px', height: '60px', background: '#ff5c5c', border: '6px solid #0E0E0E', borderRadius: '40px', transform: 'rotate(25deg)', zIndex: 5, boxShadow: '8px 8px 0 #0E0E0E' }} />
+      
+      <svg className="deco-float" width="120" height="120" viewBox="0 0 100 100" style={{ position: 'absolute', top: '20%', left: '2%', zIndex: 5 }}>
+        <path d="M50 0 L55 35 L90 25 L65 50 L90 75 L55 65 L50 100 L45 65 L10 75 L35 50 L10 25 L45 35 Z" fill="#DAFC92" stroke="#0E0E0E" strokeWidth="5" />
+      </svg>
+      <svg className="deco-float" width="120" height="120" viewBox="0 0 100 100" style={{ position: 'absolute', top: '65%', left: '2%', zIndex: 5 }}>
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#B399FF" strokeWidth="8" strokeDasharray="15, 15" />
+      </svg>
+      <svg className="deco-float" width="150" height="150" viewBox="0 0 100 100" style={{ position: 'absolute', top: '80%', left: '52%', zIndex: 5 }}>
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#1B3970" strokeWidth="8" strokeDasharray="15, 15" />
       </svg>
 
       {/* MAIN CONTAINER FOR COLLAGE LAYOUT */}
@@ -159,12 +166,12 @@ const ContactSection: React.FC = () => {
             <div style={{ padding: '32px 24px', color: '#DAFC92', fontSize: '1.25rem', lineHeight: 2.2, minHeight: '280px' }}>
               <form onSubmit={(e) => { e.preventDefault(); window.location.href = `mailto:anayshah10@gmail.com?subject=Message from ${email}&body=${encodeURIComponent(message)}`; }}>
                 <div style={{ marginBottom: '20px' }}>
-                  <label style={{ color: '#FFBE0B', fontSize: '1rem', display: 'block', marginBottom: '8px' }}>From (Email):</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ width: '100%', padding: '8px', background: '#1B3970', border: '2px solid #DAFC92', color: '#DAFC92', fontFamily: MONO, fontSize: '1rem', boxSizing: 'border-box' }} />
+                  <label style={{ color: '#F5F0E8', fontSize: '1.1rem', display: 'block', marginBottom: '8px', fontFamily: BB, letterSpacing: '0.05em' }}>FROM (EMAIL):</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ width: '100%', padding: '12px', backgroundColor: '#F5F0E8', backgroundImage: 'radial-gradient(circle, rgba(14, 14, 14, 0.15) 2px, transparent 2px)', backgroundSize: '24px 24px', border: '4px solid #0E0E0E', color: '#0E0E0E', fontFamily: MONO, fontSize: '1rem', boxSizing: 'border-box', outline: 'none', boxShadow: '4px 4px 0 #0E0E0E' }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
-                  <label style={{ color: '#FFBE0B', fontSize: '1rem', display: 'block', marginBottom: '8px' }}>Message:</label>
-                  <textarea value={message} onChange={(e) => setMessage(e.target.value)} required rows={4} style={{ width: '100%', padding: '8px', background: '#1B3970', border: '2px solid #DAFC92', color: '#DAFC92', fontFamily: MONO, fontSize: '1rem', boxSizing: 'border-box', resize: 'vertical' }} />
+                  <label style={{ color: '#F5F0E8', fontSize: '1.1rem', display: 'block', marginBottom: '8px', fontFamily: BB, letterSpacing: '0.05em' }}>MESSAGE:</label>
+                  <textarea value={message} onChange={(e) => setMessage(e.target.value)} required rows={4} style={{ width: '100%', padding: '12px', backgroundColor: '#F5F0E8', backgroundImage: 'radial-gradient(circle, rgba(14, 14, 14, 0.15) 2px, transparent 2px)', backgroundSize: '24px 24px', border: '4px solid #0E0E0E', color: '#0E0E0E', fontFamily: MONO, fontSize: '1rem', boxSizing: 'border-box', resize: 'vertical', outline: 'none', boxShadow: '4px 4px 0 #0E0E0E' }} />
                 </div>
                 <button type="submit" style={{ background: '#FFBE0B', border: '2px solid #0E0E0E', color: '#0E0E0E', padding: '10px 20px', fontFamily: BB, fontSize: '1.2rem', cursor: 'pointer', boxShadow: '4px 4px 0 #0E0E0E' }}>Send Message</button>
               </form>
@@ -175,21 +182,13 @@ const ContactSection: React.FC = () => {
           <div
             ref={stampRef}
             style={{
-              position: 'absolute', top: '0vh', left: '35vw',
-              width: '120px', height: '120px',
-              background: '#F5F0E8', border: '5px solid #27C93F', color: '#27C93F',
-              borderRadius: '50%',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              transform: 'rotate(12deg)',
-              fontFamily: BB, fontSize: '1.05rem', fontWeight: 900,
-              textShadow: 'none',
+              position: 'absolute', top: '-2vh', left: '40vw',
+              width: '150px', height: '150px',
+              transform: 'rotate(20deg)',
               zIndex: 30, pointerEvents: 'none',
-              outline: '4px solid #F5F0E8', outlineOffset: '-10px',
-              mixBlendMode: 'normal', boxShadow: '8px 8px 15px rgba(0,0,0,0.2)'
+              filter: 'drop-shadow(8px 8px 15px rgba(0,0,0,0.25))'
             }}
           >
-            <div style={{ fontSize: '0.75rem', letterSpacing: '0.18em', opacity: 0.8, marginBottom: '2px' }}>STATUS:</div>
-            <div style={{ fontSize: '0.95rem', lineHeight: 1, textAlign: 'center' }}>OPEN TO<br />INTERNSHIPS</div>
           </div>
 
           {/* 3. LAVENDER STICKY NOTE */}
@@ -251,7 +250,6 @@ const ContactSection: React.FC = () => {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '16px', position: 'relative', zIndex: 10 }}>
               {SOCIALS.map((social, idx) => {
-                // Sticky note colors from palette
                 const stickyColors = [
                   '#DAFC92', // Lime Cream
                   '#B399FF', // Soft Periwinkle
@@ -259,6 +257,22 @@ const ContactSection: React.FC = () => {
                   '#FF5C5C', // Vibrant Coral
                   '#1B3970', // Regal Navy
                   '#0E0E0E', // Onyx Black
+                ];
+                const foldColors = [
+                  '#E8FDC2', // Lighter Lime
+                  '#CBB8FF', // Lighter Periwinkle
+                  '#FFD54F', // Lighter Amber
+                  '#FF8080', // Lighter Coral
+                  '#2C4E8A', // Lighter Navy
+                  '#2A2A2A', // Lighter Black
+                ];
+                const darkerColors = [
+                  '#A8D44F', // Darker Lime
+                  '#8A6FE8', // Darker Periwinkle
+                  '#D4960A', // Darker Amber
+                  '#D43030', // Darker Coral
+                  '#0F2548', // Darker Navy
+                  '#363535ff', // Darker Black
                 ];
                 const textColors = [
                   '#0E0E0E', // for Lime Cream
@@ -270,38 +284,27 @@ const ContactSection: React.FC = () => {
                 ];
                 const tilts = [-3, 4, 2, -3, 5, -2];
                 const pinColors = ['#FF5C5C', '#1B3970', '#DAFC92', '#FFBE0B', '#B399FF', '#FF5C5C'];
-                // Curl SVG always in bottom right (paper fold effect)
                 const curlSVG = (
                   <svg
-                    width="38" height="38" viewBox="0 0 38 38"
+                    width="40" height="40" viewBox="0 0 40 40"
                     style={{
                       position: 'absolute',
-                      bottom: 0,
-                      right: 0,
+                      bottom: -1,
+                      right: -1,
                       zIndex: 3,
                       pointerEvents: 'none',
                     }}
                   >
-                    {/* Paper curl shape - always bottom right */}
-                    <path
-                      d="M0,38 Q18,18 38,0 L38,38 Z"
-                      fill="#e0dccf" // slightly darker than parchment for shadow
-                      opacity="0.85"
-                    />
-                    {/* Highlight for the curl */}
-                    <path
-                      d="M0,38 Q18,18 38,0"
-                      fill="none"
-                      stroke="#bdb9a7"
-                      strokeWidth="2"
-                      opacity="0.5"
-                    />
-                    {/* Main sticky note color overlay for smooth transition */}
-                    <path
-                      d="M0,38 L38,38 L38,34 Q18,34 0,38 Z"
-                      fill="#F5F0E8"
-                      opacity="0.95"
-                    />
+                    {/* Board background covering the clipped corner */}
+                    <path d="M0,40 Q25,25 40,0 L40,40 Z" fill={darkerColors[idx]} />
+                    {/* Border along the torn/folded edge */}
+                    <path d="M0,40 Q25,25 40,0" fill="none" stroke="#0E0E0E" strokeWidth="5" />
+                    {/* The actual folded-up flap */}
+                    <path d="M0,40 Q25,25 40,0 Q15,35 0,40 Z" fill={darkerColors[idx]} />
+                    {/* Flap Shading for 3D effect */}
+                    <path d="M0,40 Q25,25 40,0 Q15,35 0,40 Z" fill="rgba(0,0,0,0.15)" />
+                    {/* Outline of the folded flap */}
+                    <path d="M0,40 Q25,25 40,0 Q15,35 0,40 Z" fill="none" stroke="#0E0E0E" strokeWidth="3" strokeLinejoin="round" />
                   </svg>
                 );
                 return (
@@ -323,7 +326,7 @@ const ContactSection: React.FC = () => {
                       position: 'relative',
                       justifyContent: 'center',
                       minHeight: '120px',
-                      borderRadius: 16,
+                      borderRadius: 10,
                       overflow: 'hidden',
                     }}
                   >
@@ -342,24 +345,6 @@ const ContactSection: React.FC = () => {
               })}
             </div>
           </div>
-
-          {/* 5. GIANT "SAY HI!" BUTTON */}
-          <a
-            ref={buttonRef}
-            href="mailto:hello@anayshah.com"
-            className="say-hi-btn"
-            style={{
-              position: 'absolute', bottom: '8vh', left: '15vw',
-              width: '160px', height: '160px', borderRadius: '50%',
-              background: '#FF5C5C', border: '5px solid #0E0E0E', boxShadow: '0px 10px 0px #0E0E0E',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              textDecoration: 'none', color: '#0E0E0E', zIndex: 40,
-              cursor: 'pointer'
-            }}
-          >
-            <Hand size={42} strokeWidth={2.5} style={{ marginBottom: '5px' }} />
-            <span style={{ fontFamily: BB, fontSize: '2.4rem', lineHeight: 1 }}>SAY HI!</span>
-          </a>
 
 
         </div>

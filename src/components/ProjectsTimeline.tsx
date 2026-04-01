@@ -2,6 +2,7 @@ import React, { useRef, useLayoutEffect, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './ProjectsTimeline.module.css';
+import MagicBento from './MagicBento';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -108,6 +109,17 @@ const PROJECTS: Project[] = [
     githubUrl: 'https://github.com/Anayshah13/Anays-First-Pygame',
     imagePlaceholder: 'PYGAME',
   },
+  {
+    id: 9,
+    title: 'Focus Insights System',
+    description: 'Modernizing the Focus Insights dashboard with advanced visual feedback, reactive emotion-based pulse rings, and interactive data components.',
+    tech: ['React', 'Three.js', 'Framer Motion'],
+    date: 'Mar 2026',
+    position: 'right',
+    color: '#3b82f6',
+    githubUrl: 'https://github.com/Anayshah13',
+    imagePlaceholder: 'DASHBOARD',
+  },
 ];
 
 const DevBlob: React.FC<{ leftPupilRef: React.RefObject<HTMLDivElement>; rightPupilRef: React.RefObject<HTMLDivElement> }> = ({ leftPupilRef, rightPupilRef }) => (
@@ -188,10 +200,11 @@ const ProjectsTimeline: React.FC = () => {
   const rightPupilRef = useRef<HTMLDivElement>(null);
 
   const SEG_H = 600; // Increased wavelength slightly
-  const SVGH = PROJECTS.length * SEG_H;
+  const topProjects = PROJECTS.slice(0, 3);
+  const SVGH = topProjects.length * SEG_H;
 
   const buildPath = () => {
-    const n = PROJECTS.length;
+    const n = topProjects.length;
     let d = `M 500 0`; // Start at middle of 1000px canvas
     for (let i = 0; i < n; i++) {
       const y0 = i * SEG_H;
@@ -233,8 +246,8 @@ const ProjectsTimeline: React.FC = () => {
           const absY = svgRect.top - wrapperRect.top + pt.y * scaleY;
           gsap.set(blobRef.current, { x: absX - 55, y: absY - 55 });
 
-          const currentProjIdx = Math.min(PROJECTS.length - 1, Math.max(0, Math.floor(progress * PROJECTS.length)));
-          const currentProj = PROJECTS[currentProjIdx];
+          const currentProjIdx = Math.min(topProjects.length - 1, Math.max(0, Math.floor(progress * topProjects.length)));
+          const currentProj = topProjects[currentProjIdx];
           
           if (leftPupilRef.current && rightPupilRef.current) {
             // Looking at the large project image box
@@ -263,7 +276,7 @@ const ProjectsTimeline: React.FC = () => {
           },
         });
 
-        PROJECTS.forEach((proj) => {
+        topProjects.forEach((proj) => {
           const card = sectionRef.current!.querySelector(`[data-project-id="${proj.id}"]`);
           const img = sectionRef.current!.querySelector(`[data-project-img="${proj.id}"]`);
           
@@ -390,8 +403,18 @@ const ProjectsTimeline: React.FC = () => {
         </p>
       </div>
 
+      {/* ── BENTO BOX GRID ────────────────────────────── */}
+      <div style={{ padding: '0 8vw', marginBottom: '80px', position: 'relative', zIndex: 10 }}>
+        <MagicBento projects={PROJECTS} disableAnimations={false} />
+      </div>
+
+      <div className={styles.heading} style={{ paddingTop: '20px', paddingBottom: '50px' }}>
+        <h2 className={styles.headingText} style={{ fontSize: 'clamp(3.5rem, 6vw, 6rem)' }}>THE TOP 3</h2>
+        <div className={styles.headingUnderline} style={{ width: '120px' }} />
+      </div>
+
       {/* ── TIMELINE WRAPPER ──────────────────────────── */}
-      <div className={styles.wrapper} ref={wrapperRef} style={{ minHeight: `${SVGH + 400}px` }}>
+      <div className={styles.wrapper} ref={wrapperRef} style={{ minHeight: `${SVGH + 50}px` }}>
 
         <svg
           className={styles.svg}
@@ -410,7 +433,7 @@ const ProjectsTimeline: React.FC = () => {
           <path ref={progressLineRef} d={PATH_D} fill="none"
             stroke="#4ECDC4" strokeWidth="8" strokeLinecap="round"
             className={styles.progressLine} />
-          {PROJECTS.map((_, i) => {
+          {topProjects.map((_, i) => {
             const cxValue = i % 2 === 0 ? 900 : 100;
             // X position of quadratic bezier at t=0.5: X = 0.25*startX + 0.5*controlX + 0.25*endX
             const dotX = 0.25 * 500 + 0.5 * cxValue + 0.25 * 500;
@@ -428,8 +451,8 @@ const ProjectsTimeline: React.FC = () => {
           <DevBlob leftPupilRef={leftPupilRef} rightPupilRef={rightPupilRef} />
         </div>
 
-        <div className={styles.events} style={{ minHeight: `${SVGH + 200}px` }}>
-          {PROJECTS.map((proj, i) => {
+        <div className={styles.events} style={{ minHeight: `${SVGH}px` }}>
+          {topProjects.map((proj, i) => {
             const exactY = (i + 0.5) * SEG_H;
             return (
               <div
