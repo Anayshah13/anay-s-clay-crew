@@ -227,28 +227,22 @@ export function renderChef(cfg: BlobConfig, common: Record<string, unknown>) {
 export function renderAstronaut(cfg: BlobConfig, common: Record<string, unknown>) {
   return (
     // MOUTH: small nervous smile
-    <BlobCharacter {...(common as any)} eyeSize={20} mouthWidth={12} mouthHeight={7} mouthRadius="0 0 60% 60%"
+    <BlobCharacter {...(common as any)} eyeSize={22} mouthWidth={14} mouthHeight={8} mouthRadius="0 0 60% 60%"
       faceChildren={
-        /* Proper Astronaut Spacesuit + Helmet */
         <>
-          {/* Outer Helmet Dome */}
+          {/* Outer Helmet Dome - kept in face for proper overlapping */}
           <div style={{
             position: 'absolute', top: '-18%', left: '50%', transform: 'translateX(-50%)',
             width: cfg.w * 0.85, height: cfg.w * 0.85,
             border: '8px solid rgba(220,230,250,0.95)',
             borderRadius: '50%',
-            background: 'rgba(100,180,255,0.25)',
+            /* Light transparent white to not hide eyes */
+            background: 'rgba(255,255,255,0.05)',
             boxShadow: 'inset 0 0 16px rgba(100,200,255,0.4)',
             zIndex: 4, pointerEvents: 'none'
           }}>
-            <div style={{ position: 'absolute', top: '15%', left: '15%', width: '30%', height: '14%', background: 'rgba(255,255,255,0.2)', borderRadius: '50%', transform: 'rotate(-30deg)' }} />
+            <div style={{ position: 'absolute', top: '15%', left: '15%', width: '30%', height: '14%', background: 'rgba(255,255,255,0.3)', borderRadius: '50%', transform: 'rotate(-30deg)' }} />
           </div>
-          {/* Neck ring */}
-          <div style={{ position: 'absolute', top: '55%', left: '50%', transform: 'translateX(-50%)', width: cfg.w * 0.65, height: 10, background: '#aaa', borderRadius: '50%', border: '2px solid #666', zIndex: 3 }} />
-        </>
-      }
-      accessoryBody={
-        <>
           {/* Chest control panel */}
           <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translateX(-50%)', width: 44, height: 34, background: '#eee', borderRadius: 4, border: '2px solid #ccc', boxShadow: '0 4px 6px rgba(0,0,0,0.2)' }}>
             <div style={{ position: 'absolute', top: 4, left: 4, width: 12, height: 8, background: '#222', borderRadius: 2 }} />
@@ -256,9 +250,7 @@ export function renderAstronaut(cfg: BlobConfig, common: Record<string, unknown>
             <div style={{ position: 'absolute', top: 14, right: 4, width: 6, height: 6, background: '#4285F4', borderRadius: '50%' }} />
             <div style={{ position: 'absolute', bottom: 4, left: 4, width: 24, height: 6, background: '#ccc', borderRadius: 2 }} />
           </div>
-          {/* Small jetpack tanks sticking out back */}
-          <div style={{ position: 'absolute', top: '25%', left: -14, width: 18, height: 44, background: '#ddd', borderRadius: 6, border: '2px solid #bbb', zIndex: -1 }} />
-          <div style={{ position: 'absolute', top: '25%', right: -14, width: 18, height: 44, background: '#ddd', borderRadius: 6, border: '2px solid #bbb', zIndex: -1 }} />
+         
         </>
       }
     />
@@ -296,7 +288,7 @@ export function renderDetective(cfg: BlobConfig, common: Record<string, unknown>
       accessoryBody={
         <>
           {/* Magnifying Glass */}
-          <div style={{ position: 'absolute', top: '35%', right: -28, transform: 'rotate(-25deg)' }}>
+          <div style={{ position: 'absolute', top: '50%', right: -10, transform: 'rotate(-25deg)' }}>
             <div style={{ width: 8, height: 26, background: '#5B3413', borderRadius: '0 0 4px 4px', position: 'relative', left: 10 }}>
               <div style={{ position: 'absolute', top: -20, left: -10, width: 28, height: 28, border: '4px solid #gold', background: 'rgba(200,220,255,0.4)', borderRadius: '50%', boxShadow: '0 2px 5px rgba(0,0,0,0.3)', borderColor: '#DAA520' }}>
                 <div style={{ position: 'absolute', top: 2, left: 2, width: 8, height: 4, background: 'rgba(255,255,255,0.6)', borderRadius: '50%', transform: 'rotate(-45deg)' }} />

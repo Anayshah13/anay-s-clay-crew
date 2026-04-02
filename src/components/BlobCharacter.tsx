@@ -36,6 +36,7 @@ export interface BlobProps {
   id?: string;
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
+  faceStyle?: React.CSSProperties;
 }
 
 const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
@@ -46,7 +47,7 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
   legWidth = 22, legHeight = 24, zIndex = 1,
   style, children, faceChildren, accessoryTop, accessoryBody,
   eyebrows, hideLeftArm, hideRightArm, className, legVariant = 'normal',
-  rowClass, eyeScale, isDark, id, onMouseEnter, onMouseLeave
+  rowClass, eyeScale, isDark, id, onMouseEnter, onMouseLeave, faceStyle
 }: BlobProps, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -125,7 +126,7 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
 
         {accessoryTop}
 
-        <div className={styles.blobFace}>
+        <div className={styles.blobFace} style={faceStyle}>
           {eyebrows}
           <div className={styles.blobEyeRow}>
             {/* Left eye — supports asymmetric size */}

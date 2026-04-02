@@ -126,12 +126,12 @@
 
 .cardLeft {
   top: 10%;
-  left: 8%;
+  left: 14%;
 }
 
 .cardRight {
   top: 10%;
-  right: 8%;
+  right: 14%;
 }
 
 .cardLeft:hover, .cardRight:hover {

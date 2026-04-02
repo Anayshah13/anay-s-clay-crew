@@ -171,7 +171,7 @@ export function renderMinecraft(cfg: BlobConfig, common: Record<string, unknown>
       accessoryBody={
         <>
           {/* Diamond sword — right arm */}
-          <div data-mc-sword style={{ position: 'absolute', top: '30%', right: -20, transform: 'rotate(15deg)', transformOrigin: 'bottom center' }}>
+          <div data-mc-sword style={{ position: 'absolute', top: '44%', right: -26, transform: 'rotate(15deg)', transformOrigin: 'bottom center' }}>
             {/* Blade — diamond blue */}
             <div style={{ width: 8, height: 55, background: 'linear-gradient(180deg, #5DADE2 0%, #85C1E9 50%, #5DADE2 100%)', borderRadius: '4px 4px 2px 2px', position: 'relative', boxShadow: '0 0 8px rgba(93,173,226,0.5)' }}>
               {/* Crossguard */}
@@ -181,7 +181,7 @@ export function renderMinecraft(cfg: BlobConfig, common: Record<string, unknown>
             </div>
           </div>
           {/* TNT block — left arm */}
-          <div style={{ position: 'absolute', top: '50%', left: -28 }}>
+          <div style={{ position: 'absolute', top: '48%', left: -32 }}>
             <div style={{ width: 30, height: 30, background: '#ec3d29ff', borderRadius: 3, position: 'relative', border: '2px solid #C0392B' }}>
               <span style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'white', fontSize: 6, fontWeight: 900, fontFamily: 'monospace' }}>TNT</span>
             </div>
@@ -348,35 +348,23 @@ export function renderPopCulture(cfg: BlobConfig, common: Record<string, unknown
       }
       faceChildren={
         <>
-          {/* Pikachu lightning bolt scar on left cheek */}
-          <div style={{ position: 'absolute', bottom: '30%', left: '12%', zIndex: 4 }}>
-            <svg width="16" height="22" viewBox="0 0 16 22">
-              <polyline points="8,0 2,10 8,10 0,22" fill="none" stroke="#FFD700" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-          {/* Star pupils overlay */}
-          <div style={{ position: 'absolute', top: '14%', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '28px', zIndex: 5, pointerEvents: 'none' }}>
-            <span style={{ fontSize: 11, color: 'rgba(255,215,0,0.9)', textShadow: '0 0 4px gold' }}>★</span>
-            <span style={{ fontSize: 11, color: 'rgba(255,215,0,0.9)', textShadow: '0 0 4px gold' }}>★</span>
-          </div>
         </>
       }
       accessoryTop={
-        // Avengers "A" floating above
-        <div style={{ position: 'absolute', top: -22, left: '55%' }}>
-          <div style={{ width: 18, height: 20, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ color: '#C0392B', fontSize: 16, fontWeight: 900, fontFamily: 'Impact, sans-serif', textShadow: '0 0 6px rgba(192,57,43,0.6)' }}>A</span>
+        /* Cool snapback cap */
+        <div style={{ position: 'absolute', top: -16, left: '40%', transform: 'translateX(-50%) rotate(-10deg)', zIndex: 10 }}>
+          {/* Cap dome */}
+          <div style={{ width: 64, height: 42, background: '#2d2d2d', borderRadius: '22px 22px 0 0', position: 'relative' }}>
+            <div style={{ position: 'absolute', top: 4, left: '50%', transform: 'translateX(-50%)', width: 6, height: 6, background: '#FF4757', borderRadius: '50%' }} />
           </div>
+          {/* Cap brim pointing left-ish */}
+          <div style={{ position: 'absolute', bottom: -2, right: -12, width: 32, height: 6, background: '#FF4757', borderRadius: 3, transform: 'rotate(5deg)' }} />
         </div>
       }
       accessoryBody={
         <>
-          {/* Arc reactor — glowing on chest */}
-          <div data-arc-reactor style={{ position: 'absolute', top: '42%', left: '50%', transform: 'translateX(-50%)' }}>
-            <div style={{ width: 20, height: 20, borderRadius: '50%', border: '2.5px solid #89C9C9', background: 'radial-gradient(circle, rgba(255,255,255,0.95) 20%, #4ECDC4 45%, #0077ff 70%, transparent 100%)', boxShadow: '0 0 10px #4ECDC4, 0 0 20px #0077ff' }} />
-          </div>
           {/* Pokeball — right arm */}
-          <div data-pokeball style={{ position: 'absolute', top: '30%', right: -28 }}>
+          <div data-pokeball style={{ position: 'absolute', top: '46%', right: -28 }}>
             <div style={{ width: 26, height: 26, borderRadius: '50%', overflow: 'hidden', border: '3px solid #333', position: 'relative' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '50%', background: '#FF4757' }} />
               <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%', background: 'white' }} />
@@ -387,7 +375,7 @@ export function renderPopCulture(cfg: BlobConfig, common: Record<string, unknown
             </div>
           </div>
           {/* Lightsaber — left arm */}
-          <div data-lightsaber style={{ position: 'absolute', top: '18%', left: -36, transform: 'rotate(20deg)', transformOrigin: 'bottom center' }}>
+          <div data-lightsaber style={{ position: 'absolute', top: '44%', left: -16, transform: 'rotate(-20deg)', transformOrigin: 'bottom center' }}>
             {/* Blade */}
             <div style={{ width: 5, height: 52, background: '#00FFFF', borderRadius: '4px 4px 2px 2px', boxShadow: '0 0 8px #00FFFF, 0 0 20px #00FFFF, 0 0 40px rgba(0,255,255,0.4)', position: 'relative' }}>
               {/* Handle */}
@@ -432,15 +420,17 @@ export function renderHackathon(cfg: BlobConfig, common: Record<string, unknown>
         </div>
       }
       accessoryBody={
-        /* Energy drink can */
-        <div style={{ position: 'absolute', top: '30%', right: -20 }}>
-          <div style={{ width: 13, height: 30, background: 'linear-gradient(135deg, #d4d4d4, #a0a0a0)', borderRadius: '3px 3px 2px 2px', position: 'relative', boxShadow: 'inset -2px 0 4px rgba(0,0,0,0.2)' }}>
-            <div style={{ position: 'absolute', top: 5, left: 1, right: 1, height: 9, background: 'rgba(0,200,100,0.8)', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: 5, color: 'white', fontWeight: 900 }}>⚡</span>
+        <>
+          {/* Energy drink can */}
+          <div style={{ position: 'absolute', top: '46%', right: -26 }}>
+            <div style={{ width: 24, height: 40, background: 'linear-gradient(135deg, #ffffffff, #a0a0a0)', borderRadius: '3px 3px 2px 2px', position: 'relative', boxShadow: 'inset -2px 0 4px rgba(0,0,0,0.2)' }}>
+              <div style={{ position: 'absolute', top: 5, left: 1, right: 1, height: 9, background: 'rgba(139, 140, 139, 0.8)', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: 5, color: 'white', fontWeight: 900 }}>⚡</span>
+              </div>
+              <div style={{ position: 'absolute', top: -5, left: '50%', transform: 'translateX(-50%)', width: 9, height: 3, background: '#888', borderRadius: '50% 50% 0 0' }} />
             </div>
-            <div style={{ position: 'absolute', top: -3, left: '50%', transform: 'translateX(-50%)', width: 9, height: 3, background: '#888', borderRadius: '50% 50% 0 0' }} />
           </div>
-        </div>
+        </>
       }
     />
   );

@@ -207,7 +207,7 @@ const AchievementsSection: React.FC = () => {
                Q 1210,40 1280,180
                Q 1350,10 1460,190
                L1460,800 Z"
-            fill="#c8f070"
+            fill="#b3dc5bff"
             stroke="#16A34A"
             strokeWidth="6"
             strokeLinejoin="round"
@@ -227,8 +227,28 @@ const AchievementsSection: React.FC = () => {
                Q 1320,80 1380,230
                Q 1430,70 1480,240
                L1480,800 Z"
-            fill="#DAFC92"
+            fill="#c4ec6fff"
             stroke="#15803d"
+            strokeWidth="8"
+            strokeLinejoin="round"
+          />
+          {/* Frontmost bush layer */}
+          <path
+            d="M-20,800 L-20,290
+               Q 30,220 90,290
+               Q 160,160 230,280
+               Q 310,130 390,270
+               Q 460,180 530,290
+               Q 600,120 680,270
+               Q 760,50 840,280
+               Q 910,150 980,290
+               Q 1050,80 1120,280
+               Q 1200,40 1260,270
+               Q 1330,150 1390,300
+               Q 1440,140 1480,310
+               L1480,800 Z"
+            fill="#DAFC92"
+            stroke="#064e3b"
             strokeWidth="8"
             strokeLinejoin="round"
           />

@@ -23,6 +23,25 @@ function useIsMobile() {
 
 const TITLES = ['Developer.', 'Hackathon Winner.', 'Competitive Programmer.', 'UI Animator.'];
 
+const BLOB_DISPLAY_NAMES: Record<string, string> = {
+  dev: 'developer',
+  minecraft: 'minecraft_player',
+  lego: 'lego_builder',
+  funnyguy: 'funny_guy',
+  popculture: 'culture_nerd',
+  hackathon: 'hackathon-er',
+  cprog: 'competitive_programmer',
+  nerd: 'geek',
+  chef: 'chef',
+  clumsy: 'mr_clumsy',
+  sleepy: 'night_owl',
+  graphicdesigner: 'designer',
+  astronaut: 'space_enthusiast',
+  angry: 'angry',
+  detective: 'problem_solver',
+  tinystranger: 'forgetful',
+};
+
 gsap.registerPlugin(ScrollTrigger);
 
 const HeroPage: React.FC = () => {
@@ -221,7 +240,7 @@ const HeroPage: React.FC = () => {
             textTransform: 'uppercase',
             transition: 'opacity 0.2s',
           }}>
-             {hoveredBlob}
+             {BLOB_DISPLAY_NAMES[hoveredBlob] || hoveredBlob}
           </div>
         )}
 
@@ -356,187 +375,172 @@ const HeroPage: React.FC = () => {
       <ContactSection />
 
       {/* --- FOOTER --- */}
-      <footer
-        style={{
-          width: '100%',
-          minHeight: '40vh',
-          background: '#243A6A',
-          color: '#F5F0E8',
-          fontFamily: "'JetBrains Mono', monospace",
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '60px 40px',
-          position: 'relative',
-          zIndex: 100,
-          flexWrap: 'wrap',
-          gap: 40,
-        }}
-      >
-        {/* Left Section */}
+      <footer style={{ width: '100%', position: 'relative', zIndex: 100, fontFamily: "'Inter', sans-serif" }}>
+
+        {/* ── Main Footer Content ─────────────────────────── */}
         <div style={{
-          flex: 1,
-          minWidth: 300,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 20,
+          background: '#0B1426',
+          position: 'relative',
+          overflow: 'hidden',
         }}>
-          <img
-            src="/aboutus/anay13.png"
-            alt="Anay Shah Logo"
-            style={{
-              width: 220,
-              height: 220,
-              border: 'none',
-              outline: 'none',
-              animation: 'spin 9s linear infinite',
-              transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.animation = 'none';
-              e.currentTarget.style.transform = 'scale(1.1)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.animation = 'spin 9s linear infinite';
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-          />
+          <style>{`
+            @keyframes abstractFloat1 { 0% { transform: translate(0px, 0px) scale(1); } 50% { transform: translate(25px, -15px) scale(1.02); } 100% { transform: translate(0px, 0px) scale(1); } }
+            @keyframes abstractFloat2 { 0% { transform: translate(0px, 0px); } 50% { transform: translate(-15px, 20px); } 100% { transform: translate(0px, 0px); } }
+            @keyframes abstractPulse { 0% { opacity: 0.04; transform: scale(1) translate(0px, 0px); } 50% { opacity: 0.08; transform: scale(1.05) translate(10px, 5px); } 100% { opacity: 0.04; transform: scale(1) translate(0px, 0px); } }
+          `}</style>
+          {/* --- Decorative SVG Background Graphics --- */}
+          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }} preserveAspectRatio="xMidYMid slice">
+            {/* Large lime blob — top right */}
+            <circle cx="90%" cy="10%" r="180" fill="#DAFC92" style={{ opacity: 0.04, animation: 'abstractPulse 8s ease-in-out infinite' }} />
+            {/* Smaller amber accent — bottom left */}
+            <circle cx="8%" cy="85%" r="120" fill="#FFBD2E" style={{ opacity: 0.05, animation: 'abstractFloat1 10s ease-in-out infinite' }} />
+            {/* Medium lime ring — centre-right */}
+            <circle cx="70%" cy="60%" r="100" fill="none" stroke="#DAFC92" strokeWidth="1" style={{ opacity: 0.08, animation: 'abstractFloat2 12s ease-in-out infinite' }} />
+            {/* Tiny dots scatter */}
+            <circle cx="20%" cy="25%" r="3" fill="#DAFC92" opacity="0.15" />
+            <circle cx="40%" cy="15%" r="2" fill="#DAFC92" opacity="0.12" />
+            <circle cx="60%" cy="80%" r="4" fill="#FFBD2E" opacity="0.10" />
+            <circle cx="85%" cy="70%" r="2.5" fill="#DAFC92" opacity="0.13" />
+            <circle cx="15%" cy="55%" r="3.5" fill="#FFBD2E" opacity="0.08" />
+            {/* Diagonal accent line */}
+            <line x1="0%" y1="100%" x2="50%" y2="0%" stroke="#DAFC92" strokeWidth="0.5" opacity="0.05" />
+            <line x1="100%" y1="100%" x2="60%" y2="0%" stroke="#FFBD2E" strokeWidth="0.5" opacity="0.04" />
+          </svg>
+
+          {/* Subtle grid background */}
           <div style={{
-            fontFamily: "'Inter', sans-serif, 'Bebas Neue'",
-            fontSize: '1.4rem',
-            fontWeight: 600,
-            color: '#FFFFFF',
-            textAlign: 'center',
-          }}>
-            Work Smart , Not Hard
-          </div>
+            position: 'absolute', inset: 0, pointerEvents: 'none',
+            backgroundImage: 'linear-gradient(rgba(218,252,146,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(218,252,146,0.03) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+          }} />
+
+          {/* Radial glow — top-left */}
           <div style={{
-            fontSize: '0.85rem',
-            color: '#B399FF', // Light purple color
-            textAlign: 'center',
-            fontWeight: 500,
+            position: 'absolute', top: '-30%', left: '-10%', width: 500, height: 500,
+            borderRadius: '50%', background: 'radial-gradient(circle, rgba(218,252,146,0.06) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }} />
+          {/* Radial glow — bottom-right */}
+          <div style={{
+            position: 'absolute', bottom: '-25%', right: '-5%', width: 400, height: 400,
+            borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,189,46,0.05) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }} />
+
+          {/* Lime accent line at top */}
+          <div style={{ width: '100%', height: 3, background: 'linear-gradient(90deg, transparent, #DAFC92 20%, #DAFC92 80%, transparent)' }} />
+
+          <div style={{
+            width: '85%', maxWidth: 'none', margin: '0 auto',
+            padding: isMobile ? '48px 24px 40px' : '64px 48px 48px',
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            alignItems: 'center',
+            gap: isMobile ? 48 : 80,
+            position: 'relative',
+            zIndex: 1,
           }}>
-            &copy; 2026 Anay Shah - All Rights Reserved
+
+            {/* ── Left Side: Big Logo & Name ── */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, flexShrink: 0 }}>
+              <div style={{
+                width: 240, height: 240, borderRadius: '50%',
+                padding: 0,
+                background: 'transparent',
+                boxShadow: 'none',
+              }}>
+                <img
+                  src="/aboutus/anay13.png"
+                  alt="Anay Shah Logo"
+                  style={{
+                    width: '100%', height: '100%',
+                    borderRadius: '50%', objectFit: 'cover',
+                    border: 'none',
+                    transition: 'transform 0.3s, box-shadow 0.3s',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 0 35px rgba(218,252,146,0.6)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = 'none'; }}
+                />
+              </div>
+            </div>
+
+            {/* ── Right Side: Content & Navigate ── */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 32, width: '100%' }}>
+              
+              {/* Description */}
+              <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, margin: 0, textAlign: isMobile ? 'center' : 'left'}}>
+                This portfolio is a creative, interactive showcase of my journey as a developer, UI animator, and problem solver. Explore my projects, skills, and achievements, or connect with me for collaborations. Designed with a neobrutalist aesthetic, custom React components, and playful animations. Built with React, TypeScript, Vite, GSAP, and a love for bold, expressive design.
+              </p>
+
+              {/* Color Palette Strip as Divider */}
+              <div className="flex flex-row shrink-0"
+                style={{ width: '100%', gap: '6px', overflowX: 'auto', paddingBottom: '4px' }}>
+                {[
+                  { hex: '#DAFC92', name: 'Lime Cream', textColor: '#1a3a00' },
+                  { hex: '#F5F0E8', name: 'Parchment', textColor: '#0E0E0E' },
+                  { hex: '#1B3970', name: 'Regal Navy', textColor: '#DAFC92' },
+                  { hex: '#FF5C5C', name: 'Vibrant Coral', textColor: '#1a0000' },
+                  { hex: '#B399FF', name: 'Soft Periwinkle', textColor: '#1a0030' },
+                  { hex: '#FFBE0B', name: 'Amber Gold', textColor: '#1a0a00' },
+                  { hex: '#0E0E0E', name: 'Onyx', textColor: '#DAFC92' },
+                ].map((c) => (
+                  <div key={c.hex} style={{
+                    flex: 1, height: '48px', minWidth: '60px', background: c.hex, borderRadius: 0,
+                    border: '2px solid #0E0E0E',
+                    padding: '8px 10px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start',
+                  }}>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.45rem', fontWeight: 700, color: c.textColor, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.2 }}>{c.name}</span>
+                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.4rem', fontWeight: 400, color: c.textColor, opacity: 0.75, lineHeight: 1.2, marginTop: '1px' }}>{c.hex}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Navigation Grid (6 links) */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px 24px' }}>
+                {[
+                  { label: 'Home', href: '#' },
+                  { label: 'About', href: '#about' },
+                  { label: 'Skills', href: '#skills' },
+                  { label: 'Projects', href: '#projects' },
+                  { label: 'Achievements', href: '#achievements' },
+                  { label: 'Contact', href: '#contact' },
+                  { label: 'Resume', href: '/Anay_Resume.pdf' },
+                ].map((link) => (
+                  <a key={link.label} href={link.href} style={{
+                    fontSize: '1rem', color: 'rgba(255,255,255,0.85)', textDecoration: 'none',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.1)',
+                    transition: 'color 0.2s, border-color 0.2s, transform 0.2s',
+                    fontFamily: "'JetBrains Mono', monospace", textTransform: 'uppercase', letterSpacing: '0.05em'
+                  }}
+                    onMouseEnter={e => { e.currentTarget.style.color = '#DAFC92'; e.currentTarget.style.borderColor = '#DAFC92'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                  >
+                    <span>{link.label}</span>
+                    <span style={{ color: '#DAFC92', fontSize: '1.2rem', lineHeight: 1 }}>&rarr;</span>
+                  </a>
+                ))}
+              </div>
+
+            </div>
           </div>
         </div>
 
-        {/* Right Section */}
+        {/* ── Bottom Bar ──────────────────────────────────── */}
         <div style={{
-          flex: 2,
-          minWidth: 350,
+          background: '#080f1e',
+          padding: isMobile ? '16px 24px' : '16px 48px',
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-end',
-          justifyContent: 'center',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 12,
         }}>
-          {/* Paragraph */}
-          <div style={{
-            color: '#FFFFFF',
-            fontSize: '1rem',
-            fontWeight: 600,
-            textAlign: 'right',
-            lineHeight: 1.6,
-            fontFamily: "'Inter', sans-serif",
-            maxWidth: '1000px',
-          }}>
-            This portfolio is a creative, interactive showcase of my journey as a developer, UI animator, and problem solver.<br />
-            Explore my projects, skills, and achievements, or connect with me for collaborations.<br />
-            Designed with a neobrutalist aesthetic, custom React components, and playful animations.<br />
-            Built with React, TypeScript, Vite, GSAP, and a love for bold, expressive design.
+          <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.35)', fontFamily: "'JetBrains Mono', monospace" }}>
+            &copy; {new Date().getFullYear()} Anay Shah &mdash; All Rights Reserved
           </div>
-
-          {/* Wrapper for Line and Social Pills */}
-          <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', alignSelf: 'flex-end', marginTop: '24px' }}>
-            {/* Gold Divider Line */}
-            <div style={{
-              width: '100%',
-              height: '3px',
-              background: '#F5A623',
-              marginBottom: '32px',
-            }} />
-
-            {/* Social Pills */}
-            <div style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-              gap: 16,
-              flexWrap: 'wrap',
-            }}>
-              <a
-                href="https://instagram.com/anay_shah13"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  padding: '10px 20px',
-                  background: 'linear-gradient(135deg, #FF5C5C, #FF8A65)',
-                  color: '#F5F0E8',
-                  textDecoration: 'none',
-                  borderRadius: 25,
-                  fontWeight: 600,
-                  fontSize: '0.95rem',
-                  boxShadow: '4px 4px 0 #0E0E0E',
-                  transition: 'transform 0.2s',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-              >
-                <Instagram size={20} />
-                Instagram
-              </a>
-              <a
-                href="https://linkedin.com/in/Anayshah"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  padding: '10px 20px',
-                  background: 'linear-gradient(135deg, #0077B5, #005885)',
-                  color: '#F5F0E8',
-                  textDecoration: 'none',
-                  borderRadius: 25,
-                  fontWeight: 600,
-                  fontSize: '0.95rem',
-                  boxShadow: '4px 4px 0 #0E0E0E',
-                  transition: 'transform 0.2s',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-              >
-                <Linkedin size={20} />
-                LinkedIn
-              </a>
-              <a
-                href="https://github.com/Anayshah13"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  padding: '10px 20px',
-                  background: 'linear-gradient(135deg, #333, #24292e)',
-                  color: '#F5F0E8',
-                  textDecoration: 'none',
-                  borderRadius: 25,
-                  fontWeight: 600,
-                  fontSize: '0.95rem',
-                  boxShadow: '4px 4px 0 #0E0E0E',
-                  transition: 'transform 0.2s',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-              >
-                <Github size={20} />
-                GitHub
-              </a>
-            </div>
+          <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.25)', fontFamily: "'JetBrains Mono', monospace", display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ color: '#DAFC92', fontSize: '0.65rem' }}>●</span> Designed &amp; Developed with <span style={{ color: '#DAFC92' }}>♥</span> by Anay Shah
           </div>
         </div>
       </footer>
