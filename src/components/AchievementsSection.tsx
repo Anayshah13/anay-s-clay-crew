@@ -117,18 +117,18 @@ const AchievementsSection: React.FC = () => {
             gsap.from(blobContainerRef.current, { scale: 0, opacity: 0, duration: 0.6, ease: 'back.out(1.8)', delay: 0.4 });
           }
           if (leftCardRef.current) {
-            gsap.from(leftCardRef.current, { x: -120, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 });
+            gsap.from(leftCardRef.current, { x: -120, duration: 0.8, ease: 'power3.out', delay: 0.2 });
           }
           if (rightCardRef.current) {
-            gsap.from(rightCardRef.current, { x: 120, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.3 });
+            gsap.from(rightCardRef.current, { x: 120, duration: 0.8, ease: 'power3.out', delay: 0.3 });
           }
           const eduItems = sectionRef.current?.querySelectorAll('[data-edu-item]');
           if (eduItems?.length) {
-            gsap.from(eduItems, { y: 30, opacity: 0, stagger: 0.12, duration: 0.5, ease: 'power2.out', delay: 0.5 });
+            gsap.from(eduItems, { y: 30, stagger: 0.12, duration: 0.5, ease: 'power2.out', delay: 0.5 });
           }
           const achieveItems = sectionRef.current?.querySelectorAll('[data-achieve-item]');
           if (achieveItems?.length) {
-            gsap.from(achieveItems, { y: 30, opacity: 0, stagger: 0.12, duration: 0.5, ease: 'power2.out', delay: 0.6 });
+            gsap.from(achieveItems, { y: 30, stagger: 0.12, duration: 0.5, ease: 'power2.out', delay: 0.6 });
           }
         },
       });
@@ -188,24 +188,49 @@ const AchievementsSection: React.FC = () => {
       <div className={styles.bushStrip}>
         <svg
           className={styles.bushWaveSvg}
-          viewBox="0 0 1440 600"
+          viewBox="0 0 1440 800"
           preserveAspectRatio="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Organic wavy top edge — no stroke/border, just fill */}
+          {/* Back bush layer */}
           <path
-            d="M0,80 C60,20 120,0 180,30 C240,60 280,90 360,70 C440,50 480,10 560,25
-               C640,40 700,85 780,75 C860,65 900,20 960,15 C1020,10 1080,55 1140,60
-               C1200,65 1260,30 1320,20 C1380,10 1420,35 1440,50 L1440,600 L0,600 Z"
-            fill="#DAFC92"
-          />
-          {/* Subtle darker scallop layer for depth */}
-          <path
-            d="M0,100 C80,60 140,45 220,65 C300,85 350,100 440,85 C530,70 580,40 660,50
-               C740,60 800,95 880,90 C960,85 1010,55 1080,50 C1150,45 1200,70 1280,75
-               C1360,80 1410,60 1440,70 L1440,600 L0,600 Z"
+            d="M-20,800 L-20,180
+               Q 30,100 80,180
+               Q 140,50 200,160
+               Q 270,10 330,160
+               Q 400,60 460,180
+               Q 530,20 600,150
+               Q 660,-10 740,160
+               Q 810,30 870,170
+               Q 940,0 1000,150
+               Q 1060,-20 1140,170
+               Q 1210,40 1280,180
+               Q 1350,10 1460,190
+               L1460,800 Z"
             fill="#c8f070"
-            opacity="0.4"
+            stroke="#16A34A"
+            strokeWidth="6"
+            strokeLinejoin="round"
+          />
+          {/* Front bush layer */}
+          <path
+            d="M-20,800 L-20,220
+               Q 40,150 100,220
+               Q 160,90 240,210
+               Q 320,60 380,200
+               Q 450,110 520,220
+               Q 590,50 670,200
+               Q 750,-20 830,210
+               Q 900,80 970,220
+               Q 1040,10 1110,210
+               Q 1190,-30 1250,200
+               Q 1320,80 1380,230
+               Q 1430,70 1480,240
+               L1480,800 Z"
+            fill="#DAFC92"
+            stroke="#15803d"
+            strokeWidth="8"
+            strokeLinejoin="round"
           />
         </svg>
       </div>
@@ -213,20 +238,20 @@ const AchievementsSection: React.FC = () => {
       {/* Floating decorative elements */}
       <svg className={`${styles.floatingStarburst} ${styles.spinAnim}`}
         width="90" height="90" viewBox="0 0 100 100"
-        style={{ top: '8%', left: '5%' }}>
+        style={{ top: '50%', left: '32%' }}>
         <polygon points={burstPoints(12, 50, 30)} fill="#FF5C5C" stroke="#0E0E0E" strokeWidth="3" />
-      </svg>
-
-      <svg className={`${styles.floatingStarburst} ${styles.spinReverseAnim}`}
-        width="70" height="70" viewBox="0 0 100 100"
-        style={{ top: '15%', right: '8%' }}>
-        <polygon points={burstPoints(10, 50, 38)} fill="#FFBE0B" stroke="#0E0E0E" strokeWidth="3" />
       </svg>
 
       <svg className={`${styles.floatingStarburst} ${styles.spinAnim}`}
         width="60" height="60" viewBox="0 0 100 100"
-        style={{ bottom: '50%', left: '12%' }}>
+        style={{ bottom: '62%', left: '64%' }}>
         <polygon points={burstPoints(8, 50, 35)} fill="#1B3970" stroke="#0E0E0E" strokeWidth="3" />
+      </svg>
+
+      <svg className={`${styles.floatingStarburst} ${styles.spinReverseAnim}`}
+        width="80" height="80" viewBox="0 0 100 100"
+        style={{ top: '60%', right: '2%' }}>
+        <polygon points={burstPoints(14, 50, 25)} fill="#4ECDC4" stroke="#0E0E0E" strokeWidth="3" />
       </svg>
 
       <div className={styles.floatingSquare} style={{
@@ -235,10 +260,41 @@ const AchievementsSection: React.FC = () => {
         boxShadow: '4px 4px 0 #0E0E0E',
       }} />
 
+      <div className={styles.floatingSquare} style={{
+        bottom: '33%', left: '4%', width: 30, height: 30,
+        background: '#FFBE0B', border: '3px solid #0E0E0E',
+        boxShadow: '3px 3px 0 #0E0E0E',
+      }} />
+
       <div className={styles.floatingCross} style={{ top: '12%', left: '3%' }}>
         <div style={{ position: 'absolute', width: 30, height: 8, background: '#0E0E0E', top: 11, left: 0 }} />
         <div style={{ position: 'absolute', width: 8, height: 30, background: '#0E0E0E', top: 0, left: 11 }} />
       </div>
+
+      {/* ── Extra Graffiti / Abstract Shapes */}
+      <div className={styles.floatingSquare} style={{
+        bottom: '15%', left: '10%', width: 80, height: 20,
+        background: '#4ECDC4', border: '3px solid #0E0E0E',
+        boxShadow: '4px 4px 0 #0E0E0E', transform: 'rotate(-20deg)',
+      }} />
+
+      <div className={styles.floatingSquare} style={{
+        top: '25%', left: '45%', width: 50, height: 50,
+        borderRadius: '50%', background: '#DAFC92', border: '3px solid #0E0E0E',
+        boxShadow: '3px 3px 0 #0E0E0E',
+      }} />
+
+      <div className={styles.floatingSquare} style={{
+        bottom: '30%', right: '8%', width: 60, height: 25,
+        background: '#FF5C5C', border: '3px solid #0E0E0E',
+        boxShadow: '4px 4px 0 #0E0E0E', transform: 'rotate(15deg)',
+      }} />
+
+      <svg className={styles.floatingStarburst}
+        width="60" height="60" viewBox="0 0 100 100"
+        style={{ top: '10%', right: '35%' }}>
+        <circle cx="50" cy="50" r="30" fill="none" stroke="#0E0E0E" strokeWidth="8" strokeDasharray="10 10" />
+      </svg>
 
       {/* ── Title — 2 lines ────────────────────────────── */}
       <div ref={titleRef} className={styles.titleBox}>
@@ -251,7 +307,7 @@ const AchievementsSection: React.FC = () => {
       <div className={styles.content}>
 
         {/* ── LEFT CARD: Education ─────────────────────── */}
-        <div ref={leftCardRef} className={styles.card}>
+        <div ref={leftCardRef} className={styles.cardLeft}>
           <div className={styles.cardHeader}>
             <span className={styles.cardHeaderIcon}>🎓</span>
             <span className={styles.cardHeaderTitle}>EDUCATION</span>
@@ -296,7 +352,7 @@ const AchievementsSection: React.FC = () => {
             {/* Tier 1: Red "MVP" book with 3D sides */}
             <div style={{ position: 'relative' }}>
               <div className={styles.pedestalFront}>
-                <span className={styles.pedestalFrontLabel}>MVP</span>
+                <span className={styles.pedestalFrontLabel}>DEVELOPER</span>
               </div>
               <div className={styles.pedestalRight} />
               <div className={styles.pedestalTopFace} />
@@ -308,7 +364,7 @@ const AchievementsSection: React.FC = () => {
             {/* Tier 2: Amber Gold "CHAMPION" book with 3D side */}
             <div style={{ position: 'relative' }}>
               <div className={styles.pedestalTier2}>
-                <span className={styles.pedestalTier2Label}>CHAMPION</span>
+                <span className={styles.pedestalTier2Label}>DESIGNER</span>
               </div>
               <div className={styles.pedestalTier2Right} />
             </div>
@@ -330,7 +386,7 @@ const AchievementsSection: React.FC = () => {
         </div>
 
         {/* ── RIGHT CARD: Achievements ────────────────── */}
-        <div ref={rightCardRef} className={styles.card}>
+        <div ref={rightCardRef} className={styles.cardRight}>
           <div className={styles.cardHeader}>
             <span className={styles.cardHeaderIcon}>⚡</span>
             <span className={styles.cardHeaderTitle}>ACHIEVEMENTS</span>

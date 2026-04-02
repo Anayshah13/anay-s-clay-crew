@@ -72,7 +72,7 @@ export const BLOB_CONFIGS: BlobConfig[] = [
     anim: { breathDuration: 0.7, leftArmRange: [-40, 30], leftArmDuration: 0.5, rightArmRange: [-50, 45], rightArmDuration: 0.4, legSwayDuration: 0.5, cursorResponsiveness: 2.0, eyeLag: 0.02, fearRadius: 120 },
   },
   {
-    // REPLACED: was 'injured'. Now: THE POP CULTURE FREAK
+    // Now: THE POP CULTURE FREAK
     id: 'popculture', color: '#E91E8C', shape: SHAPES.E, w: 175, h: 210,
     x: '82%', bottom: '-5px', z: 14, row: 'front',
     anim: { breathDuration: 1.6, leftArmRange: [-15, 25], leftArmDuration: 1.8, rightArmRange: [-30, 20], rightArmDuration: 1.1, legSwayDuration: 1.4, cursorResponsiveness: 1.6, eyeLag: 0.05, fearRadius: 155 },

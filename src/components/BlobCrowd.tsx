@@ -41,9 +41,10 @@ function useIsMobile() {
 
 interface BlobCrowdProps {
   isDark: boolean;
+  onHoverBlob?: (name: string | null) => void;
 }
 
-const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
+const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark, onHoverBlob }) => {
   const blobElementRefs = useRef<BlobRef[]>([]);
   const crowdRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
@@ -343,6 +344,8 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark }) => {
           eyelidClose: cfg.eyelidClose,
           isDark,
           isSleepyAwake,
+          onMouseEnter: () => onHoverBlob?.(cfg.id),
+          onMouseLeave: () => onHoverBlob?.(null),
         };
 
         switch (cfg.id) {

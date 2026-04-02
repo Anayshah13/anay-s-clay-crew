@@ -34,6 +34,8 @@ export interface BlobProps {
   eyeScale?: number;
   isDark?: boolean;
   id?: string;
+  onMouseEnter?: (e: React.MouseEvent) => void;
+  onMouseLeave?: (e: React.MouseEvent) => void;
 }
 
 const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
@@ -44,7 +46,7 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
   legWidth = 22, legHeight = 24, zIndex = 1,
   style, children, faceChildren, accessoryTop, accessoryBody,
   eyebrows, hideLeftArm, hideRightArm, className, legVariant = 'normal',
-  rowClass, eyeScale, isDark, id
+  rowClass, eyeScale, isDark, id, onMouseEnter, onMouseLeave
 }: BlobProps, ref) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -102,6 +104,8 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
       ref={containerRef}
       className={`${styles.blobBase} ${rowCls} ${className || ''}`}
       style={{ ...cssVars, zIndex, filter: dropShadowStr }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <div ref={bodyRef} className={styles.blobInner} style={{ perspective: '400px' }}>
         <div className={styles.blobHighlight} />

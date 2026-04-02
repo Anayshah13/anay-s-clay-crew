@@ -30,6 +30,7 @@ const HeroPage: React.FC = () => {
   const [displayedText, setDisplayedText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  const [hoveredBlob, setHoveredBlob] = useState<string | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const stampRef = useRef<HTMLDivElement>(null);
@@ -60,13 +61,13 @@ const HeroPage: React.FC = () => {
   // Lenis smooth scroll setup
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.5,
+      duration: 0.8,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.8,
-      touchMultiplier: 1.5,
+      wheelMultiplier: 1.35,
+      touchMultiplier: 2,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -198,7 +199,31 @@ const HeroPage: React.FC = () => {
         </svg>
 
         {/* Blob crowd — full viewport behind everything */}
-        <BlobCrowd isDark={isDark} />
+        <BlobCrowd isDark={isDark} onHoverBlob={setHoveredBlob} />
+
+        {hoveredBlob && (
+          <div style={{
+            position: 'absolute',
+            right: '33%',
+            top: '20%',
+            padding: '8px 16px',
+            background: isDark ? 'rgba(11,20,38,0.7)' : 'rgba(13,42,110,0.7)',
+            color: '#DAFC92',
+            border: '1px solid #DAFC92',
+            borderRadius: '9999px',
+            zIndex: 1000,
+            pointerEvents: 'none',
+            backdropFilter: 'blur(8px)',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+            fontWeight: 600,
+            fontSize: '14px',
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
+            transition: 'opacity 0.2s',
+          }}>
+             {hoveredBlob}
+          </div>
+        )}
 
         {/* Light switch */}
         <LightSwitch isDark={isDark} onToggle={() => setIsDark(d => !d)} />
@@ -305,17 +330,17 @@ const HeroPage: React.FC = () => {
             ref={stampRef}
             style={{
               position: 'absolute',
-              bottom: -45,
-              right: -45,
+              top: 100,
+              right: 30,
               width: 140,
               height: 140,
               zIndex: 30,
               pointerEvents: 'none',
-              transform: 'rotate(10deg)',
+              transform: 'rotate(0deg)',
               filter: 'drop-shadow(10px 10px 15px rgba(0,0,0,0.3))'
             }}
           >
-            <img src="/open-to.png" alt="Open to Internships" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            <img src="/open-to.png" alt="Open to Internships" style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'rotate(-5deg)' }} />
           </div>
         </div>
 

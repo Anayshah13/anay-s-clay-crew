@@ -110,11 +110,8 @@ const ContactSection: React.FC = () => {
       {/* BACKGROUND DECORATIVE GRID LINES */}
       <div style={{ position: 'absolute', inset: 0, opacity: 0.15, pointerEvents: 'none', backgroundImage: 'repeating-linear-gradient(180deg, transparent, transparent 39px, #0E0E0E 39px, #0E0E0E 40px)' }} />
       <div style={{ position: 'absolute', inset: 0, opacity: 0.08, pointerEvents: 'none', backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 39px, #0E0E0E 39px, #0E0E0E 40px)' }} />
-
-      {/* Scattered Micro-elements - Cool graphics carefully positioned on edges */}
-      <div className="deco-float" style={{ position: 'absolute', top: '15%', left: '48%', width: '120px', height: '120px', border: '6px solid #DAFC92', borderRadius: '50%', opacity: 0.8, boxShadow: '8px 8px 0 #0E0E0E', zIndex: 5 }} />
       {/* Cool Geometric Edge Graphics */}
-      <div className="deco-float" style={{ position: 'absolute', top: '12%', right: '15%', opacity: 0.9, fontSize: '6rem', fontWeight: 900, color: '#B399FF', textShadow: '6px 6px 0 #0E0E0E', zIndex: 5 }}>{'//'}</div>
+      <div className="deco-float" style={{ position: 'absolute', top: '12%', right: '22%', opacity: 0.9, fontSize: '6rem', fontWeight: 900, color: '#B399FF', textShadow: '6px 6px 0 #0E0E0E', zIndex: 5 }}>{'//'}</div>
       <div className="deco-float" style={{ position: 'absolute', top: '-8%', right: '5%', opacity: 0.9, fontSize: '10rem', fontWeight: 900, color: '#FFBE0B', textShadow: '8px 8px 0 #0E0E0E', zIndex: 5 }}>*</div>
       <div className="deco-float" style={{ position: 'absolute', bottom: '52%', left: '40%', opacity: 0.9, fontSize: '7rem', fontWeight: 900, color: '#F5F0E8', textShadow: '6px 6px 0 #1B3970', zIndex: 5 }}>{'}'}</div>
       <div className="deco-float" style={{ position: 'absolute', bottom: '35%', right: '40%', width: '180px', height: '60px', background: '#ff5c5c', border: '6px solid #0E0E0E', borderRadius: '40px', transform: 'rotate(25deg)', zIndex: 5, boxShadow: '8px 8px 0 #0E0E0E' }} />

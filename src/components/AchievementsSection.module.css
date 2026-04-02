@@ -4,15 +4,12 @@
 
 .section {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 800px;
   background: #B399FF;
   color: #0E0E0E;
   position: relative;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 60px 5vw 0;
   border-top: 4px solid #0E0E0E;
 }
 
@@ -22,7 +19,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle, rgba(14,14,14,0.07) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(circle, rgba(14, 14, 14, 0.07) 1.5px, transparent 1.5px);
   background-size: 32px 32px;
 }
 
@@ -39,7 +36,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: -10%;
   height: 40%;
   z-index: 4;
   pointer-events: none;
@@ -49,7 +46,7 @@
 /* Wavy SVG top edge — no border, smooth organic feel */
 .bushWaveSvg {
   position: absolute;
-  top: -1px;
+  top: -80px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -58,20 +55,22 @@
 
 /* ── Title Box ──────────────────────────────────────────────────────── */
 .titleBox {
-  position: relative;
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 20;
   background: #0E0E0E;
   border: 4px solid #0E0E0E;
   padding: 14px 36px 12px;
   box-shadow: 8px 8px 0 #FF5C5C;
-  margin-bottom: 20px;
-  text-align: right;
+  text-align: center;
 }
 
 .titleLine1 {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(2rem, 4vw, 3.2rem);
-  color: #DAFC92;
+  color: #B399FF;
   letter-spacing: 0.12em;
   line-height: 1.1;
   margin: 0;
@@ -80,7 +79,7 @@
 .titleLine2 {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(2rem, 4vw, 3.2rem);
-  color: #FF5C5C;
+  color: #B399FF;
   letter-spacing: 0.12em;
   line-height: 1.1;
   margin: 0;
@@ -89,74 +88,91 @@
 .titleUnderline {
   width: 80px;
   height: 5px;
-  background: #FF5C5C;
+  background: #B399FF;
   margin: 6px 0 0 auto;
   border-radius: 0;
 }
 
 /* ── Main Content Layout ───────────────────────────────────────────── */
 .content {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 40px;
-  width: 100%;
-  max-width: 1300px;
-  flex: 1;
+  position: absolute;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
 }
 
-/* ── Achievement Cards ─────────────────────────────────────────────── */
-.card {
-  flex: 1;
+/* ── Achievement Cards (Papyrus Scroll Texture) ────────────────────── */
+.cardLeft, .cardRight {
+  position: absolute;
+  pointer-events: auto;
   max-width: 420px;
-  background: #F5F0E8;
-  border: 4px solid #0E0E0E;
-  box-shadow: 8px 8px 0 #0E0E0E;
+  width: 30vw;
+  background-color: #f4ebd8;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0) 90%, rgba(255, 255, 255, 0.4)),
+    linear-gradient(to bottom, rgba(200, 180, 140, 0.3), rgba(200, 180, 140, 0) 5%, rgba(200, 180, 140, 0) 95%, rgba(200, 180, 140, 0.3));
+  border: 1px solid #d3c4a3;
+  border-radius: 8px 30px 5px 20px / 20px 5px 30px 8px;
+  box-shadow:
+    inset 2px 2px 10px rgba(255, 255, 255, 0.7),
+    inset -3px -3px 15px rgba(180, 150, 110, 0.4),
+    4px 10px 15px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  cursor: pointer;
-  z-index: 12;
-  align-self: flex-start;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  z-index: 50;
 }
 
-.card:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 12px 12px 0 #0E0E0E;
+.cardLeft {
+  top: 10%;
+  left: 8%;
+}
+
+.cardRight {
+  top: 10%;
+  right: 8%;
+}
+
+.cardLeft:hover, .cardRight:hover {
+  transform: translateY(-10px) scale(1.1);
+  box-shadow:
+    inset 2px 2px 10px rgba(255, 255, 255, 0.7),
+    inset -3px -3px 15px rgba(180, 150, 110, 0.4),
+    8px 25px 30px rgba(0, 0, 0, 0.3);
 }
 
 .cardHeader {
-  height: 38px;
-  background: #0E0E0E;
+  height: 48px;
+  background: rgba(180, 150, 110, 0.15);
+  border-bottom: 6px dashed rgba(180, 150, 110, 0.4);
   display: flex;
   align-items: center;
-  padding: 0 14px;
+  padding: 0 16px;
   flex-shrink: 0;
 }
 
 .cardHeaderIcon {
-  font-size: 1.1rem;
-  margin-right: 8px;
+  font-size: 1.2rem;
+  margin-right: 10px;
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.1));
 }
 
 .cardHeaderTitle {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  color: #DAFC92;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-size: 0.85rem;
+  color: #4a3b22;
+  font-weight: 800;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
 .cardBody {
-  padding: 14px 16px 16px;
+  padding: 28px; /* increased padding in all directions */
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   justify-content: center;
 }
 
@@ -164,17 +180,19 @@
 .eduItem {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 10px 12px;
-  border: 3px solid #0E0E0E;
-  box-shadow: 4px 4px 0 #0E0E0E;
-  background: #FFFFFF;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px dashed rgba(180, 150, 110, 0.5);
+  border-radius: 6px;
+  box-shadow: none;
+  background: transparent;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .eduItem:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 #0E0E0E;
+  transform: scale(1.05) translateY(-3px);
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(180, 150, 110, 0.8);
 }
 
 .eduRow {
@@ -187,7 +205,7 @@
 .eduSchool {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 1.1rem;
-  color: #0E0E0E;
+  color: #3d2f1b;
   letter-spacing: 0.04em;
   line-height: 1.2;
 }
@@ -195,7 +213,7 @@
 .eduYear {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;
-  color: #0E0E0E;
+  color: #5c4a2b;
   font-weight: 700;
   white-space: nowrap;
   flex-shrink: 0;
@@ -204,7 +222,7 @@
 .eduDegree {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.68rem;
-  color: #555;
+  color: #6d5b3d;
   font-style: italic;
 }
 
@@ -212,10 +230,11 @@
   display: inline-block;
   font-family: 'Bebas Neue', sans-serif;
   font-size: 1rem;
-  color: #0E0E0E;
-  background: #DAFC92;
-  padding: 2px 10px;
-  border: 2px solid #0E0E0E;
+  color: #3d2f1b;
+  background: transparent;
+  padding: 2px 8px;
+  border: 1px solid rgba(180, 150, 110, 0.8);
+  border-radius: 4px;
   margin-top: 4px;
   letter-spacing: 0.06em;
 }
@@ -224,23 +243,25 @@
 .achieveItem {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 10px 12px;
-  border: 3px solid #0E0E0E;
-  box-shadow: 4px 4px 0 #0E0E0E;
-  background: #FFFFFF;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px dashed rgba(180, 150, 110, 0.5);
+  border-radius: 6px;
+  box-shadow: none;
+  background: transparent;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .achieveItem:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 #0E0E0E;
+  transform: scale(1.05) translateY(-3px);
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(180, 150, 110, 0.8);
 }
 
 .achieveCategory {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1rem;
-  color: #0E0E0E;
+  font-size: 1.1rem;
+  color: #3d2f1b;
   letter-spacing: 0.08em;
   display: flex;
   align-items: center;
@@ -252,35 +273,40 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.6rem;
   font-weight: 700;
-  color: #0E0E0E;
+  color: #3d2f1b;
   padding: 2px 8px;
-  border: 2px solid #0E0E0E;
+  border: 1px solid rgba(180, 150, 110, 0.6);
+  border-radius: 4px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  background: transparent !important;
 }
 
 .achieveText {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;
-  color: #333;
+  color: #5c4a2b;
   line-height: 1.6;
 }
 
 .achieveHighlight {
   font-weight: 800;
-  color: #0E0E0E;
+  color: #3d2f1b;
 }
 
 /* ── Center Pedestal ───────────────────────────────────────────────── */
 .pedestalWrapper {
+  position: absolute;
+  bottom: 15px; /* Lower than before so it sits properly near bottom */
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   min-width: 200px;
-  padding-top: 140px;
-  position: relative;
   z-index: 15;
+  pointer-events: auto;
 }
 
 .blobWrapper {
@@ -340,10 +366,10 @@
 
 .pedestalFrontLabel {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 2.2rem;
+  font-size: 1.4rem;
   color: #F5F0E8;
   letter-spacing: 0.1em;
-  text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
 }
 
 .pedestalRight {
@@ -449,7 +475,7 @@
   font-size: 1.3rem;
   color: #F5F0E8;
   letter-spacing: 0.12em;
-  text-shadow: 1px 1px 0 rgba(0,0,0,0.25);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
 }
 
 .pedestalTier3Right {
@@ -483,7 +509,7 @@
   right: -30px;
   z-index: 25;
   transform: rotate(12deg);
-  filter: drop-shadow(3px 3px 0 rgba(0,0,0,0.5));
+  filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.5));
 }
 
 /* ── Decorative Shapes ─────────────────────────────────────────────── */
@@ -507,18 +533,35 @@
 
 /* ── Animations ────────────────────────────────────────────────────── */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes spinReverse {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
 }
 
 .floatAnim {
@@ -535,19 +578,34 @@
 
 /* ── Responsive ────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
+  .section {
+    height: auto;
+    min-height: 100vh;
+    padding-bottom: 300px;
+  }
   .content {
+    position: relative;
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 30px;
+    padding-top: 100px;
   }
-
-  .card {
-    max-width: 100%;
-    width: 100%;
+  .titleBox {
+    position: relative;
+    top: 0;
+    margin-bottom: 20px;
   }
-
+  .cardLeft, .cardRight {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 90%;
+    max-width: 420px;
+  }
   .pedestalWrapper {
-    order: -1;
-    padding-top: 30px;
+    bottom: 0;
+    margin-top: 50px;
   }
 }
