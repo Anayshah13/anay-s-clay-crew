@@ -488,7 +488,21 @@ const HeroPage: React.FC = () => {
                     flex: 1, height: '48px', minWidth: '60px', background: c.hex, borderRadius: 0,
                     border: '2px solid #0E0E0E',
                     padding: '8px 10px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start',
-                  }}>
+                    transition: 'transform 0.2s, box-shadow 0.2s, z-index 0.2s',
+                    position: 'relative',
+                    zIndex: 1,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.1)';
+                    e.currentTarget.style.boxShadow = `0 0 15px ${c.hex}`;
+                    e.currentTarget.style.zIndex = '10';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = 'none';
+                    e.currentTarget.style.zIndex = '1';
+                  }}
+                  >
                     <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.45rem', fontWeight: 700, color: c.textColor, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.2 }}>{c.name}</span>
                     <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.4rem', fontWeight: 400, color: c.textColor, opacity: 0.75, lineHeight: 1.2, marginTop: '1px' }}>{c.hex}</span>
                   </div>

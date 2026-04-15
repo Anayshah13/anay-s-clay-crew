@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect, useEffect } from 'react';
+import React, { useRef, useLayoutEffect, useEffect, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './ProjectsTimeline.module.css';
@@ -18,6 +18,11 @@ interface Project {
   liveUrl?: string;
   githubUrl?: string;
   imagePlaceholder: string;
+  bentoImage?: string;
+  mediaType?: 'video' | 'youtube';
+  videoSrc?: string;
+  videoPoster?: string;
+  youtubeEmbedUrl?: string;
 }
 
 const PROJECTS: Project[] = [
@@ -29,20 +34,27 @@ const PROJECTS: Project[] = [
     date: 'Nov 2025',
     position: 'right',
     color: '#4ECDC4',
-    hackathon: '🏆 Hidden Gem Prize — AWS × Riot Games',
+    hackathon: '🏆 Hidden Gem Prize — AWS x Riot Games',
     githubUrl: 'https://github.com/Anayshah13/rift-wrapped',
     imagePlaceholder: 'LOL_WRAPPED',
+    bentoImage: '/projects/images/riftrewind.png',
+    mediaType: 'youtube',
+    youtubeEmbedUrl: 'https://www.youtube.com/embed/pYupilcB-3g?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=pYupilcB-3g',
   },
   {
     id: 2,
-    title: 'Committee Websites',
-    description: 'Official websites for DJS Antariksh, DJCSI & DJS CodeStars. Performance-focused animated UI with interactive 3D components and GSAP-driven transitions.',
-    tech: ['React', 'Next.js', 'GSAP', 'Three.js', 'Framer Motion'],
+    title: 'Code Uncode Website',
+    description: 'Official website for DJS Codestars\'s annual competitive programming event. Performance-focused animated UI with interactive 3D components and GSAP-driven transitions with focus on the central theme of Pokemon.',
+    tech: ['React', 'Next.js', 'GSAP', 'Framer Motion'],
     date: 'Dec 2025',
     position: 'left',
     color: '#B399FF',
-    githubUrl: 'https://github.com/Anayshah13',
-    imagePlaceholder: 'COMMITTEES',
+    githubUrl: 'https://github.com/NidhiiMaru/code_uncode',
+    imagePlaceholder: 'codeuncode',
+    bentoImage: '/projects/images/codeuncode.png',
+    mediaType: 'video',
+    videoSrc: '/projects/codeuncode.mp4',
+    videoPoster: '/projects/images/codeuncode.png',
   },
   {
     id: 3,
@@ -53,9 +65,54 @@ const PROJECTS: Project[] = [
     position: 'right',
     color: '#F2A900',
     imagePlaceholder: 'FACTORY',
+    bentoImage: '/projects/images/western.png',
+    mediaType: 'video',
+    videoSrc: '/projects/western.mp4',
+    videoPoster: '/projects/images/western.png',
   },
   {
     id: 4,
+    title: 'Roam',
+    description: 'AI-powered heritage tour guide app with GPS-based walking routes, landmark verification via Gemini vision, and real-time voice conversations using LiveKit + Gemini 2.5 Live. Personalizes narration style, language, and tour progression across guided city stops.',
+    tech: ['React Native', 'Expo', 'TypeScript', 'LiveKit', 'Gemini 2.5'],
+    date: '2026',
+    position: 'left',
+    color: '#3b82f6',
+    imagePlaceholder: 'ROAM',
+    bentoImage: '/projects/images/roam.png',
+    mediaType: 'youtube',
+    youtubeEmbedUrl: 'https://www.youtube.com/embed/RNVlefi62qc?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&start=11&loop=1&playlist=RNVlefi62qc',
+  },
+  {
+    id: 5,
+    title: 'Codeshastra XII Website',
+    description: 'Official event website featuring high-energy visuals, transitions, and a performance-first frontend experience.',
+    tech: ['React', 'Next.js', 'GSAP'],
+    date: '2026',
+    position: 'right',
+    color: '#FF5C5C',
+    imagePlaceholder: 'CODESHASTRA_XII',
+    bentoImage: '/projects/images/codeshastra.png',
+    mediaType: 'video',
+    videoSrc: '/projects/codeshastra.mp4',
+    videoPoster: '/projects/images/codeshastra.png',
+  },
+  {
+    id: 6,
+    title: 'Antariksh',
+    description: 'Main Antariksh website built with high-contrast visuals, smooth motion sections, and performance-focused frontend interactions.',
+    tech: ['React', 'TypeScript', 'GSAP'],
+    date: '2026',
+    position: 'left',
+    color: '#F2A900',
+    imagePlaceholder: 'ANTARIKSH',
+    bentoImage: '/projects/images/antariksh.png',
+    mediaType: 'video',
+    videoSrc: '/projects/antariksh.mp4',
+    videoPoster: '/projects/images/antariksh.png',
+  },
+  {
+    id: 7,
     title: 'RAG System with PDF Upload',
     description: 'Retrieval-Augmented Generation system using HuggingFace. Implements PDF parsing, vector embeddings, semantic search, and context-aware response generation with query memory.',
     tech: ['Python', 'HuggingFace', 'Vector DB', 'FastAPI'],
@@ -66,40 +123,19 @@ const PROJECTS: Project[] = [
     imagePlaceholder: 'RAG_SYSTEM',
   },
   {
-    id: 5,
-    title: 'LEGO Set Finder',
-    description: 'React app to search LEGO sets by name and number using CSV parsing via PapaParse, dynamic filtering and a clean responsive UI.',
-    tech: ['React', 'PapaParse', 'CSV', 'Tailwind'],
-    date: 'Jul 2025',
+    id: 8,
+    title: 'DJSCSI Main Event Website',
+    description: 'Official website for DJSCSI\'s annual main event. Performance-focused animated UI with Three.js and GSAP-driven transitions.',
+    tech: ['React', 'Next.js', 'GSAP', 'Three.js'],
+    date: 'Mar 2026',
     position: 'right',
     color: '#3b82f6',
-    githubUrl: 'https://github.com/Anayshah13/Lego-Set-Finder',
-    imagePlaceholder: 'LEGO_FINDER',
-  },
-  {
-    id: 6,
-    title: 'Excel Graph Visualizer',
-    description: 'React app that parses aluminium factory production data and renders multi-parameter visual charts using Recharts with dynamic parameter selection.',
-    tech: ['React', 'Recharts', 'PapaParse', 'Data Viz'],
-    date: 'Jul 2025',
-    position: 'left',
-    color: '#B399FF',
-    githubUrl: 'https://github.com/Anayshah13/Western-Excel-Visualizer',
-    imagePlaceholder: 'EXCEL_VIZ',
-  },
-  {
-    id: 7,
-    title: 'EDA on Kaggle Datasets',
-    description: 'Data cleaning and exploratory data analysis on diabetes and e-commerce datasets. Applied linear regression, logistic regression, and one-hot encoding.',
-    tech: ['Python', 'Pandas', 'Matplotlib', 'Scikit-learn'],
-    date: 'Jun 2025',
-    position: 'right',
-    color: '#FF5C5C',
     githubUrl: 'https://github.com/Anayshah13',
-    imagePlaceholder: 'EDA',
+    imagePlaceholder: 'DASHBOARD',
+    bentoImage: '/projects/images/csi_main.png',
   },
   {
-    id: 8,
+    id: 9,
     title: 'PyGame 2D Shooter',
     description: 'First game project. 2D shooter in Python using PyGame with player mechanics, collision detection, and full game physics.',
     tech: ['Python', 'PyGame', 'Game Physics'],
@@ -110,15 +146,26 @@ const PROJECTS: Project[] = [
     imagePlaceholder: 'PYGAME',
   },
   {
-    id: 9,
-    title: 'Focus Insights System',
-    description: 'Modernizing the Focus Insights dashboard with advanced visual feedback, reactive emotion-based pulse rings, and interactive data components.',
-    tech: ['React', 'Three.js', 'Framer Motion'],
-    date: 'Mar 2026',
+    id: 10,
+    title: 'EDA on Kaggle Datasets',
+    description: 'Data cleaning and exploratory data analysis on diabetes and e-commerce datasets. Applied linear regression, logistic regression, and one-hot encoding.',
+    tech: ['Python', 'Pandas', 'Matplotlib', 'Scikit-learn'],
+    date: 'Jun 2025',
     position: 'right',
-    color: '#3b82f6',
+    color: '#FF5C5C',
     githubUrl: 'https://github.com/Anayshah13',
-    imagePlaceholder: 'DASHBOARD',
+    imagePlaceholder: 'EDA',
+  },
+  {
+    id: 11,
+    title: 'Excel Graph Visualizer',
+    description: 'React app that parses aluminium factory production data and renders multi-parameter visual charts using Recharts with dynamic parameter selection.',
+    tech: ['React', 'Recharts', 'PapaParse', 'Data Viz'],
+    date: 'Jul 2025',
+    position: 'left',
+    color: '#B399FF',
+    githubUrl: 'https://github.com/Anayshah13/Western-Excel-Visualizer',
+    imagePlaceholder: 'EXCEL_VIZ',
   },
 ];
 
@@ -171,24 +218,81 @@ const DevBlob: React.FC<{ leftPupilRef: React.RefObject<HTMLDivElement>; rightPu
   </div>
 );
 
-const ProjectImage: React.FC<{ label: string; color: string }> = ({ label, color }) => (
-  <div className={styles.projectImage} style={{ borderColor: color, boxShadow: `8px 8px 0 ${color}` }}>
-    <div className={styles.imageBrowserBar}>
-      <div className={styles.imageBrowserUrl}>localhost:3000</div>
-      <div className={styles.macIconsArea}>
-        {['#FF5F57', '#FEBC2E', '#28C840'].map((c, i) => (
-          <div key={i} style={{ width: 10, height: 10, borderRadius: '50%', background: c }} />
-        ))}
+const ProjectImage: React.FC<{
+  label: string;
+  color: string;
+  mediaType?: 'video' | 'youtube';
+  videoSrc?: string;
+  videoPoster?: string;
+  youtubeEmbedUrl?: string;
+}> = ({ label, color, mediaType, videoSrc, videoPoster, youtubeEmbedUrl }) => {
+  const mediaRootRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  useEffect(() => {
+    if (!mediaRootRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { root: null, rootMargin: '250px 0px', threshold: 0.15 },
+    );
+    observer.observe(mediaRootRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!videoRef.current) return;
+    if (isVisible) {
+      videoRef.current.play().catch(() => {});
+      return;
+    }
+    videoRef.current.pause();
+  }, [isVisible]);
+
+  return (
+    <div className={styles.projectImage} style={{ borderColor: color, boxShadow: `8px 8px 0 ${color}` }}>
+      <div className={styles.imageBrowserBar}>
+        <div className={styles.imageBrowserUrl}>localhost:3000</div>
+        <div className={styles.macIconsArea}>
+          {['#FF5F57', '#FEBC2E', '#28C840'].map((c, i) => (
+            <div key={i} style={{ width: 10, height: 10, borderRadius: '50%', background: c }} />
+          ))}
+        </div>
+      </div>
+      <div ref={mediaRootRef} className={styles.projectImageInner}>
+        {mediaType === 'youtube' && youtubeEmbedUrl ? (
+          <iframe
+            src={isVisible ? youtubeEmbedUrl : undefined}
+            title={`${label} demo`}
+            loading="lazy"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            referrerPolicy="strict-origin-when-cross-origin"
+            style={{ width: '100%', height: '100%', border: 0, display: 'block', background: '#000' }}
+          />
+        ) : mediaType === 'video' && videoSrc ? (
+          <video
+            ref={videoRef}
+            src={videoSrc}
+            poster={videoPoster}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="none"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        ) : (
+          <>
+            <div className={styles.imageDotGrid} />
+            <div className={styles.imageLabel} style={{ background: color, color: '#0E0E0E' }}>
+              {label}
+            </div>
+          </>
+        )}
       </div>
     </div>
-    <div className={styles.projectImageInner}>
-      <div className={styles.imageDotGrid} />
-      <div className={styles.imageLabel} style={{ background: color, color: '#0E0E0E' }}>
-        {label}
-      </div>
-    </div>
-  </div>
-);
+  );
+};
 
 const ProjectsTimeline: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -200,8 +304,8 @@ const ProjectsTimeline: React.FC = () => {
   const rightPupilRef = useRef<HTMLDivElement>(null);
 
   const SEG_H = 600; // Increased wavelength slightly
-  const topProjects = PROJECTS.slice(0, 3);
-  const SVGH = topProjects.length * SEG_H;
+  const topProjects = useMemo(() => PROJECTS.slice(0, 6), []);
+  const SVGH = useMemo(() => topProjects.length * SEG_H, [topProjects]);
 
   const buildPath = () => {
     const n = topProjects.length;
@@ -322,7 +426,7 @@ const ProjectsTimeline: React.FC = () => {
 
     const raf = requestAnimationFrame(() => { setTimeout(init, 150); });
     return () => { cancelAnimationFrame(raf); ctx?.revert(); };
-  }, []);
+  }, [SVGH, topProjects]);
 
   useEffect(() => {
     const r = () => ScrollTrigger.refresh();
@@ -409,7 +513,7 @@ const ProjectsTimeline: React.FC = () => {
       </div>
 
       <div className={styles.heading} style={{ paddingTop: '20px', paddingBottom: '50px' }}>
-        <h2 className={styles.headingText} style={{ fontSize: 'clamp(3.5rem, 6vw, 6rem)' }}>THE TOP 3</h2>
+        <h2 className={styles.headingText} style={{ fontSize: 'clamp(3.5rem, 6vw, 6rem)' }}>TOP PROJECTS</h2>
         <div className={styles.headingUnderline} style={{ width: '120px' }} />
       </div>
 
@@ -521,7 +625,14 @@ const ProjectsTimeline: React.FC = () => {
 
                 {/* PROJECT IMAGE (Made significantly bigger in CSS) */}
                 <div data-project-img={proj.id} className={styles.imgWrapper}>
-                  <ProjectImage label={proj.imagePlaceholder} color={proj.color} />
+                  <ProjectImage
+                    label={proj.imagePlaceholder}
+                    color={proj.color}
+                    mediaType={proj.mediaType}
+                    videoSrc={proj.videoSrc}
+                    videoPoster={proj.videoPoster}
+                    youtubeEmbedUrl={proj.youtubeEmbedUrl}
+                  />
                 </div>
 
               </div>

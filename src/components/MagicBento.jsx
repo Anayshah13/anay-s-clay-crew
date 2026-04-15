@@ -466,8 +466,10 @@ const MagicBento = ({
           const baseClassName = `magic-bento-card ${textAutoHide ? 'magic-bento-card--text-autohide' : ''} ${enableBorderGlow ? 'magic-bento-card--border-glow' : ''}`;
           const cardProps = {
             className: baseClassName,
+            'data-project-title': card.title,
             style: {
-              '--glow-color': glowColor
+              '--glow-color': glowColor,
+              '--card-image': card.bentoImage ? `url("${card.bentoImage}")` : 'none'
             }
           };
 
@@ -483,6 +485,7 @@ const MagicBento = ({
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}
               >
+                <div className="magic-bento-card__bg" aria-hidden="true" />
                 <div className="magic-bento-card__header">
                   <div className="magic-bento-card__label" style={{ color: card.color }}>{card.date}</div>
                 </div>
@@ -606,6 +609,7 @@ const MagicBento = ({
                 el.addEventListener('click', handleClick);
               }}
             >
+              <div className="magic-bento-card__bg" aria-hidden="true" />
               <div className="magic-bento-card__header">
                 <div className="magic-bento-card__label" style={{ color: card.color }}>{card.date}</div>
               </div>
