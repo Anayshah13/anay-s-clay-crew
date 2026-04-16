@@ -35,6 +35,18 @@ const makeFilter = (months: number) => (data: { date: string; count: number; lev
 
 interface Props { isDark: boolean; }
 
+const ABOUT_MOBILE_BREAKPOINT = 768;
+
+function useIsAboutMobile() {
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < ABOUT_MOBILE_BREAKPOINT);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < ABOUT_MOBILE_BREAKPOINT);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  return isMobile;
+}
+
 const AboutSection: React.FC<Props> = ({ isDark }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
@@ -45,6 +57,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
   const pulseRef = useRef<HTMLDivElement>(null);
   const devBlobRef = useRef<BlobRef | null>(null);
   const [photoIndex, setPhotoIndex] = useState(0);
+  const isMobile = useIsAboutMobile();
 
   // ── Propeller spin ──────────────────────────────────────────────────────
   useEffect(() => {
@@ -122,9 +135,13 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
           if (stripRef.current) gsap.from(stripRef.current, { scaleX: 0, transformOrigin: 'left center', ease: 'power3.inOut', duration: 0.7 });
           if (boxesRef.current) {
             const boxes = boxesRef.current.querySelectorAll('.info-box');
-            gsap.from(boxes, { x: -70, opacity: 0, stagger: 0.13, ease: 'back.out(1.4)', duration: 0.6 });
+            const fromX = window.innerWidth < ABOUT_MOBILE_BREAKPOINT ? 0 : -70;
+            gsap.from(boxes, { x: fromX, opacity: 0, stagger: 0.13, ease: 'back.out(1.4)', duration: 0.6 });
           }
-          if (photoAreaRef.current) gsap.from(photoAreaRef.current, { x: 70, opacity: 0, ease: 'back.out(1.2)', duration: 0.7 });
+          if (photoAreaRef.current) {
+            const fromX = window.innerWidth < ABOUT_MOBILE_BREAKPOINT ? 0 : 70;
+            gsap.from(photoAreaRef.current, { x: fromX, opacity: 0, ease: 'back.out(1.2)', duration: 0.7 });
+          }
           if (trackerRef.current) gsap.from(trackerRef.current, { y: 50, opacity: 0, ease: 'power3.out', duration: 0.6, delay: 0.25 });
         },
       });
@@ -135,9 +152,10 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
 
 
   const devCfg = BLOB_CONFIGS.find(b => b.id === 'dev');
+  const devBlobSize = isMobile ? 96 : 130;
   const devCommon = devCfg ? {
     id: 'dev', ref: devBlobRef,
-    color: devCfg.color, width: 130, height: Math.round(130 * (devCfg.h / devCfg.w)),
+    color: devCfg.color, width: devBlobSize, height: Math.round(devBlobSize * (devCfg.h / devCfg.w)),
     shape: devCfg.shape, zIndex: 9999,
     style: { position: 'relative', width: '100%', height: '100%', pointerEvents: 'none', opacity: 1 },
     rowClass: 'rowFront', eyelidClose: 0, isDark,
@@ -161,13 +179,30 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
     return `${50 + r * Math.cos(angle)},${50 + r * Math.sin(angle)}`;
   }).join(' ');
 
+  const infoBoxes = [
+    {
+      bg: '#DAFC92', rot: '-1deg', num: '01', label: 'ABOUT', numColor: '#DAFC92', textCol: '#0E0E0E',
+      text: "I'm a 20-year-old sophomore at Dwarkadas J. Sanghvi College of Engineering, Mumbai, pursuing a B.Tech in Information Technology. Highly motivated to learn FullStack Dev, UI/UX, AI/ML and Blockchain."
+    },
+    {
+      bg: '#B399FF', rot: '0.8deg', num: '02', label: 'BEYOND CODE', numColor: '#B399FF', textCol: '#0E0E0E',
+      text: 'Beyond Coding, I\'m an avid enjoyer of casual sports, art, crafts, toys, and all sorts of pop culture & cartoons. ✳'
+    },
+    {
+      bg: '#FF5C5C', rot: '-0.5deg', num: '03', label: 'ORIGIN', numColor: '#FF5C5C', textCol: '#0E0E0E',
+      text: 'Growing up surrounded by techies, I embraced the chaos and dove into software. I panic over the smallest details nobody else would ever notice — and I love it.'
+    },
+  ];
+
   return (
     <div
       ref={containerRef}
       style={{ background: '#1B3970', color: '#F5F0E8', borderTop: B, position: 'relative', overflowX: 'hidden' }}
-      className="w-full h-screen overflow-hidden flex flex-col"
+      className={isMobile ? 'w-full min-h-[100dvh] overflow-y-auto overflow-x-hidden flex flex-col' : 'w-full h-screen overflow-hidden flex flex-col'}
     >
-      {/* ═══════════════════ BACKGROUND DECORATION ═══════════════════════════ */}
+      {/* ═══════════════════ BACKGROUND DECORATION (desktop only) ═══════════════════════════ */}
+      {!isMobile && (
+      <>
       {/* Dot grid */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
@@ -263,9 +298,11 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
         background: 'rgba(179,153,255,0.035)', borderRadius: '45% 55% 38% 62% / 52% 48% 52% 48%',
         zIndex: 0, pointerEvents: 'none'
       }} />
+      </>
+      )}
 
       {/* ═══════════════════════════ HEADING ════════════════════════════════ */}
-      <div ref={headingRef} className="relative z-10 pt-16 pb-10 flex flex-col items-center shrink-0">
+      <div ref={headingRef} className={`relative z-10 flex flex-col items-center shrink-0 ${isMobile ? 'pt-10 pb-6' : 'pt-16 pb-10'}`}>
         <h2 style={{
           fontFamily: BB, fontSize: 'clamp(3.8rem, 7.5vw, 6.5rem)', color: '#DAFC92',
           letterSpacing: '0.15em', textAlign: 'center', lineHeight: 1, margin: 0
@@ -276,69 +313,60 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
 
       {/* ══════════════════════ PALETTE STRIP ════════════════════════════════ */}
 
-      {/* ═════════════════ TWO-COLUMN CONTENT ════════════════════════════════ */}
-      {/* flex-1 min-h-0 so it fills exactly the remaining viewport height */}
-      <div className="relative z-10 flex flex-row flex-1 min-h-0 gap-4 pt-3 pb-3" style={{ maxWidth: '75%', width: '75%', margin: '0 auto' }}>
+      {/* ═════════════════ CONTENT: single column (mobile) / two columns (desktop) ════════════════════════════════ */}
+      <div
+        className={`relative z-10 flex flex-1 min-h-0 ${isMobile ? 'flex-col w-[85%] max-w-full mx-auto gap-3 pt-2 pb-10' : 'flex-row gap-4 pt-3 pb-3'}`}
+        style={isMobile ? undefined : { maxWidth: '75%', width: '75%', margin: '0 auto' }}
+      >
 
-        {/* ── LEFT — info boxes ── */}
-        <div ref={boxesRef} className="flex flex-col gap-3 w-1/2 h-[88%] mr-5">
-          {[
-            {
-              bg: '#DAFC92', rot: '-1deg', num: '01', label: 'ABOUT', numColor: '#DAFC92', textCol: '#0E0E0E',
-              text: "I'm a 20-year-old sophomore at Dwarkadas J. Sanghvi College of Engineering, Mumbai, pursuing a B.Tech in Information Technology. Highly motivated to learn FullStack Dev, UI/UX, AI/ML and Blockchain."
-            },
-            {
-              bg: '#B399FF', rot: '0.8deg', num: '02', label: 'BEYOND CODE', numColor: '#B399FF', textCol: '#0E0E0E',
-              text: 'Beyond Coding, I\'m an avid enjoyer of casual sports, art, crafts, toys, and all sorts of pop culture & cartoons. ✳'
-            },
-            {
-              bg: '#FF5C5C', rot: '-0.5deg', num: '03', label: 'ORIGIN', numColor: '#FF5C5C', textCol: '#0E0E0E',
-              text: 'Growing up surrounded by techies, I embraced the chaos and dove into software. I panic over the smallest details nobody else would ever notice — and I love it.'
-            },
-          ].map(box => (
-            <div key={box.num} className="info-box flex flex-col flex-1 min-h-0"
+        {/* ── Info boxes (first on mobile, left column on desktop) ── */}
+        <div ref={boxesRef} className={isMobile ? 'flex flex-col gap-3 w-full shrink-0' : 'flex flex-col gap-3 w-1/2 h-[88%] mr-5'}>
+          {infoBoxes.map(box => (
+            <div key={box.num} className={isMobile ? 'info-box flex flex-col w-full shrink-0' : 'info-box flex flex-col flex-1 min-h-0'}
               style={{
                 background: box.bg, border: B, boxShadow: '8px 8px 0 #0E0E0E', borderRadius: 0,
-                transform: `rotate(${box.rot})`,
-                overflow: 'hidden', cursor: 'pointer',
+                transform: isMobile ? 'none' : `rotate(${box.rot})`,
+                overflow: 'hidden', cursor: isMobile ? 'default' : 'pointer',
               }}
-              onMouseEnter={e => {
+              onMouseEnter={isMobile ? undefined : (e => {
                 gsap.to(e.currentTarget, { scale: 1.035, rotate: 0, boxShadow: '14px 14px 0 #0E0E0E', duration: 0.18, ease: 'power1.out', overwrite: 'auto' });
-              }}
-              onMouseLeave={e => {
+              })}
+              onMouseLeave={isMobile ? undefined : (e => {
                 gsap.to(e.currentTarget, { scale: 1, rotate: parseFloat(box.rot), boxShadow: '8px 8px 0 #0E0E0E', duration: 0.18, ease: 'power1.out', overwrite: 'auto' });
-              }}
+              })}
             >
               <div style={{ height: '30px', background: '#0E0E0E', display: 'flex', alignItems: 'center', padding: '0 12px', flexShrink: 0 }}>
                 <span style={{ fontFamily: BB, fontSize: '1.1rem', color: box.numColor, lineHeight: 1 }}>{box.num}</span>
                 <span style={{ fontFamily: MONO, fontSize: '0.55rem', color: box.numColor, letterSpacing: '0.22em', marginLeft: 'auto' }}>{box.label}</span>
               </div>
-              <p style={{ fontFamily: MONO, fontSize: '0.9rem', color: box.textCol, lineHeight: 1.58, padding: '14px 16px', margin: 0, overflow: 'hidden' }}>
+              <p style={{ fontFamily: MONO, fontSize: isMobile ? '0.84rem' : '0.9rem', color: box.textCol, lineHeight: 1.58, padding: '14px 16px', margin: 0, overflow: isMobile ? 'visible' : 'hidden' }}>
                 {box.text}
               </p>
             </div>
           ))}
         </div>
 
-        {/* ── RIGHT — photo + git tracker ── */}
-        <div className="flex flex-col gap-3 w-1/2 h-full relative">
+        {/* ── Photo + git (stacked; second column on desktop) ── */}
+        <div className={isMobile ? 'flex flex-col gap-3 w-full shrink-0' : 'flex flex-col gap-3 w-1/2 h-full relative'}>
 
           {/* PHOTO FRAME */}
           <div ref={photoAreaRef}
             className="about-photo-frame"
             style={{
-              flex: '0 0 54%', border: B, boxShadow: '8px 8px 0 #DAFC92', borderRadius: 0,
+              flex: isMobile ? '0 0 auto' : '0 0 54%',
+              minHeight: isMobile ? 260 : undefined,
+              border: B, boxShadow: '8px 8px 0 #DAFC92', borderRadius: 0,
               background: '#0d1f35', display: 'flex', flexDirection: 'column',
-              cursor: 'pointer',
+              cursor: isMobile ? 'default' : 'pointer',
               position: 'relative',
               zIndex: 50,
             }}
-            onMouseEnter={e => {
+            onMouseEnter={isMobile ? undefined : (e => {
               gsap.to(e.currentTarget, { scale: 1.025, boxShadow: '14px 14px 0 #DAFC92', duration: 0.18, ease: 'power1.out', overwrite: 'auto' });
-            }}
-            onMouseLeave={e => {
+            })}
+            onMouseLeave={isMobile ? undefined : (e => {
               gsap.to(e.currentTarget, { scale: 1, boxShadow: '8px 8px 0 #DAFC92', duration: 0.18, ease: 'power1.out', overwrite: 'auto' });
-            }}
+            })}
           >
 
             {/* macOS title bar */}
@@ -412,7 +440,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
                   }}
                 />
                 {/* Dev blob — bottom-left, INSIDE the inner overflow: hidden so it doesn't leak out of the polaroid picture frame */}
-                <div style={{ position: 'absolute', bottom: -12, left: 4, zIndex: 15, width: '120px', height: '120px', pointerEvents: 'none' }}>
+                <div style={{ position: 'absolute', bottom: isMobile ? -8 : -12, left: 4, zIndex: 15, width: isMobile ? '96px' : '120px', height: isMobile ? '96px' : '120px', pointerEvents: 'none' }}>
                   {devCfg && devCommon ? <React.Fragment key="dev-about">{renderAboutDev(devCfg, devCommon)}</React.Fragment> : null}
                 </div>
               </div>
@@ -424,15 +452,15 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
             style={{
               flex: '0 0 auto', border: B, boxShadow: '8px 8px 0 #DAFC92', borderRadius: 0,
               background: '#F5F0E8', display: 'flex', flexDirection: 'column', overflow: 'hidden',
-              cursor: 'pointer',
+              cursor: isMobile ? 'default' : 'pointer',
               position: 'relative', zIndex: 10,
             }}
-            onMouseEnter={e => {
+            onMouseEnter={isMobile ? undefined : (e => {
               gsap.to(e.currentTarget, { scale: 1.025, boxShadow: '14px 14px 0 #DAFC92', duration: 0.18, ease: 'power1.out', overwrite: 'auto' });
-            }}
-            onMouseLeave={e => {
+            })}
+            onMouseLeave={isMobile ? undefined : (e => {
               gsap.to(e.currentTarget, { scale: 1, boxShadow: '8px 8px 0 #DAFC92', duration: 0.18, ease: 'power1.out', overwrite: 'auto' });
-            }}
+            })}
           >
 
             {/* Header bar */}
@@ -449,18 +477,18 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
             </div>
 
             {/* Calendar — library defaults, custom green theme */}
-            <div style={{ padding: '10px 14px 14px' }}>
+            <div style={{ padding: isMobile ? '8px 10px 12px' : '10px 14px 14px' }}>
               <div className="about-calendar" style={{ width: '100%' }}>
                 <GitHubCalendar
                   username="Anayshah13"
                   colorScheme="light"
-                  fontSize={11}
+                  fontSize={isMobile ? 9 : 11}
                   theme={{ light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'] }}
-                  blockSize={12}
-                  blockMargin={3}
+                  blockSize={isMobile ? 9 : 12}
+                  blockMargin={isMobile ? 2 : 3}
                   blockRadius={0}
                   showTotalCount={true}
-                  showColorLegend={true}
+                  showColorLegend={!isMobile}
                   className="w-full"
                 />
               </div>

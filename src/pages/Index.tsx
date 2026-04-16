@@ -115,8 +115,8 @@ const HeroPage: React.FC = () => {
       y: 0, opacity: 1,
       duration: 0.7, stagger: 0.15, ease: 'power3.out'
     });
-    
-    if (stampRef.current) {
+
+    if (stampRef.current && window.innerWidth >= 768) {
       tl.from(stampRef.current, { scale: 3, rotation: -15, opacity: 0, duration: 0.4, ease: 'power4.in' }, '+=0.2');
     }
   }, []);
@@ -252,9 +252,9 @@ const HeroPage: React.FC = () => {
           ref={cardRef}
           style={{
             position: 'absolute',
-            top: isMobile ? '3%' : '8%',
+            top: isMobile ? '50%' : '8%',
             left: isMobile ? '50%' : '5%',
-            transform: isMobile ? 'translateX(-50%)' : 'none',
+            transform: isMobile ? 'translate(-50%, -50%)' : 'none',
             zIndex: 100,
             background: cardBg,
             backdropFilter: 'blur(20px)',
@@ -262,8 +262,8 @@ const HeroPage: React.FC = () => {
             border: 'none',
             boxShadow: isDark ? '0 10px 40px rgba(0,0,0,0.3)' : '0 10px 40px rgba(13,42,110,0.15)',
             borderRadius: 16,
-            padding: isMobile ? '24px 20px' : '40px 48px',
-            width: isMobile ? '92vw' : undefined,
+            padding: isMobile ? '36px 30px' : '40px 48px',
+            width: isMobile ? 'min(96vw, 460px)' : undefined,
             minWidth: isMobile ? undefined : 420,
             maxWidth: isMobile ? undefined : 520,
             transition: 'background 0.6s ease',
@@ -287,24 +287,24 @@ const HeroPage: React.FC = () => {
             />
           </div>
 
-          <p data-animate style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 4, transition: 'color 0.6s' }}>
+          <p data-animate style={{ color: 'rgba(255,255,255,0.5)', fontSize: isMobile ? '1.2rem' : '1.1rem', fontWeight: 400, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: isMobile ? 8 : 4, transition: 'color 0.6s' }}>
             Hi, I'm
           </p>
-          <h1 data-animate style={{ fontSize: 'clamp(3.8rem, 6vw, 6rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 0.88, marginBottom: 8, color: anayNameColor }}>
+          <h1 data-animate style={{ fontSize: isMobile ? 'clamp(3.35rem, 12vw, 4.5rem)' : 'clamp(3.8rem, 6vw, 6rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 0.88, marginBottom: isMobile ? 12 : 8, color: anayNameColor }}>
             Anay Shah
           </h1>
           {/* Typewriter — fix clipping: smaller font, overflow visible, nowrap */}
-          <div data-animate style={{ height: isMobile ? '2.5rem' : '3rem', display: 'flex', alignItems: 'center', marginBottom: isMobile ? 20 : 32, overflow: 'visible' }}>
-            <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1.15rem', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace', transition: 'color 0.6s', whiteSpace: 'nowrap' }}>
+          <div data-animate style={{ height: isMobile ? '2.85rem' : '3rem', display: 'flex', alignItems: 'center', marginBottom: isMobile ? 26 : 32, overflow: 'visible' }}>
+            <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: isMobile ? '1.22rem' : '1.15rem', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace', transition: 'color 0.6s', whiteSpace: 'nowrap' }}>
               {displayedText}
               <span style={{ marginLeft: 2, display: 'inline-block', width: 3, height: '1.2em', background: '#DAFC92', color: '#DAFC92', fontWeight: 300, verticalAlign: 'middle', animation: 'blink 1s step-end infinite' }} />
             </span>
           </div>
 
           {/* Buttons */}
-          <div data-animate style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: isMobile ? 20 : 32, flexWrap: 'wrap' }}>
+          <div data-animate style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 12 : 10, marginBottom: isMobile ? 26 : 32, flexWrap: 'wrap' }}>
             <button style={{
-              padding: '12px 24px', borderRadius: 12, fontWeight: 600, fontSize: 14,
+              padding: isMobile ? '14px 26px' : '12px 24px', borderRadius: 12, fontWeight: 600, fontSize: isMobile ? 15 : 14,
               display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
               background: btnPrimaryBg, color: btnPrimaryText, border: 'none', cursor: 'pointer',
               transition: 'transform 0.2s',
@@ -314,7 +314,7 @@ const HeroPage: React.FC = () => {
               View Projects <ArrowRight size={16} />
             </button>
             <button style={{
-              padding: '12px 24px', borderRadius: 12, fontWeight: 600, fontSize: 14,
+              padding: isMobile ? '14px 26px' : '12px 24px', borderRadius: 12, fontWeight: 600, fontSize: isMobile ? 15 : 14,
               display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
               background: 'transparent', color: textColor, cursor: 'pointer',
               border: `1px solid rgba(255,255,255,0.25)`,
@@ -327,7 +327,7 @@ const HeroPage: React.FC = () => {
             </button>
           </div>
 
-          <div data-animate style={{ display: 'flex', gap: 16 }}>
+          <div data-animate style={{ display: 'flex', gap: isMobile ? 20 : 16 }}>
             {[
               { icon: <Github size={20} />, label: 'GitHub', href: 'https://github.com/Anayshah13' },
               { icon: <Linkedin size={20} />, label: 'LinkedIn', href: 'https://linkedin.com/in/Anayshah' },
@@ -335,7 +335,7 @@ const HeroPage: React.FC = () => {
               { icon: <Mail size={20} />, label: 'Email', href: 'mailto:anayshah13@gmail.com' },
             ].map((social) => (
               <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer"
-                style={{ width: 40, height: 40, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', background: iconBg, color: iconColor, transition: 'transform 0.2s, background 0.6s, color 0.6s' }}
+                style={{ width: isMobile ? 44 : 40, height: isMobile ? 44 : 40, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', background: iconBg, color: iconColor, transition: 'transform 0.2s, background 0.6s, color 0.6s' }}
                 onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.1)')}
                 onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
                 aria-label={social.label}>
@@ -344,23 +344,24 @@ const HeroPage: React.FC = () => {
             ))}
           </div>
 
-          {/* Large Circular Open to Internships Badge */}
-          <div
-            ref={stampRef}
-            style={{
-              position: 'absolute',
-              top: 100,
-              right: 30,
-              width: 140,
-              height: 140,
-              zIndex: 30,
-              pointerEvents: 'none',
-              transform: 'rotate(0deg)',
-              filter: 'drop-shadow(10px 10px 15px rgba(0,0,0,0.3))'
-            }}
-          >
-            <img src="/open-to.png" alt="Open to Internships" style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'rotate(-5deg)' }} />
-          </div>
+          {!isMobile && (
+            <div
+              ref={stampRef}
+              style={{
+                position: 'absolute',
+                top: 100,
+                right: 30,
+                width: 140,
+                height: 140,
+                zIndex: 30,
+                pointerEvents: 'none',
+                transform: 'rotate(0deg)',
+                filter: 'drop-shadow(10px 10px 15px rgba(0,0,0,0.3))'
+              }}
+            >
+              <img src="/open-to.png" alt="Open to Internships" style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'rotate(-5deg)' }} />
+            </div>
+          )}
         </div>
 
         <div ref={scrollIndicatorRef} style={{ position: 'fixed', right: 28, top: '50%', transform: 'translateY(-50%)', zIndex: 50, display: 'flex', flexDirection: 'column', alignItems: 'center', pointerEvents: 'none' }}>

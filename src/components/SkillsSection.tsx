@@ -6,6 +6,18 @@ import ShapeGrid from './ShapeGrid';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const SKILLS_MOBILE_BREAKPOINT = 768;
+
+function useSkillsMobile() {
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < SKILLS_MOBILE_BREAKPOINT);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < SKILLS_MOBILE_BREAKPOINT);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  return isMobile;
+}
+
 const BB = "'Bebas Neue', sans-serif";
 const MONO = "'JetBrains Mono', monospace";
 const B = '4px solid #0E0E0E';
@@ -45,6 +57,7 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [resumeScale, setResumeScale] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isMobile = useSkillsMobile();
 
   // Animation refs
   const topSheetRef = useRef<HTMLDivElement>(null);
@@ -72,24 +85,45 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
         start: 'top 60%',
         once: true,
         onEnter: () => {
-          gsap.from(titleBoxRef.current, { x: 100, opacity: 0, duration: 0.8, ease: 'back.out(1.2)' });
-          gsap.from(terminalRef.current, { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 });
-          gsap.from(cursorRef.current, { scale: 0, opacity: 0, duration: 0.6, ease: 'back.out(1.8)', delay: 0.8 });
-          gsap.from(stackWrapperRef.current, { x: -100, y: 100, rotationZ: -20, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.1 });
-          gsap.from(starburstRef.current, { scale: 0, rotation: -180, duration: 0.8, ease: 'back.out(1.2)', delay: 0.3 });
+          const mobile = window.innerWidth < SKILLS_MOBILE_BREAKPOINT;
+          if (titleBoxRef.current) {
+            gsap.from(titleBoxRef.current, mobile
+              ? { y: -24, opacity: 0, duration: 0.75, ease: 'back.out(1.2)' }
+              : { x: 100, opacity: 0, duration: 0.8, ease: 'back.out(1.2)' });
+          }
+          if (terminalRef.current) gsap.from(terminalRef.current, { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 });
+          if (cursorRef.current && !mobile) gsap.from(cursorRef.current, { scale: 0, opacity: 0, duration: 0.6, ease: 'back.out(1.8)', delay: 0.8 });
+          if (stackWrapperRef.current && !mobile) gsap.from(stackWrapperRef.current, { x: -100, y: 100, rotationZ: -20, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.1 });
+          if (starburstRef.current && !mobile) gsap.from(starburstRef.current, { scale: 0, rotation: -180, duration: 0.8, ease: 'back.out(1.2)', delay: 0.3 });
 
           if (linksRef.current) {
-            const children = Array.from(linksRef.current.children);
-            gsap.fromTo(children,
-              { scale: 0, opacity: 0 },
-              { scale: 1, opacity: 1, stagger: 0.1, duration: 0.5, ease: 'back.out(1.5)', delay: 0.4 }
-            );
+            // Desktop: animate direct children (5 links + resume) — same as original.
+            // Mobile: icons live inside row wrappers, so target [data-skill-link] descendants.
+            const linkEls = mobile
+              ? Array.from(linksRef.current.querySelectorAll('[data-skill-link]'))
+              : Array.from(linksRef.current.children);
+            if (linkEls.length > 0) {
+              if (mobile) {
+                // Icons already opacity:1 in DOM — animate scale only so GSAP never hides them.
+                gsap.from(linkEls, {
+                  scale: 0.65,
+                  duration: 0.45,
+                  stagger: 0.08,
+                  ease: 'back.out(1.5)',
+                  delay: 0.35,
+                });
+              } else {
+                gsap.fromTo(linkEls,
+                  { scale: 0, opacity: 0 },
+                  { scale: 1, opacity: 1, stagger: 0.1, duration: 0.5, ease: 'back.out(1.5)', delay: 0.4 }
+                );
+              }
+            }
           }
         }
       });
 
-      // Continuous slow rotation for the starburst
-      if (starburstRef.current) {
+      if (starburstRef.current && window.innerWidth >= SKILLS_MOBILE_BREAKPOINT) {
         gsap.to(starburstRef.current, { rotation: 360, duration: 30, repeat: -1, ease: 'linear' });
       }
 
@@ -134,14 +168,15 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
     <>
       <div
         ref={containerRef}
-        id="skills-section"
+        id="skills"
         style={{
           width: '100%',
-          height: '100vh',
+          height: isMobile ? 'auto' : '100vh',
+          minHeight: isMobile ? '100vh' : undefined,
           background: '#FF5C5C',
           color: '#0E0E0E',
           position: 'relative',
-          overflow: 'hidden',
+          overflow: isMobile ? 'visible' : 'hidden',
           zIndex: 5,
         }}
       >
@@ -165,19 +200,20 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
         `}</style>
 
         {/* ShapeGrid Background Integration */}
-        <div className="shapegrid-wrapper">
+        <div className="shapegrid-wrapper" style={isMobile ? { opacity: 0.85 } : undefined}>
           <ShapeGrid
             direction="diagonal"
             speed={0.5}
             shape="hexagon"
             borderColor="rgba(14,14,14,0.12)"
             hoverFillColor="#f5f0e8ab"
-            squareSize={80}
+            squareSize={isMobile ? 56 : 80}
             hoverTrailAmount={2}
           />
         </div>
 
-        {/* Decorative Neobrutalist Starburst */}
+        {/* Decorative Neobrutalist Starburst (desktop only) */}
+        {!isMobile && (
         <svg
           ref={starburstRef}
           width={STARBURST_SIZE}
@@ -196,30 +232,58 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
             strokeLinejoin="miter"
           />
         </svg>
+        )}
 
-        {/* Top-Right Title Box */}
+        {/* Title: top-right (desktop) / centered folder-tab (mobile) */}
         <div
-          ref={titleBoxRef}
-          style={{
-            position: 'absolute', top: '5vh', right: '5vw', zIndex: 20,
-            background: '#0E0E0E', border: B, padding: '12px 28px',
-            boxShadow: '6px 6px 0 #DAFC92'
-          }}
+          style={
+            isMobile
+              ? { position: 'relative', width: '85%', maxWidth: '100%', margin: '0 auto', paddingTop: 'max(24px, 5vh)', zIndex: 20 }
+              : { position: 'absolute', top: '5vh', right: '5vw', zIndex: 20 }
+          }
         >
-          <h2 style={{
-            fontFamily: BB,
-            fontSize: 'clamp(2rem, 4vw, 3.2rem)',
-            color: '#FF5C5C',
-            letterSpacing: '0.12em',
-            lineHeight: 1,
-            margin: 0,
-          }}>
-            SKILLS &amp; LINKS
-          </h2>
-          <div style={{ width: '60px', height: '5px', background: '#DAFC92', margin: '4px 0 0 0', borderRadius: 0 }} />
+          {isMobile && (
+            <div
+              aria-hidden
+              style={{
+                position: 'absolute',
+                bottom: -11,
+                left: 14,
+                width: 52,
+                height: 14,
+                background: '#0E0E0E',
+                border: B,
+                borderTop: 'none',
+                boxShadow: '4px 4px 0 #DAFC92',
+                zIndex: 0,
+              }}
+            />
+          )}
+          <div
+            ref={titleBoxRef}
+            style={{
+              position: 'relative',
+              background: '#0E0E0E', border: B, padding: isMobile ? '14px 22px' : '12px 28px',
+              boxShadow: '6px 6px 0 #DAFC92',
+            }}
+          >
+            <h2 style={{
+              fontFamily: BB,
+              fontSize: isMobile ? 'clamp(1.75rem, 7vw, 2.4rem)' : 'clamp(2rem, 4vw, 3.2rem)',
+              color: '#FF5C5C',
+              letterSpacing: '0.12em',
+              lineHeight: 1,
+              margin: 0,
+              textAlign: isMobile ? 'center' : 'left',
+            }}>
+              SKILLS &amp; LINKS
+            </h2>
+            <div style={{ width: isMobile ? '48px' : '60px', height: '5px', background: '#DAFC92', margin: isMobile ? '6px auto 0' : '4px 0 0 0', borderRadius: 0 }} />
+          </div>
         </div>
 
-        {/* Left Column: Huge Resume Paper Stack configured via variables */}
+        {/* Left Column: Resume stack (desktop only — hidden on mobile) */}
+        {!isMobile && (
         <div
           ref={stackWrapperRef}
           style={{
@@ -297,20 +361,37 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
             </div>
           </div>
         </div>
+        )}
 
-        {/* Right Side: Terminal & Links */}
-        <div style={{
-          position: 'absolute', right: '5vw', top: '15vh', bottom: '15vh',
-          width: '50vw', minWidth: '400px', maxWidth: '750px',
-          zIndex: 15, display: 'flex', flexDirection: 'column', gap: '32px'
-        }}>
+        {/* Terminal & Links */}
+        <div style={
+          isMobile
+            ? {
+              position: 'relative',
+              width: '85%',
+              maxWidth: '100%',
+              margin: '0 auto',
+              padding: '24px 0 48px',
+              zIndex: 15,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 24,
+            }
+            : {
+              position: 'absolute', right: '5vw', top: '15vh', bottom: '15vh',
+              width: '50vw', minWidth: '400px', maxWidth: '750px',
+              zIndex: 15, display: 'flex', flexDirection: 'column', gap: '32px'
+            }
+        }>
           {/* Terminal Interface Wrapper with Cursor inside */}
           <div style={{ position: 'relative', width: '100%', flex: '1 0 auto', display: 'flex' }}>
             <div
               ref={terminalRef}
               style={{
                 background: '#1B3970', border: B, boxShadow: '10px 10px 0 #0E0E0E', borderRadius: 0,
-                width: '100%', display: 'flex', flexDirection: 'column', flex: 1
+                width: '100%', display: 'flex', flexDirection: 'column', flex: 1,
+                minHeight: isMobile ? 320 : undefined,
+                maxHeight: isMobile ? 'min(55vh, 520px)' : undefined,
               }}
             >
               {/* Terminal title bar */}
@@ -327,8 +408,8 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
               </div>
               {/* Terminal body */}
               <div style={{
-                padding: '18px 20px', overflowY: 'auto', fontFamily: MONO,
-                fontSize: '0.8rem', lineHeight: 1.8, color: '#DAFC92', flex: 1
+                padding: isMobile ? '14px 14px' : '18px 20px', overflowY: 'auto', fontFamily: MONO,
+                fontSize: isMobile ? '0.72rem' : '0.8rem', lineHeight: 1.75, color: '#DAFC92', flex: 1
               }}>
                 <div><span style={{ color: '#89C9C9' }}>$</span> <span style={{ color: '#F5F0E8' }}>skills --list --all</span></div>
                 <div style={{ height: '1em' }}></div>
@@ -354,10 +435,11 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
               </div>
             </div>
             {/* Adjustable Cursor Graphic */}
+            {!isMobile && (
             <img
               ref={cursorRef}
               src="/cursor.png"
-              alt="Pointer"
+              alt=""
               style={{
                 position: 'absolute', bottom: CURSOR_OFFSET_BOTTOM, right: CURSOR_OFFSET_RIGHT,
                 width: CURSOR_SIZE, zIndex: 25, transform: 'rotate(-10deg)',
@@ -365,17 +447,129 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
                 pointerEvents: 'none'
               }}
             />
+            )}
           </div>
 
-          {/* Circular Neobrutalist Links */}
+          {/* Circular links: single row (desktop) / two centered rows (mobile) */}
+          {!isMobile && (
           <div style={{ width: '100%', height: '4px', background: '#0E0E0E', margin: '4px 0' }} />
+          )}
           <div
             ref={linksRef}
-            style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'flex-start', flexShrink: 0, marginLeft: '4vw' }}
+            style={
+              isMobile
+                ? {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'stretch',
+                  gap: 14,
+                  width: '100%',
+                  flexShrink: 0,
+                }
+                : {
+                  display: 'flex',
+                  gap: '20px',
+                  flexWrap: 'wrap',
+                  justifyContent: 'flex-start',
+                  flexShrink: 0,
+                  marginLeft: '4vw',
+                }
+            }
           >
+            {isMobile ? (
+              <>
+                <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+                  {LINKS.slice(0, 3).map((link) => (
+                    <a
+                      key={link.label}
+                      data-skill-link
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        width: 58, height: 58,
+                        border: B, boxShadow: '4px 4px 0 #0E0E0E',
+                        background: '#DAFC92',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center', justifyContent: 'center',
+                        textDecoration: 'none', color: '#0E0E0E',
+                        cursor: 'pointer',
+                        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                        opacity: 1,
+                      }}
+                      title={link.label}
+                    >
+                      {React.cloneElement(link.icon as React.ReactElement, { size: 26, strokeWidth: 2.5 })}
+                    </a>
+                  ))}
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: 14,
+                    justifyContent: 'center',
+                    flexWrap: 'wrap',
+                    padding: '12px 10px',
+                    border: B,
+                    background: 'rgba(14,14,14,0.06)',
+                    boxShadow: '4px 4px 0 #0E0E0E',
+                  }}
+                >
+                  {LINKS.slice(3).map((link) => (
+                    <a
+                      key={link.label}
+                      data-skill-link
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        width: 58, height: 58,
+                        border: B, boxShadow: '4px 4px 0 #0E0E0E',
+                        background: '#DAFC92',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center', justifyContent: 'center',
+                        textDecoration: 'none', color: '#0E0E0E',
+                        cursor: 'pointer',
+                        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                        opacity: 1,
+                      }}
+                      title={link.label}
+                    >
+                      {React.cloneElement(link.icon as React.ReactElement, { size: 26, strokeWidth: 2.5 })}
+                    </a>
+                  ))}
+                  <div
+                    data-skill-link
+                    onClick={handleResumeClick}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIsResumeOpen(true); setResumeScale(1); } }}
+                    style={{
+                      width: 58, height: 58,
+                      border: B, boxShadow: '4px 4px 0 #0E0E0E',
+                      background: '#F5F0E8',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center', justifyContent: 'center',
+                      color: '#0E0E0E',
+                      cursor: 'pointer',
+                      transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                      opacity: 1,
+                    }}
+                    title="Resume"
+                  >
+                    <FileText size={26} strokeWidth={2.5} />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
             {LINKS.map((link) => (
               <a
                 key={link.label}
+                data-skill-link
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -389,7 +583,7 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
                   textDecoration: 'none', color: '#0E0E0E',
                   cursor: 'pointer',
                   transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-                  opacity: 0 // For GSAP fromTo entrance
+                  opacity: 1,
                 }}
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLElement).style.transform = 'translate(-2px,-2px)';
@@ -407,6 +601,7 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
 
             {/* Resume Button inside Links area */}
             <div
+              data-skill-link
               onClick={handleResumeClick}
               style={{
                 width: '68px', height: '68px',
@@ -418,7 +613,7 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
                 textDecoration: 'none', color: '#0E0E0E',
                 cursor: 'pointer',
                 transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-                opacity: 0 // For GSAP fromTo entrance
+                opacity: 1,
               }}
               onMouseEnter={e => {
                 (e.currentTarget as HTMLElement).style.transform = 'translate(-2px,-2px)';
@@ -432,6 +627,8 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
             >
               <FileText size={30} strokeWidth={2.5} />
             </div>
+              </>
+            )}
           </div>
         </div>
 

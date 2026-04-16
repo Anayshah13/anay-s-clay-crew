@@ -29,6 +29,18 @@ import {
 
 const rowClassMap = { front: 'rowFront', mid: 'rowMid', back: 'rowBack' } as const;
 
+/** Landing: only these five on narrow viewports (gamer = minecraft, space = astronaut). */
+const MOBILE_LANDING_BLOB_IDS = new Set(['dev', 'minecraft', 'astronaut', 'popculture', 'angry']);
+
+/** Fixed bottom row: distinct left/bottom/scale so five fit without horizontal overflow. */
+const MOBILE_DOCK: Record<string, { left: string; bottom: string; scale: number }> = {
+  minecraft: { left: '11%', bottom: '8px', scale: 0.28 },
+  astronaut: { left: '29%', bottom: '11px', scale: 0.28 },
+  dev: { left: '50%', bottom: '2px', scale: 0.38 },
+  popculture: { left: '71%', bottom: '10px', scale: 0.28 },
+  angry: { left: '89%', bottom: '14px', scale: 0.3 },
+};
+
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
   useEffect(() => {
@@ -320,13 +332,33 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark, onHoverBlob }) => {
           : bottomRaw;
         const mobileScale = isMobile ? 0.5 : 1;
 
-        const posStyle: React.CSSProperties = {
-          left: cfg.x,
-          bottom: mobileBottom,
-          transform: `translateX(-50%) scale(${mobileScale})`,
-          transformOrigin: 'center bottom',
-          pointerEvents: 'auto',
-        };
+        const hiddenOnMobile = isMobile && !MOBILE_LANDING_BLOB_IDS.has(cfg.id);
+        const dock = isMobile && MOBILE_LANDING_BLOB_IDS.has(cfg.id) ? MOBILE_DOCK[cfg.id] : undefined;
+
+        const posStyle: React.CSSProperties = hiddenOnMobile
+          ? {
+            left: cfg.x,
+            bottom: mobileBottom,
+            transform: `translateX(-50%) scale(${mobileScale})`,
+            transformOrigin: 'center bottom',
+            pointerEvents: 'none',
+            display: 'none',
+          }
+          : dock
+            ? {
+              left: dock.left,
+              bottom: dock.bottom,
+              transform: `translateX(-50%) scale(${dock.scale})`,
+              transformOrigin: 'center bottom',
+              pointerEvents: 'auto',
+            }
+            : {
+              left: cfg.x,
+              bottom: mobileBottom,
+              transform: `translateX(-50%) scale(${mobileScale})`,
+              transformOrigin: 'center bottom',
+              pointerEvents: 'auto',
+            };
 
         const mobileW = isMobile ? Math.round(cfg.w * 1.0) : cfg.w;
 
