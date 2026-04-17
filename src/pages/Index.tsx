@@ -23,6 +23,18 @@ function useIsMobile() {
 
 const TITLES = ['Developer.', 'Hackathon Winner.', 'Competitive Programmer.', 'UI Animator.'];
 
+type FooterPaletteColor = { hex: string; name: string; textColor: string };
+
+const FOOTER_PALETTE: FooterPaletteColor[] = [
+  { hex: '#DAFC92', name: 'Lime Cream', textColor: '#1a3a00' },
+  { hex: '#F5F0E8', name: 'Parchment', textColor: '#0E0E0E' },
+  { hex: '#1B3970', name: 'Regal Navy', textColor: '#DAFC92' },
+  { hex: '#FF5C5C', name: 'Vibrant Coral', textColor: '#1a0000' },
+  { hex: '#B399FF', name: 'Soft Periwinkle', textColor: '#1a0030' },
+  { hex: '#FFBE0B', name: 'Amber Gold', textColor: '#1a0a00' },
+  { hex: '#0E0E0E', name: 'Onyx', textColor: '#DAFC92' },
+];
+
 const BLOB_DISPLAY_NAMES: Record<string, string> = {
   dev: 'developer',
   minecraft: 'minecraft_player',
@@ -163,6 +175,71 @@ const HeroPage: React.FC = () => {
   const gradientBorder = isDark
     ? 'linear-gradient(135deg, rgba(218,252,146,0.1) 0%, rgba(255,255,255,0.05) 35%, rgba(179,153,255,0.1) 100%'
     : 'linear-gradient(135deg, rgba(218, 252, 146, 0.1), rgba(27,57,112,0.05) 50%, rgba(179,153,255,0.3) 100%)';
+
+  const renderFooterPaletteSwatch = (
+    c: FooterPaletteColor,
+    compact: boolean,
+    extraStyle?: React.CSSProperties,
+  ) => (
+    <div
+      key={c.hex}
+      style={{
+        background: c.hex,
+        borderRadius: 0,
+        border: compact ? '1.5px solid #0E0E0E' : '2px solid #0E0E0E',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        transition: 'transform 0.2s, box-shadow 0.2s, z-index 0.2s',
+        position: 'relative',
+        zIndex: 1,
+        minWidth: 0,
+        boxSizing: 'border-box',
+        ...(compact
+          ? { height: 36, padding: '4px 5px', ...extraStyle }
+          : { flex: 1, height: 48, minWidth: 60, padding: '8px 10px', ...extraStyle }),
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'scale(1.1)';
+        e.currentTarget.style.boxShadow = `0 0 15px ${c.hex}`;
+        e.currentTarget.style.zIndex = '10';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.zIndex = '1';
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: compact ? '0.35rem' : '0.45rem',
+          fontWeight: 700,
+          color: c.textColor,
+          textTransform: 'uppercase',
+          letterSpacing: '0.04em',
+          lineHeight: 1.15,
+          wordBreak: 'break-word',
+          hyphens: 'auto',
+        }}
+      >
+        {c.name}
+      </span>
+      <span
+        style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: compact ? '0.32rem' : '0.4rem',
+          fontWeight: 400,
+          color: c.textColor,
+          opacity: 0.75,
+          lineHeight: 1.15,
+          marginTop: 1,
+        }}
+      >
+        {c.hex}
+      </span>
+    </div>
+  );
 
   return (
     <div className="w-full relative bg-black">
@@ -466,49 +543,80 @@ const HeroPage: React.FC = () => {
             </div>
 
             {/* ── Right Side: Content & Navigate ── */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 32, width: '100%' }}>
+            <div
+              style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 32,
+                width: '100%',
+                ...(isMobile ? { alignSelf: 'stretch' } : {}),
+              }}
+            >
               
               {/* Description */}
               <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, margin: 0, textAlign: isMobile ? 'center' : 'left'}}>
                 This portfolio is a creative, interactive showcase of my journey as a developer, UI animator, and problem solver. Explore my projects, skills, and achievements, or connect with me for collaborations. Designed with a neobrutalist aesthetic, custom React components, and playful animations. Built with React, TypeScript, Vite, GSAP, and a love for bold, expressive design.
               </p>
 
-              {/* Color Palette Strip as Divider */}
-              <div className="flex flex-row shrink-0"
-                style={{ width: '100%', gap: '6px', overflowX: 'auto', paddingBottom: '4px' }}>
-                {[
-                  { hex: '#DAFC92', name: 'Lime Cream', textColor: '#1a3a00' },
-                  { hex: '#F5F0E8', name: 'Parchment', textColor: '#0E0E0E' },
-                  { hex: '#1B3970', name: 'Regal Navy', textColor: '#DAFC92' },
-                  { hex: '#FF5C5C', name: 'Vibrant Coral', textColor: '#1a0000' },
-                  { hex: '#B399FF', name: 'Soft Periwinkle', textColor: '#1a0030' },
-                  { hex: '#FFBE0B', name: 'Amber Gold', textColor: '#1a0a00' },
-                  { hex: '#0E0E0E', name: 'Onyx', textColor: '#DAFC92' },
-                ].map((c) => (
-                  <div key={c.hex} style={{
-                    flex: 1, height: '48px', minWidth: '60px', background: c.hex, borderRadius: 0,
-                    border: '2px solid #0E0E0E',
-                    padding: '8px 10px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start',
-                    transition: 'transform 0.2s, box-shadow 0.2s, z-index 0.2s',
-                    position: 'relative',
-                    zIndex: 1,
+              {/* Color Palette — mobile: 4-col grid + flex row (3 swatches truly centered); desktop: single row */}
+              {isMobile ? (
+                <div
+                  style={{
+                    width: '100%',
+                    maxWidth: '100%',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 4,
+                    paddingBottom: 2,
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'scale(1.1)';
-                    e.currentTarget.style.boxShadow = `0 0 15px ${c.hex}`;
-                    e.currentTarget.style.zIndex = '10';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'scale(1)';
-                    e.currentTarget.style.boxShadow = 'none';
-                    e.currentTarget.style.zIndex = '1';
-                  }}
+                >
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+                      gap: 4,
+                      width: '100%',
+                    }}
                   >
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.45rem', fontWeight: 700, color: c.textColor, textTransform: 'uppercase', letterSpacing: '0.04em', lineHeight: 1.2 }}>{c.name}</span>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.4rem', fontWeight: 400, color: c.textColor, opacity: 0.75, lineHeight: 1.2, marginTop: '1px' }}>{c.hex}</span>
+                    {FOOTER_PALETTE.slice(0, 4).map((c) => renderFooterPaletteSwatch(c, true))}
                   </div>
-                ))}
-              </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'stretch',
+                      gap: 4,
+                      width: '100%',
+                      boxSizing: 'border-box',
+                    }}
+                  >
+                    {FOOTER_PALETTE.slice(4).map((c) =>
+                      renderFooterPaletteSwatch(c, true, {
+                        flex: '0 0 auto',
+                        width: 'calc((100% - 12px) / 4)',
+                      }),
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    width: '100%',
+                    maxWidth: '100%',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexShrink: 0,
+                    gap: 6,
+                    overflowX: 'auto',
+                    paddingBottom: 4,
+                  }}
+                >
+                  {FOOTER_PALETTE.map((c) => renderFooterPaletteSwatch(c, false))}
+                </div>
+              )}
 
               {/* Navigation Grid (6 links) */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px 24px' }}>

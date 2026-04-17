@@ -9,6 +9,9 @@ const BB = "'Bebas Neue', sans-serif";
 const MONO = "'JetBrains Mono', monospace";
 const B = '4px solid #0E0E0E';
 
+/** Viewports above this use the original absolute collage + full entrance timeline. */
+const CONTACT_DESKTOP_MIN_PX = 901;
+
 const SOCIALS = [
   { name: 'GITHUB', handle: '@Anayshah13', icon: <Github size={28} strokeWidth={2.5} /> },
   { name: 'LINKEDIN', handle: '/in/Anayshah', icon: <Linkedin size={28} strokeWidth={2.5} /> },
@@ -34,17 +37,9 @@ const ContactSection: React.FC = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const ctx = gsap.context(() => {
-      // Entrance Timeline for chaotic overlapping layout
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 60%',
-          once: true,
-        }
-      });
+    const mm = gsap.matchMedia();
 
-      // Scatter decorative floaters
+    const ctx = gsap.context(() => {
       gsap.utils.toArray('.deco-float').forEach((el: HTMLElement, i) => {
         gsap.to(el, {
           y: '+=25',
@@ -52,30 +47,45 @@ const ContactSection: React.FC = () => {
           duration: 3 + i * 0.5,
           repeat: -1,
           yoyo: true,
-          ease: 'sine.inOut'
+          ease: 'sine.inOut',
         });
       });
 
-      tl.from(headerRef.current, { y: -80, opacity: 0, duration: 0.7, ease: 'back.out(1.5)' })
-        // Throw elements onto the "desk"
-        .from(terminalRef.current, { x: -250, y: -100, rotation: -25, scale: 0.5, opacity: 0, duration: 0.9, ease: 'back.out(1.3)' }, '-=0.3')
-        .from(boardRef.current, { x: 250, y: 150, rotation: 15, scale: 0.5, opacity: 0, duration: 0.9, ease: 'back.out(1.2)' }, '-=0.6')
-        .from(stickyRef.current, { x: 0, y: -200, scale: 0, rotation: -40, opacity: 0, duration: 0.7, ease: 'back.out(1.8)' }, '-=0.4')
-        .from('.pin-card', { scale: 0, rotation: () => Math.random() * 40 - 20, opacity: 0, stagger: 0.08, duration: 0.5, ease: 'back.out(1.5)' }, '-=0.2')
-        .from(footerRef.current, { y: 40, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
-        // Stamp comes down hard at the very end
-        .from(stampRef.current, { scale: 3, rotation: 15, opacity: 0, duration: 0.4, ease: 'power4.in' }, '+=0.2')
-        // Jolt the terminal on stamp impact!
-        .to(terminalRef.current, { y: '+=10', rotation: '-=2', duration: 0.1, yoyo: true, repeat: 1 }, '-=0.0');
+      mm.add(`(min-width: ${CONTACT_DESKTOP_MIN_PX}px)`, () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 60%',
+            once: true,
+          },
+        });
 
+        tl.from(headerRef.current, { y: -80, opacity: 0, duration: 0.7, ease: 'back.out(1.5)' })
+          .from(terminalRef.current, { x: -250, y: -100, rotation: -25, scale: 0.5, opacity: 0, duration: 0.9, ease: 'back.out(1.3)' }, '-=0.3')
+          .from(boardRef.current, { x: 250, y: 150, rotation: 15, scale: 0.5, opacity: 0, duration: 0.9, ease: 'back.out(1.2)' }, '-=0.6')
+          .from(stickyRef.current, { x: 0, y: -200, scale: 0, rotation: -40, opacity: 0, duration: 0.7, ease: 'back.out(1.8)' }, '-=0.4')
+          .from('.pin-card', { scale: 0, rotation: () => Math.random() * 40 - 20, opacity: 0, stagger: 0.08, duration: 0.5, ease: 'back.out(1.5)' }, '-=0.2')
+          .from(footerRef.current, { y: 40, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
+          .from(stampRef.current, { scale: 3, rotation: 15, opacity: 0, duration: 0.4, ease: 'power4.in' }, '+=0.2')
+          .to(terminalRef.current, { y: '+=10', rotation: '-=2', duration: 0.1, yoyo: true, repeat: 1 }, '-=0.0');
+
+        return () => {
+          tl.scrollTrigger?.kill();
+          tl.kill();
+        };
+      });
     }, containerRef);
 
-    return () => ctx.revert();
+    return () => {
+      mm.revert();
+      ctx.revert();
+    };
   }, []);
 
   return (
     <div
       ref={containerRef}
+      className="contact-section-root"
       style={{
         width: '100%',
         minHeight: '110vh',
@@ -105,6 +115,124 @@ const ContactSection: React.FC = () => {
           transform: translateY(6px) !important;
           box-shadow: 0px 0px 0 #0E0E0E !important;
         }
+        @media (max-width: ${CONTACT_DESKTOP_MIN_PX - 1}px) {
+          .contact-section-root {
+            overflow-x: hidden !important;
+            overflow-y: visible !important;
+            min-height: auto !important;
+          }
+          .contact-section-main {
+            min-height: auto !important;
+          }
+          .contact-collage-wrap {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            padding: 0 16px 56px !important;
+            box-sizing: border-box !important;
+            gap: 28px !important;
+          }
+          .contact-terminal {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            width: 100% !important;
+            max-width: 550px !important;
+            min-width: 0 !important;
+            flex-shrink: 0 !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            transform: rotate(-2deg) !important;
+          }
+          .contact-pinboard {
+            position: relative !important;
+            top: auto !important;
+            right: auto !important;
+            left: auto !important;
+            width: 100% !important;
+            max-width: 550px !important;
+            min-width: 0 !important;
+            flex-shrink: 0 !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            margin-top: 0 !important;
+            transform: rotate(2deg) !important;
+            padding: 14px 12px 18px !important;
+            padding-top: 44px !important;
+            box-shadow: 10px 10px 0 #0E0E0E !important;
+          }
+          .contact-pinboard-monkey {
+            top: -34px !important;
+            transform: translateX(-50%) scale(0.44) !important;
+            transform-origin: center bottom !important;
+          }
+          .contact-stamp,
+          .contact-sticky {
+            display: none !important;
+          }
+          .contact-pinboard-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            grid-template-rows: repeat(3, minmax(118px, auto)) !important;
+            gap: 10px !important;
+            align-content: start !important;
+          }
+          .contact-pinboard .contact-pin-card {
+            min-height: 118px !important;
+            padding: 12px 8px 14px !important;
+            box-shadow: 4px 4px 0 #0E0E0E !important;
+            border-radius: 8px !important;
+            transform: none !important;
+            justify-content: flex-start !important;
+            overflow: visible !important;
+          }
+          .contact-pinboard .contact-pin-cluster {
+            top: 5px !important;
+          }
+          .contact-pinboard .contact-pin-cluster > div:first-of-type {
+            width: 11px !important;
+            height: 11px !important;
+          }
+          .contact-pinboard .contact-pin-cluster > div:last-of-type {
+            width: 2px !important;
+            height: 12px !important;
+            margin-top: -2px !important;
+          }
+          .contact-pinboard .contact-pin-card-icon {
+            margin-top: 16px !important;
+            margin-bottom: 4px !important;
+          }
+          .contact-pinboard .contact-pin-card-icon svg {
+            width: 22px !important;
+            height: 22px !important;
+          }
+          .contact-pinboard .contact-pin-card-icon > div {
+            font-size: 0.85rem !important;
+          }
+          .contact-pinboard .contact-pin-card-title {
+            font-size: 0.88rem !important;
+            letter-spacing: 0.04em !important;
+            line-height: 1.15 !important;
+          }
+          .contact-pinboard .contact-pin-card-handle {
+            font-size: 0.7rem !important;
+            margin-top: 4px !important;
+            line-height: 1.25 !important;
+            word-break: break-word !important;
+            overflow-wrap: anywhere !important;
+            max-height: none !important;
+            overflow: visible !important;
+            display: block !important;
+            -webkit-line-clamp: unset !important;
+            line-clamp: unset !important;
+            -webkit-box-orient: unset !important;
+            opacity: 0.92 !important;
+          }
+          .contact-pinboard .contact-pin-curl {
+            transform: scale(0.62) !important;
+            transform-origin: bottom right !important;
+          }
+        }
       `}</style>
 
       {/* BACKGROUND DECORATIVE GRID LINES */}
@@ -127,7 +255,7 @@ const ContactSection: React.FC = () => {
       </svg>
 
       {/* MAIN CONTAINER FOR COLLAGE LAYOUT */}
-      <div style={{ flex: 1, position: 'relative', width: '100%', height: '100%', minHeight: '90vh', display: 'flex', flexDirection: 'column' }}>
+      <div className="contact-section-main" style={{ flex: 1, position: 'relative', width: '100%', height: '100%', minHeight: '90vh', display: 'flex', flexDirection: 'column' }}>
 
         {/* HEADER */}
         <h1
@@ -142,10 +270,11 @@ const ContactSection: React.FC = () => {
           LET&apos;S CONNECT
         </h1>
 
-        <div style={{ position: 'relative', flex: 1, width: '100%' }}>
+        <div className="contact-collage-wrap" style={{ position: 'relative', flex: 1, width: '100%' }}>
           {/* 1. TERMINAL CARD */}
           <div 
             ref={terminalRef}
+            className="contact-terminal"
             style={{
               position: 'absolute', top: '5vh', left: '5vw',
               width: '40vw', minWidth: '340px', maxWidth: '550px',
@@ -178,6 +307,7 @@ const ContactSection: React.FC = () => {
           {/* 2. RUBBER STAMP */}
           <div
             ref={stampRef}
+            className="contact-stamp"
             style={{
               position: 'absolute', top: '-2vh', left: '40vw',
               width: '150px', height: '150px',
@@ -191,6 +321,7 @@ const ContactSection: React.FC = () => {
           {/* 3. LAVENDER STICKY NOTE */}
           <div
             ref={stickyRef}
+            className="contact-sticky"
             style={{
               position: 'absolute', top: '48vh', left: '35vw',
               background: '#B399FF', border: B, padding: '25px',
@@ -211,6 +342,7 @@ const ContactSection: React.FC = () => {
           {/* 4. PINBOARD */}
           <div
             ref={boardRef}
+            className="contact-pinboard"
             style={{
               position: 'absolute', top: '2vh', right: '4vw',
               width: '42vw', minWidth: '380px', maxWidth: '650px',
@@ -221,7 +353,7 @@ const ContactSection: React.FC = () => {
             }}
           >
             {/* Peeking Orange Monkey Blob */}
-            <div style={{ position: 'absolute', top: -75, left: '60%', transform: 'translateX(-50%)', zIndex: 20 }}>
+            <div className="contact-pinboard-monkey" style={{ position: 'absolute', top: -75, left: '60%', transform: 'translateX(-50%)', zIndex: 20 }}>
               <svg width="200" height="150" viewBox="0 0 200 150" style={{ overflow: 'visible' }}>
                 {/* Body (only top half is visible above the board line approx) */}
                 <path d="M70,80 Q70,40 100,40 Q130,40 130,80" fill="#FF8C00" stroke="#0E0E0E" strokeWidth="4" />
@@ -245,7 +377,7 @@ const ContactSection: React.FC = () => {
               </svg>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '16px', position: 'relative', zIndex: 10 }}>
+            <div className="contact-pinboard-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '16px', position: 'relative', zIndex: 10 }}>
               {SOCIALS.map((social, idx) => {
                 const stickyColors = [
                   '#DAFC92', // Lime Cream
@@ -283,6 +415,7 @@ const ContactSection: React.FC = () => {
                 const pinColors = ['#FF5C5C', '#1B3970', '#DAFC92', '#FFBE0B', '#B399FF', '#FF5C5C'];
                 const curlSVG = (
                   <svg
+                    className="contact-pin-curl"
                     width="40" height="40" viewBox="0 0 40 40"
                     style={{
                       position: 'absolute',
@@ -308,7 +441,7 @@ const ContactSection: React.FC = () => {
                   <a
                     key={social.name}
                     href={social.name === 'EMAIL' ? `mailto:${social.handle}` : (social.name === 'RESUME' ? '/Anay_Resume.pdf' : '#')}
-                    className="pin-card"
+                    className="pin-card contact-pin-card"
                     style={{
                       background: stickyColors[idx],
                       border: B,
@@ -328,13 +461,13 @@ const ContactSection: React.FC = () => {
                     }}
                   >
                     {/* Pin visual: head + stem */}
-                    <div style={{ position: 'absolute', top: '6px', left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+                    <div className="contact-pin-cluster" style={{ position: 'absolute', top: '6px', left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
                       <div style={{ width: 14, height: 14, borderRadius: '50%', background: pinColors[idx], border: '2px solid #0E0E0E', boxShadow: '0 2px 4px rgba(0,0,0,0.18)' }} />
                       <div style={{ width: 3, height: 18, background: '#0E0E0E', margin: '0 auto', borderRadius: 2, marginTop: -2, boxShadow: '0 2px 4px rgba(0,0,0,0.10)' }} />
                     </div>
-                    <div style={{ marginBottom: '8px', color: textColors[idx], marginTop: 18 }}>{social.icon}</div>
-                    <span style={{ fontFamily: BB, fontSize: '1.6rem', letterSpacing: '0.05em', margin: 0 }}>{social.name}</span>
-                    <span style={{ fontSize: '0.7rem', opacity: 0.7, marginTop: '4px', textAlign: 'center', wordBreak: 'break-all' }}>{social.handle}</span>
+                    <div className="contact-pin-card-icon" style={{ marginBottom: '8px', color: textColors[idx], marginTop: 18 }}>{social.icon}</div>
+                    <span className="contact-pin-card-title" style={{ fontFamily: BB, fontSize: '1.6rem', letterSpacing: '0.05em', margin: 0 }}>{social.name}</span>
+                    <span className="contact-pin-card-handle" style={{ fontSize: '0.7rem', opacity: 0.7, marginTop: '4px', textAlign: 'center', wordBreak: 'break-all' }}>{social.handle}</span>
                     {/* Curl effect */}
                     {curlSVG}
                   </a>

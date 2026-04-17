@@ -133,6 +133,35 @@
   opacity: 0.8;
 }
 
+/* Homepage: bento + “PROJECTS” headings hidden on small screens (see mobile rules below) */
+.desktopBentoBlock {
+  display: block;
+}
+
+.mobileViewAllWrap {
+  display: none;
+}
+
+.mobileTopProjectsHeading {
+  display: none;
+}
+
+.mobileTopProjectsTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.75rem, 12vw, 4rem);
+  color: #dafc92;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  margin: 0;
+}
+
+.mobileTopProjectsUnderline {
+  width: 100px;
+  height: 6px;
+  background: #dafc92;
+  margin: 4px auto 0;
+}
+
 /* ── TIMELINE WRAPPER ─────────────────────────────────── */
 .wrapper {
   position: relative;
@@ -621,7 +650,7 @@
   background: #0E0E0E;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 0 12px;
   flex-shrink: 0;
 }
@@ -629,12 +658,6 @@
 .macIconsArea {
   display: flex;
   gap: 6px;
-}
-
-.imageBrowserUrl {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.55rem;
-  color: rgba(218,252,146,0.4);
 }
 
 .projectImageInner {
@@ -675,6 +698,82 @@
 }
 
 @media (max-width: 900px) {
+  .desktopBentoBlock {
+    display: none;
+  }
+
+  .mobileTopProjectsHeading {
+    display: block;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 8px 8vw 20px;
+  }
+
+  .mobileViewAllWrap {
+    display: flex;
+    justify-content: center;
+    padding: 4px 0 28px;
+    position: relative;
+    z-index: 10;
+  }
+
+  @keyframes mobileCtaGlowPulse {
+    0%, 100% {
+      box-shadow:
+        6px 6px 0 #0e0e0e,
+        0 0 0 1px rgba(78, 205, 196, 0.45),
+        0 0 18px rgba(78, 205, 196, 0.35),
+        0 0 36px rgba(218, 252, 146, 0.2);
+    }
+    50% {
+      box-shadow:
+        6px 6px 0 #0e0e0e,
+        0 0 0 2px rgba(78, 205, 196, 0.65),
+        0 0 26px rgba(78, 205, 196, 0.5),
+        0 0 48px rgba(218, 252, 146, 0.28);
+    }
+  }
+
+  .mobileViewAllBtn {
+    width: 85%;
+    max-width: 440px;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    color: #f5f0e8;
+    background: linear-gradient(165deg, #143a6b 0%, #0a1f3d 45%, #0c2648 100%);
+    border: 3px solid #0e0e0e;
+    padding: 17px 22px;
+    box-shadow:
+      6px 6px 0 #0e0e0e,
+      0 0 0 1px rgba(78, 205, 196, 0.5),
+      0 0 20px rgba(78, 205, 196, 0.4),
+      0 0 40px rgba(218, 252, 146, 0.22);
+    animation: mobileCtaGlowPulse 2.8s ease-in-out infinite;
+    transition: transform 0.15s ease, filter 0.2s ease;
+  }
+
+  .mobileViewAllBtn:active {
+    transform: translate(2px, 2px);
+    animation: none;
+    box-shadow: 3px 3px 0 #0e0e0e, 0 0 12px rgba(78, 205, 196, 0.35);
+  }
+
+  .section {
+    padding-top: 48px;
+    padding-bottom: 52px;
+  }
+
+  .wrapper {
+    min-height: 0 !important;
+    margin-top: 0;
+  }
+
   .rowLeft,
   .rowRight {
     position: relative !important;
@@ -682,12 +781,50 @@
     transform: none;
     flex-direction: column;
     padding: 0 5vw;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 
   .card, .imgWrapper {
     max-width: 100%;
     width: 100%;
+  }
+
+  .imgWrapper {
+    order: -1;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .card {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cardBody {
+    text-align: center;
+  }
+
+  .hackathonBadge {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .techRow {
+    justify-content: center;
+  }
+
+  .cardLinks {
+    justify-content: center;
+  }
+
+  .projDescWrapper,
+  .projTechWrapper {
+    height: auto !important;
+    opacity: 1 !important;
+    overflow: visible;
   }
 
   .svg {
@@ -704,23 +841,17 @@
     gap: 0;
     min-height: auto !important;
     position: relative;
-    padding-left: 40px;
-  }
-
-  /* Simple vertical line on mobile */
-  .events::before {
-    content: '';
-    position: absolute;
-    left: 18px;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: linear-gradient(to bottom, transparent, rgba(218,252,146,0.5) 10%, rgba(218,252,146,0.5) 90%, transparent);
+    padding-left: 0;
+    align-items: center;
   }
 
   .eventRow {
     position: relative !important;
     top: auto !important;
+  }
+
+  .events > div:last-child {
+    margin-bottom: 12px;
   }
 }
 

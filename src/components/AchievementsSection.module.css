@@ -62,34 +62,37 @@
   z-index: 20;
   background: #0E0E0E;
   border: 4px solid #0E0E0E;
-  padding: 14px 36px 12px;
+  padding: 16px 40px 14px;
   box-shadow: 8px 8px 0 #FF5C5C;
   text-align: center;
 }
 
+/* Primary line — larger, brighter */
 .titleLine1 {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  color: #B399FF;
-  letter-spacing: 0.12em;
-  line-height: 1.1;
-  margin: 0;
+  font-size: clamp(2.45rem, 5.2vw, 4rem);
+  color: #e8ddff;
+  letter-spacing: 0.14em;
+  line-height: 1.05;
+  margin: 0 0 2px;
 }
 
+/* Secondary line — clearly subordinate to line 1 */
 .titleLine2 {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  color: #B399FF;
-  letter-spacing: 0.12em;
+  font-size: clamp(1.65rem, 3.2vw, 2.65rem);
+  color: #a98fe8;
+  letter-spacing: 0.2em;
   line-height: 1.1;
   margin: 0;
+  font-weight: 400;
 }
 
 .titleUnderline {
   width: 80px;
   height: 5px;
   background: #B399FF;
-  margin: 6px 0 0 auto;
+  margin: 8px 0 0 auto;
   border-radius: 0;
 }
 
@@ -143,28 +146,32 @@
 }
 
 .cardHeader {
-  height: 48px;
+  min-height: 56px;
+  height: auto;
+  padding: 10px 16px;
   background: rgba(180, 150, 110, 0.15);
   border-bottom: 6px dashed rgba(180, 150, 110, 0.4);
   display: flex;
   align-items: center;
-  padding: 0 16px;
   flex-shrink: 0;
 }
 
 .cardHeaderIcon {
-  font-size: 1.2rem;
-  margin-right: 10px;
+  font-size: 1.35rem;
+  margin-right: 12px;
   filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.1));
+  line-height: 1;
 }
 
+/* Card section title — larger than in-card headings */
 .cardHeaderTitle {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
-  color: #4a3b22;
-  font-weight: 800;
-  letter-spacing: 0.15em;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  color: #2a2214;
+  font-weight: 400;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
+  line-height: 1.05;
 }
 
 .cardBody {
@@ -202,41 +209,49 @@
   gap: 8px;
 }
 
+/* Per-entry primary name — below card title, above degree */
 .eduSchool {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: #3d2f1b;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
+  letter-spacing: 0.05em;
+  line-height: 1.25;
+  font-weight: 400;
 }
 
 .eduYear {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  color: #5c4a2b;
-  font-weight: 700;
+  font-size: 0.62rem;
+  color: #7a6a4f;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
+/* Subheading under school name */
 .eduDegree {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  color: #6d5b3d;
-  font-style: italic;
+  font-size: 0.74rem;
+  color: #5c4a32;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.45;
 }
 
 .eduScore {
   display: inline-block;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
   color: #3d2f1b;
   background: transparent;
-  padding: 2px 8px;
+  padding: 3px 8px;
   border: 1px solid rgba(180, 150, 110, 0.8);
   border-radius: 4px;
-  margin-top: 4px;
-  letter-spacing: 0.06em;
+  margin-top: 6px;
+  letter-spacing: 0.04em;
 }
 
 /* ── Achievement List ──────────────────────────────────────────────── */
@@ -259,34 +274,55 @@
 }
 
 .achieveCategory {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.1rem;
-  color: #3d2f1b;
-  letter-spacing: 0.08em;
   display: flex;
   align-items: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid rgba(180, 150, 110, 0.35);
+}
+
+.achieveCategoryIcon {
+  font-size: 1.15rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Group title — between card header and bullet body */
+.achieveCategoryLabel {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.18rem;
+  color: #3d2f1b;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+  font-weight: 400;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .achieveBadge {
   display: inline-block;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   font-weight: 700;
-  color: #3d2f1b;
-  padding: 2px 8px;
-  border: 1px solid rgba(180, 150, 110, 0.6);
+  color: #5c4a2b;
+  padding: 3px 7px;
+  border: 1px solid rgba(180, 150, 110, 0.55);
   border-radius: 4px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   background: transparent !important;
+  margin-left: auto;
 }
 
 .achieveText {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  color: #5c4a2b;
-  line-height: 1.6;
+  font-size: 0.7rem;
+  color: #6d5e47;
+  line-height: 1.65;
+  font-weight: 400;
+  padding-left: 2px;
 }
 
 .achieveHighlight {
@@ -576,8 +612,61 @@
   animation: spinReverse 25s linear infinite;
 }
 
-/* ── Responsive ────────────────────────────────────────────────────── */
-@media (max-width: 1024px) {
+/* ── Mobile: simple stacked section (no decorative layer from TSX) ─── */
+.section.sectionMobile {
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.mobileSimple {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 28px 16px 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.mobileSectionTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 8vw, 2.65rem);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: #0e0e0e;
+  text-align: center;
+  margin: 0 0 12px;
+  width: 100%;
+  line-height: 1.08;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.mobileSimple .mobileSectionTitle:not(:first-child) {
+  margin-top: 28px;
+}
+
+.sectionMobile .mobileCard.cardLeft,
+.sectionMobile .mobileCard.cardRight {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto 4px;
+}
+
+.sectionMobile .mobileCard .cardBody {
+  justify-content: flex-start;
+}
+
+/* ── Responsive (tablet / small laptop only — desktop layout preserved) ─ */
+@media (max-width: 1024px) and (min-width: 768px) {
   .section {
     height: auto;
     min-height: 100vh;

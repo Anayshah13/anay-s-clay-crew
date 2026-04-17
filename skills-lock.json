@@ -5,6 +5,11 @@
       "source": "erichowens/some_claude_skills",
       "sourceType": "github",
       "computedHash": "c798d7c383bc77e024e93edee934add4da865f556d4c65ba42869bd6c2ea2e06"
+    },
+    "typography-system": {
+      "source": "sanky369/vibe-building-skills",
+      "sourceType": "github",
+      "computedHash": "bc704d6c1e557f9a6446c76c6b8ca6d68a71607ed2f4d2e085510902d3f2261c"
     }
   }
 }

@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BLOB_CONFIGS } from './blobConfigs';
 import { renderAboutDev } from './BlobRenderers1';
 import type { BlobRef } from '@/hooks/useBlobCrowd';
+import { useIsMobile } from '@/hooks/use-mobile';
 import styles from './AchievementsSection.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -89,6 +90,7 @@ function burstPoints(n: number, outerR: number, innerR: number): string {
 }
 
 const AchievementsSection: React.FC = () => {
+  const isMobile = useIsMobile();
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const leftCardRef = useRef<HTMLDivElement>(null);
@@ -107,39 +109,47 @@ const AchievementsSection: React.FC = () => {
         start: 'top 70%',
         once: true,
         onEnter: () => {
-          if (titleRef.current) {
+          if (!isMobile && titleRef.current) {
             gsap.from(titleRef.current, { y: -50, opacity: 0, duration: 0.7, ease: 'back.out(1.4)' });
           }
-          if (pedestalRef.current) {
+          if (!isMobile && pedestalRef.current) {
             gsap.from(pedestalRef.current, { y: 80, opacity: 0, duration: 0.8, ease: 'power3.out', delay: 0.15 });
           }
-          if (blobContainerRef.current) {
+          if (!isMobile && blobContainerRef.current) {
             gsap.from(blobContainerRef.current, { scale: 0, opacity: 0, duration: 0.6, ease: 'back.out(1.8)', delay: 0.4 });
           }
           if (leftCardRef.current) {
-            gsap.from(leftCardRef.current, { x: -120, duration: 0.8, ease: 'power3.out', delay: 0.2 });
+            if (isMobile) {
+              gsap.from(leftCardRef.current, { y: 36, opacity: 0, duration: 0.55, ease: 'power2.out', delay: 0.2 });
+            } else {
+              gsap.from(leftCardRef.current, { x: -120, duration: 0.8, ease: 'power3.out', delay: 0.2 });
+            }
           }
           if (rightCardRef.current) {
-            gsap.from(rightCardRef.current, { x: 120, duration: 0.8, ease: 'power3.out', delay: 0.3 });
+            if (isMobile) {
+              gsap.from(rightCardRef.current, { y: 36, opacity: 0, duration: 0.55, ease: 'power2.out', delay: 0.05 });
+            } else {
+              gsap.from(rightCardRef.current, { x: 120, duration: 0.8, ease: 'power3.out', delay: 0.3 });
+            }
           }
           const eduItems = sectionRef.current?.querySelectorAll('[data-edu-item]');
           if (eduItems?.length) {
-            gsap.from(eduItems, { y: 30, stagger: 0.12, duration: 0.5, ease: 'power2.out', delay: 0.5 });
+            gsap.from(eduItems, { y: 30, stagger: 0.12, duration: 0.5, ease: 'power2.out', delay: isMobile ? 0.35 : 0.5 });
           }
           const achieveItems = sectionRef.current?.querySelectorAll('[data-achieve-item]');
           if (achieveItems?.length) {
-            gsap.from(achieveItems, { y: 30, stagger: 0.12, duration: 0.5, ease: 'power2.out', delay: 0.6 });
+            gsap.from(achieveItems, { y: 30, stagger: 0.12, duration: 0.5, ease: 'power2.out', delay: isMobile ? 0.2 : 0.6 });
           }
         },
       });
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   // ── Blob breathing animation ────────────────────────────────────
   useEffect(() => {
-    if (!blobContainerRef.current) return;
+    if (isMobile || !blobContainerRef.current) return;
     const tween = gsap.to(blobContainerRef.current, {
       scaleY: 1.06,
       scaleX: 0.96,
@@ -150,7 +160,7 @@ const AchievementsSection: React.FC = () => {
       transformOrigin: 'center bottom',
     });
     return () => { tween.kill(); };
-  }, []);
+  }, [isMobile]);
 
   // ── Dev blob config ─────────────────────────────────────────────
   const devCfg = BLOB_CONFIGS.find(b => b.id === 'dev');
@@ -170,9 +180,45 @@ const AchievementsSection: React.FC = () => {
       }
     : null;
 
-  return (
-    <section ref={sectionRef} className={styles.section} id="achievements">
+  const educationCardBody = (
+    <div className={styles.cardBody}>
+      {EDUCATION.map((edu, i) => (
+        <div key={i} data-edu-item className={styles.eduItem} style={{ borderLeftColor: edu.accentColor, borderLeftWidth: 5 }}>
+          <div className={styles.eduRow}>
+            <span className={styles.eduSchool}>{edu.school}</span>
+            <span className={styles.eduYear}>{edu.years}</span>
+          </div>
+          <span className={styles.eduDegree}>{edu.degree}</span>
+          <span className={styles.eduScore} style={{ background: edu.accentColor }}>{edu.score}</span>
+        </div>
+      ))}
+    </div>
+  );
 
+  const achievementsCardBody = (
+    <div className={styles.cardBody}>
+      {ACHIEVEMENTS.map((group, gi) => (
+        <div key={gi} data-achieve-item className={styles.achieveItem}>
+          <div className={styles.achieveCategory}>
+            <span className={styles.achieveCategoryIcon} aria-hidden>{group.icon}</span>
+            <span className={styles.achieveCategoryLabel}>{group.category}</span>
+            <span className={styles.achieveBadge} style={{ background: group.badgeColor }}>{group.category}</span>
+          </div>
+          {group.items.map((item, ii) => (
+            <div key={ii} className={styles.achieveText}>
+              • {renderBold(item.text)}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <section ref={sectionRef} className={`${styles.section} ${isMobile ? styles.sectionMobile : ''}`} id="achievements">
+
+      {!isMobile && (
+      <>
       {/* ── Background ─────────────────────────────────── */}
       <div className={styles.bgDots} />
       <div className={styles.bgDiagonals}>
@@ -332,18 +378,7 @@ const AchievementsSection: React.FC = () => {
             <span className={styles.cardHeaderIcon}>🎓</span>
             <span className={styles.cardHeaderTitle}>EDUCATION</span>
           </div>
-          <div className={styles.cardBody}>
-            {EDUCATION.map((edu, i) => (
-              <div key={i} data-edu-item className={styles.eduItem} style={{ borderLeftColor: edu.accentColor, borderLeftWidth: 5 }}>
-                <div className={styles.eduRow}>
-                  <span className={styles.eduSchool}>{edu.school}</span>
-                  <span className={styles.eduYear}>{edu.years}</span>
-                </div>
-                <span className={styles.eduDegree}>{edu.degree}</span>
-                <span className={styles.eduScore} style={{ background: edu.accentColor }}>{edu.score}</span>
-              </div>
-            ))}
-          </div>
+          {educationCardBody}
         </div>
 
         {/* ── CENTER: Blob on Pedestal ─────────────────── */}
@@ -411,25 +446,26 @@ const AchievementsSection: React.FC = () => {
             <span className={styles.cardHeaderIcon}>⚡</span>
             <span className={styles.cardHeaderTitle}>ACHIEVEMENTS</span>
           </div>
-          <div className={styles.cardBody}>
-            {ACHIEVEMENTS.map((group, gi) => (
-              <div key={gi} data-achieve-item className={styles.achieveItem}>
-                <div className={styles.achieveCategory}>
-                  <span>{group.icon}</span>
-                  <span>{group.category}</span>
-                  <span className={styles.achieveBadge} style={{ background: group.badgeColor }}>{group.category}</span>
-                </div>
-                {group.items.map((item, ii) => (
-                  <div key={ii} className={styles.achieveText}>
-                    • {renderBold(item.text)}
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
+          {achievementsCardBody}
         </div>
 
       </div>
+      </>
+      )}
+
+      {isMobile && (
+        <div className={styles.mobileSimple}>
+          <h2 className={styles.mobileSectionTitle}>ACHIEVEMENTS</h2>
+          <div ref={rightCardRef} className={`${styles.cardRight} ${styles.mobileCard}`}>
+            {achievementsCardBody}
+          </div>
+          <h2 className={styles.mobileSectionTitle}>EDUCATION</h2>
+          <div ref={leftCardRef} className={`${styles.cardLeft} ${styles.mobileCard}`}>
+            {educationCardBody}
+          </div>
+        </div>
+      )}
+
     </section>
   );
 };

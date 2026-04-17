@@ -459,111 +459,120 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
             style={
               isMobile
                 ? {
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'stretch',
-                  gap: 14,
                   width: '100%',
                   flexShrink: 0,
                 }
                 : {
                   display: 'flex',
-                  gap: '20px',
+                  gap: '30px',
                   flexWrap: 'wrap',
                   justifyContent: 'flex-start',
                   flexShrink: 0,
-                  marginLeft: '4vw',
+                  marginLeft: '-5vw',
+                  alignSelf: 'flex-start',
+                  width: 'auto',
                 }
             }
           >
             {isMobile ? (
-              <>
-                <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-                  {LINKS.slice(0, 3).map((link) => (
-                    <a
-                      key={link.label}
-                      data-skill-link
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        width: 58, height: 58,
-                        border: B, boxShadow: '4px 4px 0 #0E0E0E',
-                        background: '#DAFC92',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center', justifyContent: 'center',
-                        textDecoration: 'none', color: '#0E0E0E',
-                        cursor: 'pointer',
-                        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-                        opacity: 1,
-                      }}
-                      title={link.label}
-                    >
-                      {React.cloneElement(link.icon as React.ReactElement, { size: 26, strokeWidth: 2.5 })}
-                    </a>
-                  ))}
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: 14,
-                    justifyContent: 'center',
-                    flexWrap: 'wrap',
-                    padding: '12px 10px',
-                    border: B,
-                    background: 'rgba(14,14,14,0.06)',
-                    boxShadow: '4px 4px 0 #0E0E0E',
-                  }}
-                >
-                  {LINKS.slice(3).map((link) => (
-                    <a
-                      key={link.label}
-                      data-skill-link
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        width: 58, height: 58,
-                        border: B, boxShadow: '4px 4px 0 #0E0E0E',
-                        background: '#DAFC92',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center', justifyContent: 'center',
-                        textDecoration: 'none', color: '#0E0E0E',
-                        cursor: 'pointer',
-                        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-                        opacity: 1,
-                      }}
-                      title={link.label}
-                    >
-                      {React.cloneElement(link.icon as React.ReactElement, { size: 26, strokeWidth: 2.5 })}
-                    </a>
-                  ))}
-                  <div
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                  gridTemplateRows: 'repeat(2, auto)',
+                  gap: 6,
+                  width: '100%',
+                  justifyItems: 'center',
+                }}
+              >
+                {LINKS.slice(0, 3).map((link) => (
+                  <a
+                    key={link.label}
                     data-skill-link
-                    onClick={handleResumeClick}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIsResumeOpen(true); setResumeScale(1); } }}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     style={{
-                      width: 58, height: 58,
-                      border: B, boxShadow: '4px 4px 0 #0E0E0E',
-                      background: '#F5F0E8',
+                      width: '100%',
+                      maxWidth: 120,
+                      aspectRatio: '1 / 1',
+                      boxSizing: 'border-box',
+                      border: B,
+                      boxShadow: '4px 4px 0 #0E0E0E',
+                      background: '#DAFC92',
                       borderRadius: '50%',
                       display: 'flex',
-                      alignItems: 'center', justifyContent: 'center',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textDecoration: 'none',
                       color: '#0E0E0E',
                       cursor: 'pointer',
                       transition: 'transform 0.15s ease, box-shadow 0.15s ease',
                       opacity: 1,
                     }}
-                    title="Resume"
+                    title={link.label}
                   >
-                    <FileText size={26} strokeWidth={2.5} />
-                  </div>
+                    {React.cloneElement(link.icon as React.ReactElement, { size: 54, strokeWidth: 2.5 })}
+                  </a>
+                ))}
+                {LINKS.slice(3).map((link) => (
+                  <a
+                    key={link.label}
+                    data-skill-link
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      width: '100%',
+                      maxWidth: 120,
+                      aspectRatio: '1 / 1',
+                      boxSizing: 'border-box',
+                      border: B,
+                      boxShadow: '4px 4px 0 #0E0E0E',
+                      background: '#DAFC92',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      textDecoration: 'none',
+                      color: '#0E0E0E',
+                      cursor: 'pointer',
+                      transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                      opacity: 1,
+                    }}
+                    title={link.label}
+                  >
+                    {React.cloneElement(link.icon as React.ReactElement, { size: 54, strokeWidth: 2.5 })}
+                  </a>
+                ))}
+                <div
+                  data-skill-link
+                  onClick={handleResumeClick}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIsResumeOpen(true); setResumeScale(1); } }}
+                  style={{
+                    width: '100%',
+                    maxWidth: 120,
+                    aspectRatio: '1 / 1',
+                    boxSizing: 'border-box',
+                    border: B,
+                    boxShadow: '4px 4px 0 #0E0E0E',
+                    background: '#F5F0E8',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#0E0E0E',
+                    cursor: 'pointer',
+                    transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                    opacity: 1,
+                  }}
+                  title="Resume"
+                >
+                  <FileText size={54} strokeWidth={2.5} />
                 </div>
-              </>
+              </div>
             ) : (
               <>
             {LINKS.map((link) => (
