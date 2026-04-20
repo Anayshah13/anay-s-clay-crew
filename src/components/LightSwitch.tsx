@@ -16,13 +16,22 @@ const LightSwitch: React.FC<LightSwitchProps> = ({ isDark, onToggle }) => {
   const hasToggled = useRef(false);
   const idleTl = useRef<gsap.core.Tween | null>(null);
 
-  // Harmonic idle sway (made it swing more noticeably)
+  // Idle: pendulum about vertical (Y) — symmetric ±20°, smooth harmonic ease
   useEffect(() => {
     if (!cordRef.current) return;
-    idleTl.current = gsap.to(cordRef.current, {
-      rotation: 30, duration: 3, ease: 'sine.inOut',
-      yoyo: true, repeat: -1, transformOrigin: 'top center'
-    });
+    gsap.set(cordRef.current, { transformOrigin: 'top center', rotation: 0 });
+    idleTl.current = gsap.fromTo(
+      cordRef.current,
+      { rotation: -20 },
+      {
+        rotation: 20,
+        duration: 2.6,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        transformOrigin: 'top center',
+      }
+    );
     return () => { idleTl.current?.kill(); };
   }, []);
 
@@ -104,51 +113,78 @@ const LightSwitch: React.FC<LightSwitchProps> = ({ isDark, onToggle }) => {
     <div
       ref={containerRef}
       style={{
-        position: 'fixed', top: 0, right: 80, zIndex: 200,
+        position: 'fixed', top: 10, right: 72, zIndex: 200,
         display: 'flex', flexDirection: 'column', alignItems: 'center',
         cursor: 'grab', userSelect: 'none', touchAction: 'none',
+        padding: '10px 14px 14px',
+        background: isDark ? 'rgba(11, 20, 38, 0.1)' : 'rgba(218, 252, 146, 0.1)',
+        border: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(14,14,14,0.05)',
+        borderRadius: 4,
+        boxShadow: isDark
+          ? '1px 1px 0 rgba(0,0,0,0.4)'
+          : '1px 1px 0 rgba(14,14,14,0.4)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        transition: 'background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease',
       }}
       onClick={handleClick}
     >
       <span style={{
-        fontSize: 9, fontFamily: 'JetBrains Mono, monospace',
-        color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)',
-        letterSpacing: 2, marginTop: 8, marginBottom: 2,
-        transition: 'color 0.6s',
+        fontSize: 10, fontFamily: 'JetBrains Mono, monospace', fontWeight: 800,
+        color: isDark ? '#DAFC92' : '#0E0E0E',
+        letterSpacing: '0.2em', marginBottom: 4,
+        textShadow: isDark ? '0 0 12px rgba(218,252,146,0.35)' : 'none',
+        transition: 'color 0.45s ease',
       }}>{isDark ? 'DARK' : 'LIGHT'}</span>
+      <span style={{
+        fontSize: 8, fontFamily: 'JetBrains Mono, monospace', fontWeight: 600,
+        color: isDark ? 'rgba(218,252,146,0.55)' : 'rgba(14,14,14,0.55)',
+        letterSpacing: '0.12em', marginBottom: 8, textTransform: 'uppercase',
+      }}>pull cord</span>
       <div ref={cordRef} style={{
-        width: 3, height: 110, // Made thicker and significantly longer
+        width: 4, height: 110,
         background: isDark
-          ? 'linear-gradient(to bottom, #555, #888)'
-          : 'linear-gradient(to bottom, #999, #bbb)',
+          ? 'linear-gradient(to bottom, #4a4a4a, #9a9a9a)'
+          : 'linear-gradient(to bottom, #777, #c8c8c8)',
         transformOrigin: 'top center',
         display: 'flex', flexDirection: 'column', alignItems: 'center',
         justifyContent: 'flex-end',
         transition: 'background 0.6s',
+        borderRadius: 2,
       }}>
         <div
           ref={pullRef}
+          role="button"
+          tabIndex={0}
+          aria-label={isDark ? 'Switch to light mode — pull cord down firmly' : 'Switch to dark mode — pull cord down firmly'}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
           style={{
-            width: 32, height: 32, borderRadius: '50%', // Made ball significantly bigger
+            width: 34, height: 34, borderRadius: '50%',
             background: isDark
-              ? 'radial-gradient(circle at 35% 35%, #ddd, #999)'
-              : 'radial-gradient(circle at 35% 35%, #888, #555)',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+              ? 'radial-gradient(circle at 35% 35%, #f0f0f0, #8a8a8a)'
+              : 'radial-gradient(circle at 35% 35%, #aaa, #4a4a4a)',
+            boxShadow: '0 3px 10px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.35)',
             marginBottom: -16,
             transition: 'background 0.3s',
             cursor: 'grab',
+            border: '2px solid rgba(0,0,0,0.25)',
           }}
         />
       </div>
-      <div style={{
-        marginTop: 22, fontSize: 18, // Bigger emoji to match the bigger string
-        opacity: 0.5,
-        transition: 'opacity 0.3s',
-      }}>
+      <div
+        aria-hidden
+        style={{
+          marginTop: 20,
+          fontSize: 28,
+          lineHeight: 1,
+          filter: isDark ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.6))' : 'drop-shadow(0 2px 3px rgba(0,0,0,0.25))',
+          textShadow: isDark ? '0 0 14px rgba(218,252,146,0.45)' : '0 0 10px rgba(255,190,11,0.5)',
+          transition: 'filter 0.45s ease, text-shadow 0.45s ease',
+        }}
+      >
         {isDark ? '🌙' : '☀️'}
       </div>
     </div>

@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import BlobCrowd from '@/components/BlobCrowd';
 import LightSwitch from '@/components/LightSwitch';
 import AboutSection from '@/components/AboutSection';
+import PursuitsTapeBand from '@/components/PursuitsTapeBand';
 import SkillsSection from '@/components/SkillsSection';
 import ContactSection from '@/components/ContactSection';
 import ProjectsTimeline from '@/components/ProjectsTimeline';
@@ -407,7 +408,7 @@ const HeroPage: React.FC = () => {
           <div data-animate style={{ display: 'flex', gap: isMobile ? 20 : 16 }}>
             {[
               { icon: <Github size={20} />, label: 'GitHub', href: 'https://github.com/Anayshah13' },
-              { icon: <Linkedin size={20} />, label: 'LinkedIn', href: 'https://linkedin.com/in/Anayshah' },
+              { icon: <Linkedin size={20} />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/anay-shah-5880aa264/' },
               { icon: <Instagram size={20} />, label: 'Instagram', href: 'https://instagram.com/anay_shah13' },
               { icon: <Mail size={20} />, label: 'Email', href: 'mailto:anayshah13@gmail.com' },
             ].map((social) => (
@@ -447,6 +448,7 @@ const HeroPage: React.FC = () => {
         </div>
       </div>
       <AboutSection isDark={isDark} />
+      <PursuitsTapeBand />
       <SkillsSection />
       <ProjectsTimeline />
       <AchievementsSection />

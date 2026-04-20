@@ -13,12 +13,12 @@ const B = '4px solid #0E0E0E';
 const CONTACT_DESKTOP_MIN_PX = 901;
 
 const SOCIALS = [
-  { name: 'GITHUB', handle: '@Anayshah13', icon: <Github size={28} strokeWidth={2.5} /> },
-  { name: 'LINKEDIN', handle: '/in/Anayshah', icon: <Linkedin size={28} strokeWidth={2.5} /> },
+  { name: 'GITHUB', handle: '@Anayshah13', href: 'https://github.com/Anayshah13', icon: <Github size={28} strokeWidth={2.5} /> },
+  { name: 'LINKEDIN', handle: '/in/anay-shah-5880aa264', href: 'https://www.linkedin.com/in/anay-shah-5880aa264/', icon: <Linkedin size={28} strokeWidth={2.5} /> },
   { name: 'INSTAGRAM', handle: '@anay_shah13', icon: <Instagram size={28} strokeWidth={2.5} /> },
   { name: 'CODOLIO', handle: '@Anayshah13', icon: <Code2 size={28} strokeWidth={2.5} /> },
   { name: 'LEETCODE', handle: '/Anay_13', icon: <Code2 size={28} strokeWidth={2.5} /> },
-  { name: 'RESUME', handle: 'DOWNLOAD PDF', icon: <div style={{ fontWeight: 900, fontSize: '1.2rem', fontFamily: BB }}>PDF</div> },
+  { name: 'RESUME', handle: 'DOWNLOAD PDF', href: '/Anay_Resume.pdf', icon: <div style={{ fontWeight: 900, fontSize: '1.2rem', fontFamily: BB }}>PDF</div> },
 ];
 
 const ContactSection: React.FC = () => {
@@ -437,10 +437,14 @@ const ContactSection: React.FC = () => {
                     <path d="M0,40 Q25,25 40,0 Q15,35 0,40 Z" fill="none" stroke="#0E0E0E" strokeWidth="3" strokeLinejoin="round" />
                   </svg>
                 );
+                const href = 'href' in social && social.href ? social.href : '#';
+                const openExternal = Boolean(social.href?.startsWith('http'));
                 return (
                   <a
                     key={social.name}
-                    href={social.name === 'EMAIL' ? `mailto:${social.handle}` : (social.name === 'RESUME' ? '/Anay_Resume.pdf' : '#')}
+                    href={href}
+                    target={openExternal ? '_blank' : undefined}
+                    rel={openExternal ? 'noopener noreferrer' : undefined}
                     className="pin-card contact-pin-card"
                     style={{
                       background: stickyColors[idx],

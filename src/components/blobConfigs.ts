@@ -55,8 +55,8 @@ export const BLOB_CONFIGS: BlobConfig[] = [
     // REPLACED: was 'lol'. Now: THE MINECRAFT PLAYER
     id: 'minecraft', color: '#5B8C5A', shape: SHAPES.K, w: 185, h: 222,
     x: '40%', bottom: '-15px', z: 15, row: 'front',
-    // Rhythmic — sword arm raise
-    anim: { breathDuration: 2.0, leftArmRange: [-20, 10], leftArmDuration: 1.4, rightArmRange: [-10, 40], rightArmDuration: 1.2, legSwayDuration: 1.8, cursorResponsiveness: 1.5, eyeLag: 0.04, fearRadius: 145 },
+    // Calm sword arm — small idle range (sword accessory has its own subtle sway)
+    anim: { breathDuration: 2.0, leftArmRange: [-20, 10], leftArmDuration: 1.4, rightArmRange: [-10, -5], rightArmDuration: 3.2, legSwayDuration: 1.8, cursorResponsiveness: 1.5, eyeLag: 0.04, fearRadius: 145 },
   },
   {
     id: 'lego', color: '#FFD93D', shape: SHAPES.C, w: 175, h: 210,
@@ -79,7 +79,7 @@ export const BLOB_CONFIGS: BlobConfig[] = [
   },
   {
     id: 'hackathon', color: '#9B59FF', shape: SHAPES.E, w: 175, h: 210,
-    x: '88%', bottom: '20px', z: 9, row: 'mid',
+    x: '91%', bottom: '20px', z: 9, row: 'mid',
     eyelidClose: 0.35,
     anim: { breathDuration: 2.0, leftArmRange: [-8, 18], leftArmDuration: 2.0, rightArmRange: [-25, 20], rightArmDuration: 1.3, legSwayDuration: 1.7, cursorResponsiveness: 1.0, eyeLag: 0.10, fearRadius: 160 },
   },
@@ -112,8 +112,7 @@ export const BLOB_CONFIGS: BlobConfig[] = [
   {
     id: 'sleepy', color: '#FFD93D', shape: SHAPES.G, w: 122, h: 146,
     x: '53%', bottom: '300px', z: 6, row: 'back',
-    eyelidClose: 0.65,
-    // GLACIAL — 3× slow. Barely moves
+    // Eyelid / mood controlled in renderSleepy from theme (no default eyelidClose)
     anim: { breathDuration: 7.5, leftArmRange: [-3, 5], leftArmDuration: 9.0, rightArmRange: [-2, 4], rightArmDuration: 11.0, legSwayDuration: 8.0, cursorResponsiveness: 0.3, eyeLag: 0.35, fearRadius: 180 },
   },
   {
@@ -135,8 +134,8 @@ export const BLOB_CONFIGS: BlobConfig[] = [
     anim: { breathDuration: 0.45, leftArmRange: [-2, 3], leftArmDuration: 0.3, rightArmRange: [-2, 3], rightArmDuration: 0.3, legSwayDuration: 0.3, cursorResponsiveness: 0.5, eyeLag: 0.05, fearRadius: 80 },
   },
   {
-    id: 'detective', color: '#4A3728', shape: SHAPES.H, w: 120, h: 144,
-    x: '75%', bottom: '180px', z: 10, row: 'back',
+    id: 'detective', color: '#4A3728', shape: SHAPES.H, w: 136, h: 164,
+    x: '78%', bottom: '158px', z: 10, row: 'back',
     anim: { breathDuration: 2.7, leftArmRange: [-10, 15], leftArmDuration: 2.5, rightArmRange: [-12, 20], rightArmDuration: 2.9, legSwayDuration: 1.9, cursorResponsiveness: 0.6, eyeLag: 0.14, fearRadius: 160 },
   },
   {

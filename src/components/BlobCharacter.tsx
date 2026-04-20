@@ -103,6 +103,7 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
   return (
     <div
       ref={containerRef}
+      data-blob-character
       className={`${styles.blobBase} ${rowCls} ${className || ''}`}
       style={{ ...cssVars, zIndex, filter: dropShadowStr }}
       onMouseEnter={onMouseEnter}

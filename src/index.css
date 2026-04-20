@@ -80,6 +80,11 @@
   }
 }
 
+html.neo-cursor-active,
+html.neo-cursor-active * {
+  cursor: none !important;
+}
+
 @keyframes cursor-blink {
 
   0%,
@@ -137,15 +142,15 @@
 .about-calendar text {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
-  fill: #0E0E0Eb6 !important;
-  color: #0E0E0Eb6 !important;
+  fill: rgba(218, 252, 146, 0.72) !important;
+  color: rgba(218, 252, 146, 0.72) !important;
 }
 
 /* Legend "Less / More" label and total count text */
 .about-calendar span,
 .about-calendar footer,
 .about-calendar [class*="legend"] {
-  color: #0e0e0eb6 !important;
+  color: rgba(218, 252, 146, 0.72) !important;
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 0.65rem !important;
 }

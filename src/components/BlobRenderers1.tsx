@@ -159,32 +159,21 @@ export function renderMinecraft(cfg: BlobConfig, common: Record<string, unknown>
         </div>
       }
       accessoryTop={
-        // Pixelated crown
-        <div style={{ position: 'absolute', top: -22, left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'flex-end', gap: 2 }}>
-          <div style={{ width: 12, height: 14, background: '#FFD700', borderRadius: 2 }} />
-          <div style={{ width: 12, height: 20, background: '#FFD700', borderRadius: 2 }}>
-            <div style={{ width: 6, height: 6, background: '#FF4757', borderRadius: 1, margin: '3px auto' }} />
-          </div>
-          <div style={{ width: 12, height: 16, background: '#FFD700', borderRadius: 2 }} />
-        </div>
+        <img
+          src="/landing/crown.png"
+          alt=""
+          width={54}
+          height={54}
+          style={{ position: 'absolute', top: -24, left: '50%', transform: 'translateX(-50%)', objectFit: 'contain', pointerEvents: 'none' }}
+        />
       }
       accessoryBody={
         <>
-          {/* Diamond sword — right arm */}
-          <div data-mc-sword style={{ position: 'absolute', top: '44%', right: -26, transform: 'rotate(15deg)', transformOrigin: 'bottom center' }}>
-            {/* Blade — diamond blue */}
-            <div style={{ width: 8, height: 55, background: 'linear-gradient(180deg, #5DADE2 0%, #85C1E9 50%, #5DADE2 100%)', borderRadius: '4px 4px 2px 2px', position: 'relative', boxShadow: '0 0 8px rgba(93,173,226,0.5)' }}>
-              {/* Crossguard */}
-              <div style={{ position: 'absolute', bottom: 14, left: -10, width: 28, height: 7, background: '#888', borderRadius: 3 }} />
-              {/* Handle */}
-              <div style={{ position: 'absolute', bottom: -14, left: -1, width: 10, height: 16, background: '#6B3A1F', borderRadius: '0 0 4px 4px' }} />
-            </div>
+          <div data-mc-sword style={{ position: 'absolute', top: '36%', right: -34, transform: 'rotate(26deg)', transformOrigin: 'bottom center' }}>
+            <img src="/landing/sword.png" alt="" width={36} height={92} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none' }} />
           </div>
-          {/* TNT block — left arm */}
-          <div style={{ position: 'absolute', top: '48%', left: -32 }}>
-            <div style={{ width: 30, height: 30, background: '#ec3d29ff', borderRadius: 3, position: 'relative', border: '2px solid #C0392B' }}>
-              <span style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', color: 'white', fontSize: 6, fontWeight: 900, fontFamily: 'monospace' }}>TNT</span>
-            </div>
+          <div style={{ position: 'absolute', top: '46%', left: -36 }}>
+            <img src="/landing/tnt.png" alt="" width={36} height={36} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none' }} />
           </div>
         </>
       }
@@ -262,9 +251,9 @@ export function renderCprog(cfg: BlobConfig, common: Record<string, unknown>) {
       accessoryBody={
         <>
           {/* LeetCode logo on chest */}
-          <div style={{ position: 'absolute', top: '48%', left: '50%', transform: 'translateX(-50%)' }}>
-            <div style={{ width: 34, height: 34, background: '#2d2d2d', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #555', boxShadow: '0 2px 4px rgba(0,0,0,0.4)' }}>
-              <span style={{ color: '#FFA116', fontSize: 20, fontWeight: 900, fontFamily: 'monospace' }}>LC</span>
+          <div style={{ position: 'absolute', top: '47%', left: '50%', transform: 'translateX(-50%)' }}>
+            <div style={{ width: 44, height: 44, background: '#2d2d2d', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2.5px solid #555', boxShadow: '0 2px 4px rgba(0,0,0,0.4)' }}>
+              <img src="/landing/leetcode.png" alt="" width={30} height={30} style={{ objectFit: 'contain', display: 'block' }} />
             </div>
           </div>
         </>
@@ -334,7 +323,7 @@ export function renderFunnyGuy(cfg: BlobConfig, common: Record<string, unknown>)
 
 /**
  * THE POP CULTURE FREAK — hot pink #E91E8C — FRONT RIGHT
- * Arc reactor, Pokeball, lightsaber, Pikachu scar
+ * Arc reactor, Pokeball, hammer, Pikachu scar
  */
 export function renderPopCulture(cfg: BlobConfig, common: Record<string, unknown>) {
   return (
@@ -364,23 +353,19 @@ export function renderPopCulture(cfg: BlobConfig, common: Record<string, unknown
       accessoryBody={
         <>
           {/* Pokeball — right arm */}
-          <div data-pokeball style={{ position: 'absolute', top: '46%', right: -28 }}>
-            <div style={{ width: 26, height: 26, borderRadius: '50%', overflow: 'hidden', border: '3px solid #333', position: 'relative' }}>
+          <div data-pokeball style={{ position: 'absolute', top: '45%', right: -30 }}>
+            <div style={{ width: 32, height: 32, borderRadius: '50%', overflow: 'hidden', border: '3.5px solid #333', position: 'relative' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '50%', background: '#FF4757' }} />
               <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%', background: 'white' }} />
               <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 2 }}>
-                <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white', border: '2.5px solid #333' }} />
+                <div style={{ width: 10, height: 10, borderRadius: '50%', background: 'white', border: '3px solid #333' }} />
               </div>
-              <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 3, background: '#333', transform: 'translateY(-50%)', zIndex: 1 }} />
+              <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: 3.5, background: '#333', transform: 'translateY(-50%)', zIndex: 1 }} />
             </div>
           </div>
-          {/* Lightsaber — left arm */}
-          <div data-lightsaber style={{ position: 'absolute', top: '44%', left: -16, transform: 'rotate(-20deg)', transformOrigin: 'bottom center' }}>
-            {/* Blade */}
-            <div style={{ width: 5, height: 52, background: '#00FFFF', borderRadius: '4px 4px 2px 2px', boxShadow: '0 0 8px #00FFFF, 0 0 20px #00FFFF, 0 0 40px rgba(0,255,255,0.4)', position: 'relative' }}>
-              {/* Handle */}
-              <div style={{ position: 'absolute', bottom: -14, left: -2, width: 9, height: 16, background: 'linear-gradient(180deg, #888, #555)', borderRadius: '2px 2px 4px 4px', border: '1px solid #777' }} />
-            </div>
+          {/* Mjolnir — aligned with left hand / arm */}
+          <div data-culture-hammer style={{ position: 'absolute', top: '44%', left: -46, transform: 'rotate(18deg)', transformOrigin: '55% 88%' }}>
+            <img src="/landing/hammer.png" alt="" width={48} height={60} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none', transform: 'scaleX(-1)' }} />
           </div>
         </>
       }
@@ -390,7 +375,7 @@ export function renderPopCulture(cfg: BlobConfig, common: Record<string, unknown
 
 /**
  * THE HACKATHON BLOB — electric purple #9B59FF — MID
- * Dark eye bags, energy drink, exhausted droopy mouth
+ * Dark eye bags, Monster can, exhausted droopy mouth
  */
 export function renderHackathon(cfg: BlobConfig, common: Record<string, unknown>) {
   return (
@@ -405,10 +390,6 @@ export function renderHackathon(cfg: BlobConfig, common: Record<string, unknown>
           {/* Sweat drops */}
           <div style={{ position: 'absolute', top: '8%', left: '22%', width: 6, height: 9, background: 'rgba(150,200,255,0.7)', borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%', transform: 'rotate(20deg)' }} />
           <div style={{ position: 'absolute', top: '14%', left: '36%', width: 5, height: 8, background: 'rgba(150,200,255,0.6)', borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%', transform: 'rotate(10deg)' }} />
-          {/* 5 HRS chest */}
-          <div style={{ position: 'absolute', bottom: '24%', left: '50%', transform: 'translateX(-50%)' }}>
-            <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: 11, fontWeight: 900, fontFamily: 'monospace', letterSpacing: 0 }}>5 HRS</span>
-          </div>
         </>
       }
       accessoryTop={
@@ -421,14 +402,8 @@ export function renderHackathon(cfg: BlobConfig, common: Record<string, unknown>
       }
       accessoryBody={
         <>
-          {/* Energy drink can */}
-          <div style={{ position: 'absolute', top: '46%', right: -26 }}>
-            <div style={{ width: 24, height: 40, background: 'linear-gradient(135deg, #ffffffff, #a0a0a0)', borderRadius: '3px 3px 2px 2px', position: 'relative', boxShadow: 'inset -2px 0 4px rgba(0,0,0,0.2)' }}>
-              <div style={{ position: 'absolute', top: 5, left: 1, right: 1, height: 9, background: 'rgba(139, 140, 139, 0.8)', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: 5, color: 'white', fontWeight: 900 }}>⚡</span>
-              </div>
-              <div style={{ position: 'absolute', top: -5, left: '50%', transform: 'translateX(-50%)', width: 9, height: 3, background: '#888', borderRadius: '50% 50% 0 0' }} />
-            </div>
+          <div style={{ position: 'absolute', top: '44%', right: -22 }}>
+            <img src="/landing/monster.png" alt="" width={26} height={44} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none' }} />
           </div>
         </>
       }

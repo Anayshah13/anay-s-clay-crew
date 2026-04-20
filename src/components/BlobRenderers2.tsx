@@ -78,27 +78,29 @@ export function renderClumsy(cfg: BlobConfig, common: Record<string, unknown>) {
 }
 
 /**
- * THE SLEEPY ONE — warm yellow #FFD93D — BACK ROW
- * GLACIAL motion, heavy drooping lids, barely-there droopy line mouth
- * BACK ROW: keep accessories (just visible)
+ * THE SLEEPY ONE (night owl) — warm yellow #FFD93D — BACK ROW
+ * Dark mode: tired but pleasant / “awake but sleepy”. Light mode: heavier daydream lids.
+ * Brows stay soft — never steep / furrowed (no angry read).
  */
 export function renderSleepy(cfg: BlobConfig, common: Record<string, unknown>) {
   const c = common as any;
-  // Sleepy is awake if not dark, OR if explicitly woken up
-  const isAwake = !c.isDark || c.isSleepyAwake;
-  const isNightSleep = c.isDark && !c.isSleepyAwake;
-  
+  const isDark = !!c.isDark;
+  const perked = !!c.isSleepyAwake;
+  // Dark = lighter lids; light = sleepier. Click perks everyone up a notch.
+  let eyelidClose = isDark ? 0.28 : 0.55;
+  if (perked) eyelidClose = Math.max(0.08, eyelidClose - 0.18);
+  const mouthH = isDark ? 9 : 5;
+  const mouthR = isDark ? '0 0 55% 55%' : '0 0 50% 50%';
+
   return (
-    // EMOTION: SLEEPINESS — drooping heavy lids via eyelidClose, droopy line mouth
     <BlobCharacter {...c}
       eyeSize={20}
-      eyelidClose={isAwake ? 0.1 : 0.85}
-      mouthWidth={14} mouthHeight={isAwake ? 12 : 3} mouthRadius={isAwake ? "50%" : "0 0 50% 50%"}
+      eyelidClose={eyelidClose}
+      mouthWidth={16} mouthHeight={mouthH} mouthRadius={mouthR}
       eyebrows={
-        // Very heavy droopy brows — inner corners up (opposite of anger)
-        <div style={{ display: 'flex', gap: '16px', marginBottom: '-2px' }}>
-          <div style={{ width: 16, height: 4, background: 'rgba(0,0,0,0.3)', borderRadius: 4, transform: isAwake ? 'rotate(-5deg)' : 'rotate(14deg)' }} />
-          <div style={{ width: 16, height: 4, background: 'rgba(0,0,0,0.3)', borderRadius: 4, transform: isAwake ? 'rotate(5deg)' : 'rotate(-14deg)' }} />
+        <div style={{ display: 'flex', gap: '18px', marginBottom: '-1px' }}>
+          <div style={{ width: 15, height: 3, background: 'rgba(0,0,0,0.22)', borderRadius: 4, transform: 'rotate(4deg)' }} />
+          <div style={{ width: 15, height: 3, background: 'rgba(0,0,0,0.22)', borderRadius: 4, transform: 'rotate(-4deg)' }} />
         </div>
       }
       accessoryTop={
@@ -122,12 +124,12 @@ export function renderSleepy(cfg: BlobConfig, common: Record<string, unknown>) {
         </div>
       }
     >
-      {/* Z z z floats */}
-      {isNightSleep && ['Z', 'z', 'z'].map((z, zi) => (
+      {/* Soft Zzz only when extra-drowsy (light mode), not full “passed out” */}
+      {!isDark && !perked && ['z', 'z'].map((z, zi) => (
         <div key={zi} data-zzz style={{
-          position: 'absolute', top: -8 - zi * 14, right: 2 + zi * 9,
-          fontSize: 13 + zi * 4, fontWeight: 700,
-          color: '#89C9C9', fontFamily: 'serif'
+          position: 'absolute', top: 2 - zi * 11, right: 4 + zi * 10,
+          fontSize: 10 + zi * 2, fontWeight: 600,
+          color: 'rgba(100, 140, 160, 0.45)', fontFamily: 'serif'
         }}>{z}</div>
       ))}
     </BlobCharacter>
@@ -150,26 +152,33 @@ export function renderGraphicDesigner(cfg: BlobConfig, common: Record<string, un
         </div>
       }
       accessoryTop={
-        /* Beret hat */
-        <div style={{ position: 'absolute', top: -14, left: '46%', transform: 'translateX(-50%) rotate(-10deg)' }}>
-          <div style={{ width: 34, height: 14, background: '#222', borderRadius: '17px 17px 4px 4px' }} />
-          <div style={{ position: 'absolute', top: -3, left: '50%', width: 4, height: 4, background: '#222', borderRadius: '50%' }} />
+        /* Beret — slightly larger */
+        <div style={{ position: 'absolute', top: -16, left: '46%', transform: 'translateX(-50%) rotate(-10deg)' }}>
+          <div style={{ width: 42, height: 17, background: '#1a1a1a', borderRadius: '21px 21px 5px 5px', boxShadow: 'inset 0 -2px 0 rgba(255,255,255,0.06)' }} />
+          <div style={{ position: 'absolute', top: -4, left: '52%', width: 5, height: 5, background: '#1a1a1a', borderRadius: '50%' }} />
         </div>
       }
       accessoryBody={
         <>
-          {/* Color palette */}
-          <div style={{ position: 'absolute', bottom: '25%', left: -22, transform: 'rotate(-15deg)' }}>
-            <div style={{ width: 28, height: 20, background: '#e8c9a5', borderRadius: '14px', position: 'relative' }}>
-              <div style={{ position: 'absolute', right: 4, top: 4, width: 6, height: 6, background: '#fff', borderRadius: '50%' }} />
-              <div style={{ position: 'absolute', left: 4, top: 4, width: 6, height: 6, background: '#FF4757', borderRadius: '50%' }} />
-              <div style={{ position: 'absolute', left: 10, top: 12, width: 6, height: 6, background: '#4285F4', borderRadius: '50%' }} />
-            </div>
-          </div>
-          {/* Stylus / pencil */}
-          <div style={{ position: 'absolute', top: '35%', right: -14, transform: 'rotate(25deg)' }}>
+          {/* Paintbrush — left hand (swapped from right) */}
+          <div style={{ position: 'absolute', bottom: '25%', left: -18, transform: 'rotate(-18deg)' }}>
             <div style={{ width: 4, height: 24, background: '#feca57', borderRadius: 2, position: 'relative' }}>
               <div style={{ position: 'absolute', top: -4, left: 0, width: 4, height: 4, background: '#333', borderRadius: '2px 2px 0 0' }} />
+            </div>
+          </div>
+          {/* Hand-held wooden palette — tucked toward right hand */}
+          <div style={{ position: 'absolute', top: '58%', right: -32, transform: 'rotate(14deg)', transformOrigin: '20% 80%' }}>
+            <div style={{ position: 'relative', width: 36, height: 26, filter: 'drop-shadow(1px 2px 0 rgba(0,0,0,0.12))' }}>
+              <div style={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(145deg, #d4a574 0%, #b8895e 45%, #9a734f 100%)',
+                borderRadius: '46% 54% 42% 58% / 48% 45% 55% 52%',
+                border: '1.5px solid rgba(60,40,30,0.35)',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.25)',
+              }} />
+              <div style={{ position: 'absolute', left: '42%', top: '18%', width: 9, height: 11, borderRadius: '50%', background: 'radial-gradient(circle at 30% 30%, #fff 0%, #f1f1f1 40%, #ddd 100%)', border: '1px solid rgba(0,0,0,0.2)', boxShadow: 'inset -1px -1px 2px rgba(0,0,0,0.15)' }} />
+              <div style={{ position: 'absolute', right: '12%', top: '22%', width: 8, height: 8, borderRadius: '50%', background: 'radial-gradient(circle at 25% 25%, #ff8a8a 0%, #e74c3c 70%)', border: '1px solid rgba(0,0,0,0.2)' }} />
+              <div style={{ position: 'absolute', left: '18%', bottom: '18%', width: 8, height: 8, borderRadius: '50%', background: 'radial-gradient(circle at 30% 25%, #8ec5ff 0%, #2d7dd2 75%)', border: '1px solid rgba(0,0,0,0.2)' }} />
             </div>
           </div>
         </>
@@ -188,7 +197,7 @@ export function renderChef(cfg: BlobConfig, common: Record<string, unknown>) {
     <BlobCharacter {...(common as any)} eyeSize={20} mouthWidth={16} mouthHeight={16} mouthRadius="50%"
       accessoryTop={
         /* Chef hat */
-        <div style={{ position: 'absolute', top: -34, left: '50%', transform: 'translateX(-50%)' }}>
+        <div style={{ position: 'absolute', top: -24, left: '50%', transform: 'translateX(-50%)' }}>
           <div style={{ width: 38, height: 28, background: 'white', borderRadius: '8px 8px 0 0', boxShadow: 'inset -3px -4px 8px rgba(0,0,0,0.1)', position: 'relative' }}>
             <div style={{ position: 'absolute', top: 2, left: 4, width: 15, height: 13, background: 'rgba(240,240,240,1)', borderRadius: '50%' }} />
             <div style={{ position: 'absolute', top: 0, right: 4, width: 13, height: 11, background: 'rgba(245,245,245,1)', borderRadius: '50%' }} />
@@ -198,22 +207,16 @@ export function renderChef(cfg: BlobConfig, common: Record<string, unknown>) {
       }
       accessoryBody={
         <>
-          {/* Frying pan with vada pav */}
+          {/* Frying pan */}
           <div data-chef-pan style={{ position: 'absolute', top: '32%', right: -30 }}>
             <div style={{ width: 28, height: 28, background: '#555', borderRadius: '50%', boxShadow: 'inset -3px -3px 6px rgba(0,0,0,0.3)', position: 'relative' }}>
               <div style={{ position: 'absolute', right: -13, top: '50%', transform: 'translateY(-50%)', width: 13, height: 5, background: '#8B4513', borderRadius: 3 }} />
-              {/* Vada pav */}
-              <div style={{ position: 'absolute', top: 4, left: 4, width: 16, height: 12, background: '#D4A96A', borderRadius: '50% 50% 40% 40%' }}>
-                <div style={{ position: 'absolute', bottom: 0, left: 1, right: 1, height: 5, background: '#8B6914', borderRadius: '0 0 40% 40%' }} />
-              </div>
             </div>
           </div>
           {/* Steam */}
           {[0,1].map(si => (
             <div key={si} data-steam style={{ position: 'absolute', top: '16%', right: -8 + si * 6, fontSize: 9, opacity: 0.8 }}>🌶️</div>
           ))}
-          {/* Apron stripe */}
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translateX(-50%)', width: cfg.w * 0.45, height: cfg.h * 0.2, background: 'rgba(255,255,255,0.5)', borderRadius: '0 0 8px 8px' }} />
         </>
       }
     />
@@ -265,13 +268,13 @@ export function renderAstronaut(cfg: BlobConfig, common: Record<string, unknown>
 export function renderDetective(cfg: BlobConfig, common: Record<string, unknown>) {
   return (
     // MOUTH: distinctive side-pipe smirk — shifted right
-    <BlobCharacter {...(common as any)} mouthWidth={16} mouthHeight={5} mouthRadius="0 0 70% 30%"
+    <BlobCharacter {...(common as any)} eyeSize={24} mouthWidth={16} mouthHeight={5} mouthRadius="0 0 70% 30%"
       accessoryTop={
-        // Deerstalker hat — keep (it's on top, visible)
-        <div style={{ position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)' }}>
-          <div style={{ width: cfg.w * 0.62, height: 14, background: '#6B4423', borderRadius: '50% 50% 0 0', position: 'relative' }}>
-            <div style={{ position: 'absolute', left: -8, bottom: 0, width: 15, height: 9, background: '#7B5433', borderRadius: '0 0 4px 4px', transform: 'rotate(-15deg)' }} />
-            <div style={{ position: 'absolute', right: -8, bottom: 0, width: 15, height: 9, background: '#7B5433', borderRadius: '0 0 4px 4px', transform: 'rotate(15deg)' }} />
+        // Deerstalker — cap band scales with slightly larger blob
+        <div style={{ position: 'absolute', top: -16, left: '50%', transform: 'translateX(-50%)' }}>
+          <div style={{ width: cfg.w * 0.58, height: 16, background: '#6B4423', borderRadius: '50% 50% 0 0', position: 'relative', boxShadow: 'inset 0 -2px 0 rgba(0,0,0,0.12)' }}>
+            <div style={{ position: 'absolute', left: -9, bottom: 0, width: 17, height: 10, background: '#7B5433', borderRadius: '0 0 4px 4px', transform: 'rotate(-15deg)' }} />
+            <div style={{ position: 'absolute', right: -9, bottom: 0, width: 17, height: 10, background: '#7B5433', borderRadius: '0 0 4px 4px', transform: 'rotate(15deg)' }} />
           </div>
         </div>
       }
@@ -288,10 +291,10 @@ export function renderDetective(cfg: BlobConfig, common: Record<string, unknown>
       accessoryBody={
         <>
           {/* Magnifying Glass */}
-          <div style={{ position: 'absolute', top: '50%', right: -10, transform: 'rotate(-25deg)' }}>
-            <div style={{ width: 8, height: 26, background: '#5B3413', borderRadius: '0 0 4px 4px', position: 'relative', left: 10 }}>
-              <div style={{ position: 'absolute', top: -20, left: -10, width: 28, height: 28, border: '4px solid #gold', background: 'rgba(200,220,255,0.4)', borderRadius: '50%', boxShadow: '0 2px 5px rgba(0,0,0,0.3)', borderColor: '#DAA520' }}>
-                <div style={{ position: 'absolute', top: 2, left: 2, width: 8, height: 4, background: 'rgba(255,255,255,0.6)', borderRadius: '50%', transform: 'rotate(-45deg)' }} />
+          <div style={{ position: 'absolute', top: '50%', right: -10, transform: 'rotate(25deg)' }}>
+            <div style={{ width: 9, height: 30, background: '#5B3413', borderRadius: '0 0 4px 4px', position: 'relative', left: 11 }}>
+              <div style={{ position: 'absolute', top: -22, left: -11, width: 32, height: 32, border: '4px solid #DAA520', background: 'rgba(200,220,255,0.42)', borderRadius: '50%', boxShadow: '0 2px 5px rgba(0,0,0,0.3)' }}>
+                <div style={{ position: 'absolute', top: 3, left: 3, width: 10, height: 5, background: 'rgba(255,255,255,0.55)', borderRadius: '50%', transform: 'rotate(-45deg)' }} />
               </div>
             </div>
           </div>

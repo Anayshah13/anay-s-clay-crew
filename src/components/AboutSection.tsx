@@ -451,7 +451,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
           <div ref={trackerRef}
             style={{
               flex: '0 0 auto', border: B, boxShadow: '8px 8px 0 #DAFC92', borderRadius: 0,
-              background: '#F5F0E8', display: 'flex', flexDirection: 'column', overflow: 'hidden',
+              background: '#0E0E0E', display: 'flex', flexDirection: 'column', overflow: 'hidden',
               cursor: isMobile ? 'default' : 'pointer',
               position: 'relative', zIndex: 10,
             }}
@@ -466,7 +466,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
             {/* Header bar */}
             <div style={{
               height: '32px', background: '#0E0E0E', display: 'flex', alignItems: 'center',
-              padding: '0 12px', borderBottom: B, flexShrink: 0
+              padding: '0 12px', borderBottom: '2px solid #333', flexShrink: 0
             }}>
               <div ref={pulseRef} style={{
                 width: '8px', height: '8px', borderRadius: '50%', background: '#34A853',
@@ -481,9 +481,11 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
               <div className="about-calendar" style={{ width: '100%' }}>
                 <GitHubCalendar
                   username="Anayshah13"
-                  colorScheme="light"
+                  colorScheme="dark"
                   fontSize={isMobile ? 9 : 11}
-                  theme={{ light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'] }}
+                  theme={{
+                    dark: ['#1a1a1a', '#0e4429', '#006d32', '#26a641', '#39d353'],
+                  }}
                   blockSize={isMobile ? 9 : 12}
                   blockMargin={isMobile ? 2 : 3}
                   blockRadius={0}

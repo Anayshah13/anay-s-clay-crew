@@ -24,7 +24,7 @@ const B = '4px solid #0E0E0E';
 
 const LINKS = [
   { label: 'GitHub', href: 'https://github.com/Anayshah13', icon: <Github size={30} strokeWidth={2.5} /> },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/Anayshah', icon: <Linkedin size={30} strokeWidth={2.5} /> },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/anay-shah-5880aa264/', icon: <Linkedin size={30} strokeWidth={2.5} /> },
   { label: 'Instagram', href: 'https://instagram.com/anay_shah13', icon: <Instagram size={30} strokeWidth={2.5} /> },
   { label: 'Email', href: 'mailto:anayshah13@gmail.com', icon: <Mail size={30} strokeWidth={2.5} /> },
   { label: 'Codolio', href: 'https://codolio.com/profile/Anayshah13', icon: <Code2 size={30} strokeWidth={2.5} /> },
@@ -468,7 +468,7 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
                   flexWrap: 'wrap',
                   justifyContent: 'flex-start',
                   flexShrink: 0,
-                  marginLeft: '-5vw',
+                  marginLeft: '-2.5vw',
                   alignSelf: 'flex-start',
                   width: 'auto',
                 }

@@ -124,15 +124,13 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark, onHoverBlob }) => {
         gsap.to(propeller, { rotationY: 360, duration: 0.4, repeat: -1, ease: 'linear' });
       }
 
-      // Minecraft sword arm raise — rhythmic
+      // Minecraft sword — very subtle slow sway (right arm uses idle config only)
       const mcIdx = BLOB_CONFIGS.findIndex(c => c.id === 'minecraft');
       if (mcIdx >= 0) {
-        const mb = blobElementRefs.current[mcIdx];
         const sword = crowdRef.current?.querySelector('[data-mc-sword]');
         if (sword) {
-          gsap.to(sword, { rotation: -40, duration: 0.8, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+          gsap.fromTo(sword, { rotation: 26 }, { rotation: 23, duration: 3.8, yoyo: true, repeat: -1, ease: 'sine.inOut' });
         }
-        if (mb?.rightArm) gsap.to(mb.rightArm, { rotation: -40, duration: 0.8, yoyo: true, repeat: -1, ease: 'sine.inOut' });
       }
 
       // LEGO builder arm brick-place every 4s
@@ -190,9 +188,9 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark, onHoverBlob }) => {
       const pokeball = crowdRef.current?.querySelector('[data-pokeball]');
       if (pokeball) gsap.to(pokeball, { rotation: 45, duration: 3, yoyo: true, repeat: -1, ease: 'sine.inOut' });
 
-      // Pop culture — lightsaber wave
-      const lightsaber = crowdRef.current?.querySelector('[data-lightsaber]');
-      if (lightsaber) gsap.to(lightsaber, { rotation: 30, duration: 2.5, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+      // Pop culture — tiny hammer sway (stays in hand)
+      const cultureHammer = crowdRef.current?.querySelector('[data-culture-hammer]');
+      if (cultureHammer) gsap.fromTo(cultureHammer, { rotation: 18 }, { rotation: 16, duration: 3.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
 
       // Chef pan bob + steam
       const chefPan = crowdRef.current?.querySelector('[data-chef-pan]');
