@@ -279,7 +279,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
       {/* Spinning User Profile */}
       <img
         src="/aboutus/anay13.png"
-        alt="Profile"
+        alt="Anay Shah — profile photo"
         className="anay-spin-img"
         style={{
           position: 'absolute', top: '4%', right: '3%', width: '90px', height: '90px',
@@ -432,7 +432,8 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
                 {/* cursor.png — floating sticker in photo area top-right */}
                 <img
                   src="/cursor.png"
-                  alt="cursor"
+                  alt=""
+                  role="presentation"
                   style={{
                     position: 'absolute', top: 10, right: 12, width: '56px', zIndex: 25,
                     transform: 'rotate(12deg)', filter: 'drop-shadow(3px 3px 0 #0E0E0E)',

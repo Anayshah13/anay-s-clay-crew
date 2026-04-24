@@ -2,6 +2,8 @@ import { useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MagicBento from '@/components/MagicBento';
 import { PROJECTS } from '@/data/projectsTimelineData';
+import { Seo } from '@/seo/Seo';
+import { JsonLdProjects } from '@/seo/JsonLdProjects';
 import styles from './ProjectsGallery.module.css';
 
 const ProjectsGallery = () => {
@@ -17,6 +19,13 @@ const ProjectsGallery = () => {
 
   return (
     <div className={styles.page}>
+      <Seo
+        title="All projects"
+        description={`${PROJECTS.length} builds in one place: design, full-stack, games, and hackathon work with demos, GitHub, and live links. Portfolio by Anay Shah.`}
+        pathname="/projects"
+        ogImagePath="/projects/images/portfolio.png"
+      />
+      <JsonLdProjects />
       <header className={styles.header}>
         <Link to="/" className={styles.backLink}>
           Back to homepage

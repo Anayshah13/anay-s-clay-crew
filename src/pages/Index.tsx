@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import BlobCrowd from '@/components/BlobCrowd';
 import LightSwitch from '@/components/LightSwitch';
@@ -11,6 +12,9 @@ import AchievementsSection from '@/components/AchievementsSection';
 import Lenis from 'lenis';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Github, Linkedin, Instagram, ExternalLink, ArrowRight, Mail } from 'lucide-react';
+import { Seo } from '@/seo/Seo';
+import { JsonLdHome } from '@/seo/JsonLdHome';
+import { DEFAULT_DESCRIPTION } from '@/seo/config';
 
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
@@ -67,6 +71,7 @@ const HeroPage: React.FC = () => {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const stampRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   // Typewriter effect
   useEffect(() => {
@@ -244,6 +249,12 @@ const HeroPage: React.FC = () => {
 
   return (
     <div className="w-full relative bg-black">
+      <Seo
+        title="Developer, UI animator, and competitive programmer"
+        description={DEFAULT_DESCRIPTION}
+        pathname="/"
+      />
+      <JsonLdHome />
       <div className="sticky top-0 z-0 w-full h-screen overflow-hidden" style={{ background: bgColor, transition: 'background 0.6s ease' }}>
 
         <style>{`
@@ -381,14 +392,18 @@ const HeroPage: React.FC = () => {
 
           {/* Buttons */}
           <div data-animate style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 12 : 10, marginBottom: isMobile ? 26 : 32, flexWrap: 'wrap' }}>
-            <button style={{
-              padding: isMobile ? '14px 26px' : '12px 24px', borderRadius: 12, fontWeight: 600, fontSize: isMobile ? 15 : 14,
-              display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
-              background: btnPrimaryBg, color: btnPrimaryText, border: 'none', cursor: 'pointer',
-              transition: 'transform 0.2s',
-            }}
+            <button
+              type="button"
+              style={{
+                padding: isMobile ? '14px 26px' : '12px 24px', borderRadius: 12, fontWeight: 600, fontSize: isMobile ? 15 : 14,
+                display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
+                background: btnPrimaryBg, color: btnPrimaryText, border: 'none', cursor: 'pointer',
+                transition: 'transform 0.2s',
+              }}
+              onClick={() => navigate('/projects')}
               onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
-              onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}>
+              onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+            >
               View Projects <ArrowRight size={16} />
             </button>
             <button style={{
@@ -627,6 +642,7 @@ const HeroPage: React.FC = () => {
                   { label: 'About', href: '#about' },
                   { label: 'Skills', href: '#skills' },
                   { label: 'Projects', href: '#projects' },
+                  { label: 'Project gallery', href: '/projects' },
                   { label: 'Achievements', href: '#achievements' },
                   { label: 'Contact', href: '#contact' },
                   { label: 'Resume', href: '/Anay_Resume.pdf' },
