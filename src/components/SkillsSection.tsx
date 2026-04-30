@@ -815,25 +815,33 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
               </div>
             </div>
 
-            {/* Modal Content - Dark Onyx Scrollable Zoom Container */}
-            <div style={{ flex: 1, width: '100%', overflow: 'auto', backgroundColor: '#141414' }}>
-              {/* Centering wrapper fills entire space so dark bg shows fully at all zoom levels */}
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minWidth: '100%', minHeight: '100%', padding: '32px', boxSizing: 'border-box' }}>
-                {/* Resume doc: width% of the scroll container. No minWidth so 50%/75% truly shrinks it */}
+            {/* Modal Content - Dark Onyx scroll surface; text-align:center + inline-block keeps doc centered without breaking overflow scroll */}
+            <div style={{ flex: 1, width: '100%', minHeight: 0, overflow: 'auto', backgroundColor: '#141414', textAlign: 'center' }}>
+              <div
+                style={{
+                  display: 'inline-block',
+                  verticalAlign: 'top',
+                  textAlign: 'left',
+                  boxSizing: 'border-box',
+                  minWidth: '100%',
+                  minHeight: '100%',
+                  padding: '32px',
+                }}
+              >
+                {/* Resume doc: width% of this inline-block shrink-wrap (derived from viewport width via min-width above). */}
                 <div style={{ 
                   width: `${resumeScale * 100}%`,
                   aspectRatio: '1 / 1.414',
-                  flexShrink: 0,
                   position: 'relative',
+                  margin: '0 auto',
                   boxShadow: '0 10px 40px rgba(0,0,0,0.6)',
                   transition: 'width 0.2s ease-out',
                 }}>
                   <iframe
-                    src="/Anay_Resume.pdf#view=Fit&scrollbar=0&toolbar=0&navpanes=0"
-                    style={{ width: '100%', height: '100%', border: 'none', pointerEvents: 'none', display: 'block' }}
+                    src="/Anay_Resume.pdf#toolbar=0&navpanes=0&scrollbar=1"
+                    style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
                     title="Resume Full View"
                   />
-                  <div style={{ position: 'absolute', inset: 0, zIndex: 5 }} />
                 </div>
               </div>
             </div>
