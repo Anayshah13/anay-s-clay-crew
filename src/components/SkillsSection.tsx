@@ -1,6 +1,5 @@
 import React, { forwardRef, useState, useRef, useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, ScrollTrigger } from '@/lib/gsapWithScrollTrigger';
 import { X, ExternalLink, Github, Linkedin, Instagram, Mail, Code2, FileText, Download } from 'lucide-react';
 import ShapeGrid from './ShapeGrid';
 
@@ -28,6 +27,60 @@ const LINKS = [
   { label: 'Codolio', href: 'https://codolio.com/profile/Anayshah13', icon: <Code2 size={30} strokeWidth={2.5} /> },
 ];
 
+const SKILLS_CORE = ['Python', 'C', 'C++', 'Java', 'JavaScript', 'HTML', 'CSS'] as const;
+const SKILLS_FRONTEND = ['React', 'Next.js', 'GSAP', 'Three.js', 'Framer Motion'] as const;
+const SKILLS_DATA = ['NumPy', 'Pandas', 'Matplotlib', 'Seaborn', 'Recharts'] as const;
+const SKILLS_SYS = ['Git', 'GitHub', 'Figma', 'ESP32', 'Arduino', 'Blender', 'Jupyter'] as const;
+
+/** Stronger chroma + opacity so categories read as blue / green / amber / purple on dark terminal. */
+const SKILL_BADGE_VARIANTS = {
+  core: {
+    background: 'rgba(55, 135, 255, 0.48)',
+    color: '#E5F2FF',
+    headerColor: '#7EC4FF',
+  },
+  frontend: {
+    background: 'rgba(35, 210, 145, 0.42)',
+    color: '#D4FFE9',
+    headerColor: '#5EE9B5',
+  },
+  data: {
+    background: 'rgba(245, 165, 35, 0.45)',
+    color: '#FFF2CC',
+    headerColor: '#FFC94D',
+  },
+  sys: {
+    background: 'rgba(165, 105, 255, 0.44)',
+    color: '#EFE5FF',
+    headerColor: '#C9A6FF',
+  },
+} as const;
+
+function SkillBadgeRow({ skills, variant }: { skills: readonly string[]; variant: keyof typeof SKILL_BADGE_VARIANTS }) {
+  const v = SKILL_BADGE_VARIANTS[variant];
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 8px', alignItems: 'center' }}>
+      {skills.map((skill) => (
+        <span
+          key={skill}
+          style={{
+            fontFamily: MONO,
+            fontSize: 'clamp(11px, 0.72rem, 13px)',
+            fontWeight: 600,
+            lineHeight: 1.2,
+            padding: '2px 7px',
+            borderRadius: 5,
+            background: v.background,
+            color: v.color,
+          }}
+        >
+          {skill}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 // ----------------------------------------------------------------------
 // CONFIGURATION VARIABLES (Tweak these manually to adjust layout/sizes)
 // ----------------------------------------------------------------------
@@ -43,6 +96,9 @@ const RESUME_LEFT_POS = '4vw';       // How far from the left edge (positive pus
 const CURSOR_SIZE = '85px';          // Width of the cursor pointer image
 const CURSOR_OFFSET_BOTTOM = '-25px';// Cursor position relative to terminal bottom edge
 const CURSOR_OFFSET_RIGHT = '-35px'; // Cursor position relative to terminal right edge
+
+/** Barely smaller terminal + contents (~4%); keeps layout stable — tweak toward 0.94–0.98 if needed */
+const TERMINAL_VISUAL_SCALE = 0.96;
 
 // Decorative Starburst Settings
 const STARBURST_SIZE = '120px';      // Size of the background starburst graphic
@@ -377,12 +433,19 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
             }
             : {
               position: 'absolute', right: '5vw', top: '15vh', bottom: '15vh',
-              width: '50vw', minWidth: '400px', maxWidth: '750px',
-              zIndex: 15, display: 'flex', flexDirection: 'column', gap: '32px'
+              width: '50vw', minWidth: '400px', maxWidth: '720px',
+              zIndex: 15, display: 'flex', flexDirection: 'column', gap: '14px'
             }
         }>
           {/* Terminal Interface Wrapper with Cursor inside */}
           <div style={{ position: 'relative', width: '100%', flex: '1 0 auto', display: 'flex' }}>
+            <div
+              style={{
+                width: '100%',
+                transform: `scale(${TERMINAL_VISUAL_SCALE})`,
+                transformOrigin: isMobile ? 'top center' : 'top right',
+              }}
+            >
             <div
               ref={terminalRef}
               style={{
@@ -411,17 +474,25 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
               }}>
                 <div><span style={{ color: '#89C9C9' }}>$</span> <span style={{ color: '#F5F0E8' }}>skills --list --all</span></div>
                 <div style={{ height: '1em' }}></div>
-                <div><span style={{ color: '#FFBE0B', fontWeight: 700 }}>// CORE LANGUAGES</span></div>
-                <div style={{ color: '#F5F0E8', opacity: 0.9 }}>[&quot;Python&quot;, &quot;C&quot;, &quot;C++&quot;, &quot;Java&quot;, &quot;JavaScript&quot;, &quot;HTML&quot;, &quot;CSS&quot;]</div>
+                <div style={{ marginBottom: 6 }}>
+                  <span style={{ color: SKILL_BADGE_VARIANTS.core.headerColor, fontWeight: 700 }}>// CORE LANGUAGES</span>
+                </div>
+                <SkillBadgeRow skills={SKILLS_CORE} variant="core" />
                 <div style={{ height: '1em' }}></div>
-                <div><span style={{ color: '#FFBE0B', fontWeight: 700 }}>// FRONTEND ECOSYSTEM</span></div>
-                <div style={{ color: '#F5F0E8', opacity: 0.9 }}>[&quot;React&quot;, &quot;Next.js&quot;, &quot;GSAP&quot;, &quot;Three.js&quot;, &quot;Framer Motion&quot;]</div>
+                <div style={{ marginBottom: 6 }}>
+                  <span style={{ color: SKILL_BADGE_VARIANTS.frontend.headerColor, fontWeight: 700 }}>// FRONTEND ECOSYSTEM</span>
+                </div>
+                <SkillBadgeRow skills={SKILLS_FRONTEND} variant="frontend" />
                 <div style={{ height: '1em' }}></div>
-                <div><span style={{ color: '#FFBE0B', fontWeight: 700 }}>// DATA &amp; LIBRARIES</span></div>
-                <div style={{ color: '#F5F0E8', opacity: 0.9 }}>[&quot;NumPy&quot;, &quot;Pandas&quot;, &quot;Matplotlib&quot;, &quot;Seaborn&quot;, &quot;Recharts&quot;]</div>
+                <div style={{ marginBottom: 6 }}>
+                  <span style={{ color: SKILL_BADGE_VARIANTS.data.headerColor, fontWeight: 700 }}>// DATA &amp; LIBRARIES</span>
+                </div>
+                <SkillBadgeRow skills={SKILLS_DATA} variant="data" />
                 <div style={{ height: '1em' }}></div>
-                <div><span style={{ color: '#FFBE0B', fontWeight: 700 }}>// SYS &amp; HARDWARE TOOLS</span></div>
-                <div style={{ color: '#F5F0E8', opacity: 0.9 }}>[&quot;Git&quot;, &quot;GitHub&quot;, &quot;Figma&quot;, &quot;ESP32&quot;, &quot;Arduino&quot;, &quot;Blender&quot;, &quot;Jupyter&quot;]</div>
+                <div style={{ marginBottom: 6 }}>
+                  <span style={{ color: SKILL_BADGE_VARIANTS.sys.headerColor, fontWeight: 700 }}>// SYS &amp; HARDWARE TOOLS</span>
+                </div>
+                <SkillBadgeRow skills={SKILLS_SYS} variant="sys" />
                 <div style={{ height: '1em' }}></div>
                 <div><span style={{ color: '#FFBE0B', fontWeight: 700 }}>// ACTIVE BACKGROUND PROCESSES</span></div>
                 <div><span style={{ color: '#FF5C5C' }}>↳</span> <span style={{ color: '#B399FF' }}>Machine_Learning_Andrew_Ng.exe</span></div>
@@ -436,7 +507,7 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
             {!isMobile && (
             <img
               ref={cursorRef}
-              src="/cursor.png"
+              src="/cursor.webp"
               alt=""
               style={{
                 position: 'absolute', bottom: CURSOR_OFFSET_BOTTOM, right: CURSOR_OFFSET_RIGHT,
@@ -446,6 +517,7 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
               }}
             />
             )}
+          </div>
           </div>
 
           {/* Circular links: single row (desktop) / two centered rows (mobile) */}
@@ -459,14 +531,18 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
                 ? {
                   width: '100%',
                   flexShrink: 0,
+                  marginTop: '-8px',
+                  paddingLeft: '4px',
+                  transform: 'translateX(-6px)',
                 }
                 : {
                   display: 'flex',
-                  gap: '30px',
+                  gap: '22px',
                   flexWrap: 'wrap',
                   justifyContent: 'flex-start',
                   flexShrink: 0,
-                  marginLeft: '-2.5vw',
+                  marginTop: '0.5vw',
+                  marginLeft: '-1vw',
                   alignSelf: 'flex-start',
                   width: 'auto',
                 }

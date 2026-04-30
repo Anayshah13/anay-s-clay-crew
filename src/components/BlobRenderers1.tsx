@@ -161,7 +161,7 @@ export function renderMinecraft(cfg: BlobConfig, common: BlobRendererCommon) {
       }
       accessoryTop={
         <img
-          src="/landing/crown.png"
+          src="/landing/crown.webp"
           alt=""
           width={54}
           height={54}
@@ -171,10 +171,10 @@ export function renderMinecraft(cfg: BlobConfig, common: BlobRendererCommon) {
       accessoryBody={
         <>
           <div data-mc-sword style={{ position: 'absolute', top: '36%', right: -34, transform: 'rotate(26deg)', transformOrigin: 'bottom center' }}>
-            <img src="/landing/sword.png" alt="" width={36} height={92} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none' }} />
+            <img src="/landing/sword.webp" alt="" width={36} height={92} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none' }} />
           </div>
           <div style={{ position: 'absolute', top: '46%', left: -36 }}>
-            <img src="/landing/tnt.png" alt="" width={36} height={36} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none' }} />
+            <img src="/landing/tnt.webp" alt="" width={36} height={36} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none' }} />
           </div>
         </>
       }
@@ -254,7 +254,7 @@ export function renderCprog(cfg: BlobConfig, common: BlobRendererCommon) {
           {/* LeetCode logo on chest */}
           <div style={{ position: 'absolute', top: '47%', left: '50%', transform: 'translateX(-50%)' }}>
             <div style={{ width: 44, height: 44, background: '#2d2d2d', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2.5px solid #555', boxShadow: '0 2px 4px rgba(0,0,0,0.4)' }}>
-              <img src="/landing/leetcode.png" alt="" width={30} height={30} style={{ objectFit: 'contain', display: 'block' }} />
+              <img src="/landing/leetcode.webp" alt="" width={30} height={30} style={{ objectFit: 'contain', display: 'block' }} />
             </div>
           </div>
         </>
@@ -366,7 +366,7 @@ export function renderPopCulture(cfg: BlobConfig, common: BlobRendererCommon) {
           </div>
           {/* Mjolnir — aligned with left hand / arm */}
           <div data-culture-hammer style={{ position: 'absolute', top: '44%', left: -46, transform: 'rotate(18deg)', transformOrigin: '55% 88%' }}>
-            <img src="/landing/hammer.png" alt="" width={48} height={60} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none', transform: 'scaleX(-1)' }} />
+            <img src="/landing/hammer.webp" alt="" width={48} height={60} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none', transform: 'scaleX(-1)' }} />
           </div>
         </>
       }
@@ -404,7 +404,7 @@ export function renderHackathon(cfg: BlobConfig, common: BlobRendererCommon) {
       accessoryBody={
         <>
           <div style={{ position: 'absolute', top: '44%', right: -22 }}>
-            <img src="/landing/monster.png" alt="" width={26} height={44} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none' }} />
+            <img src="/landing/monster.webp" alt="" width={26} height={44} style={{ display: 'block', objectFit: 'contain', pointerEvents: 'none' }} />
           </div>
         </>
       }

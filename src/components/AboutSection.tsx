@@ -1,7 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { GitHubCalendar } from 'react-github-calendar';
+import React, { useRef, useEffect, useState, lazy, Suspense } from 'react';
+import { gsap, ScrollTrigger } from '@/lib/gsapWithScrollTrigger';
 import { BLOB_CONFIGS } from './blobConfigs';
 import { renderAboutDev } from './BlobRenderers1';
 import type { BlobRef } from '@/hooks/useBlobCrowd';
@@ -16,10 +14,15 @@ const COLORS = [
   { hex: '#0E0E0E', name: 'Onyx', textColor: '#DAFC92' },
 ];
 
+const LazyGitHubCalendar = lazy(async () => {
+  const m = await import('react-github-calendar');
+  return { default: m.GitHubCalendar };
+});
+
 const photos = [
-  '/aboutus/img3.png',
-  '/aboutus/img1.png',
-  '/aboutus/img2.png',
+  '/aboutus/img3.webp',
+  '/aboutus/img1.webp',
+  '/aboutus/img2.webp',
 ];
 const POLAROID_LABELS = ['Mumbai 2024', 'DJSCE', 'Hackathon 2025'];
 
@@ -155,7 +158,13 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
     id: 'dev', ref: devBlobRef,
     color: devCfg.color, width: devBlobSize, height: Math.round(devBlobSize * (devCfg.h / devCfg.w)),
     shape: devCfg.shape, zIndex: 9999,
-    style: { position: 'relative', width: '100%', height: '100%', pointerEvents: 'none', opacity: 1 },
+    style: {
+      position: 'relative',
+      width: '100%',
+      height: '100%',
+      pointerEvents: 'none',
+      opacity: 1,
+    } satisfies React.CSSProperties,
     rowClass: 'rowFront', eyelidClose: 0, isDark,
   } : null;
 
@@ -276,7 +285,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
 
       {/* Spinning User Profile */}
       <img
-        src="/aboutus/anay13.png"
+        src="/aboutus/anay13.webp"
         alt="Anay Shah — profile photo"
         className="anay-spin-img"
         style={{
@@ -437,7 +446,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
 
                 {/* cursor.png — floating sticker in photo area top-right */}
                 <img
-                  src="/cursor.png"
+                  src="/cursor.webp"
                   alt=""
                   role="presentation"
                   style={{
@@ -486,20 +495,24 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
             {/* Calendar — library defaults, custom green theme */}
             <div style={{ padding: isMobile ? '8px 10px 12px' : '10px 14px 14px' }}>
               <div className="about-calendar" style={{ width: '100%' }}>
-                <GitHubCalendar
-                  username="Anayshah13"
-                  colorScheme="dark"
-                  fontSize={isMobile ? 9 : 11}
-                  theme={{
-                    dark: ['#1a1a1a', '#0e4429', '#006d32', '#26a641', '#39d353'],
-                  }}
-                  blockSize={isMobile ? 9 : 12}
-                  blockMargin={isMobile ? 2 : 3}
-                  blockRadius={0}
-                  showTotalCount={true}
-                  showColorLegend={!isMobile}
-                  className="w-full"
-                />
+                <Suspense
+                  fallback={<div style={{ minHeight: isMobile ? 140 : 160, background: '#1a1a1a', border: '2px dashed #333' }} aria-hidden />}
+                >
+                  <LazyGitHubCalendar
+                    username="Anayshah13"
+                    colorScheme="dark"
+                    fontSize={isMobile ? 9 : 11}
+                    theme={{
+                      dark: ['#1a1a1a', '#0e4429', '#006d32', '#26a641', '#39d353'],
+                    }}
+                    blockSize={isMobile ? 9 : 12}
+                    blockMargin={isMobile ? 2 : 3}
+                    blockRadius={0}
+                    showTotalCount={true}
+                    showColorLegend={!isMobile}
+                    className="w-full"
+                  />
+                </Suspense>
               </div>
             </div>
           </div>

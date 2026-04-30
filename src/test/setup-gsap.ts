@@ -1,1 +1,1 @@
-import "@/lib/registerGsapPlugins";
+import "@/lib/gsapWithScrollTrigger";

@@ -23,7 +23,7 @@ const ProjectsGallery = () => {
         title="All projects"
         description={`${PROJECTS.length} builds in one place: design, full-stack, games, and hackathon work with demos, GitHub, and live links. Portfolio by Anay Shah.`}
         pathname="/projects"
-        ogImagePath="/projects/images/portfolio.png"
+        ogImagePath="/projects/images/portfolio.webp"
       />
       <JsonLdProjects />
       <header className={styles.header}>

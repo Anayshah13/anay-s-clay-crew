@@ -40,7 +40,7 @@ export const DEFAULT_KEYWORDS = [
   "Mumbai",
 ].join(", ");
 
-export const DEFAULT_OG_IMAGE_PATH = "/aboutus/anay13.png";
+export const DEFAULT_OG_IMAGE_PATH = "/aboutus/anay13.webp";
 
 export const SOCIAL_SAME_AS = [
   "https://github.com/Anayshah13",

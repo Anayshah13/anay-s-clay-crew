@@ -50,6 +50,25 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return undefined;
+          if (id.includes("react-dom")) return "vendor-react";
+          if (id.includes("node_modules/react/") || id.includes("node_modules\\react\\")) return "vendor-react";
+          if (id.includes("/scheduler") || id.includes("\\scheduler")) return "vendor-react";
+          if (id.includes("react-router") || id.includes("@remix-run/router")) return "vendor-router";
+          if (id.includes("/gsap/") || id.includes("\\gsap\\")) return "vendor-gsap";
+          if (id.includes("lucide-react")) return "vendor-lucide";
+          if (id.includes("@radix-ui") || id.includes("@floating-ui")) return "vendor-radix";
+          if (id.includes("/three") || id.includes("\\three\\") ||
+              id.includes("@react-three/fiber") || id.includes("@react-three/drei")) return "vendor-three";
+          return undefined;
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     mode === "development" && componentTagger(),

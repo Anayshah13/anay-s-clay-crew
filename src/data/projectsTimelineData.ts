@@ -29,7 +29,7 @@ export const PROJECTS: Project[] = [
     hackathon: '🏆 Hidden Gem Prize — AWS x Riot Games',
     githubUrl: 'https://github.com/Anayshah13/rift-wrapped',
     imagePlaceholder: 'LOL_WRAPPED',
-    bentoImage: '/projects/images/riftrewind.png',
+    bentoImage: '/projects/images/riftrewind.webp',
     mediaType: 'youtube',
     youtubeEmbedUrl: 'https://www.youtube.com/embed/pYupilcB-3g?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=pYupilcB-3g',
   },
@@ -43,7 +43,7 @@ export const PROJECTS: Project[] = [
     color: '#B399FF',
     githubUrl: 'https://github.com/NidhiiMaru/code_uncode',
     imagePlaceholder: 'codeuncode',
-    bentoImage: '/projects/images/codeuncode.png',
+    bentoImage: '/projects/images/codeuncode.webp',
     mediaType: 'youtube',
     youtubeEmbedUrl:
       'https://www.youtube.com/embed/jKGvrvPsbQo?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=jKGvrvPsbQo',
@@ -57,7 +57,7 @@ export const PROJECTS: Project[] = [
     position: 'right',
     color: '#F2A900',
     imagePlaceholder: 'FACTORY',
-    bentoImage: '/projects/images/western.png',
+    bentoImage: '/projects/images/western.webp',
     mediaType: 'youtube',
     youtubeEmbedUrl:
       'https://www.youtube.com/embed/7J_dXlen810?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=7J_dXlen810',
@@ -71,7 +71,7 @@ export const PROJECTS: Project[] = [
     position: 'left',
     color: '#3b82f6',
     imagePlaceholder: 'ROAM',
-    bentoImage: '/projects/images/roam.png',
+    bentoImage: '/projects/images/roam.webp',
     mediaType: 'youtube',
     youtubeEmbedUrl: 'https://www.youtube.com/embed/RNVlefi62qc?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&start=11&loop=1&playlist=RNVlefi62qc',
   },
@@ -84,7 +84,7 @@ export const PROJECTS: Project[] = [
     position: 'right',
     color: '#FF5C5C',
     imagePlaceholder: 'CODESHASTRA_XII',
-    bentoImage: '/projects/images/codeshastra.png',
+    bentoImage: '/projects/images/codeshastra.webp',
     mediaType: 'youtube',
     youtubeEmbedUrl:
       'https://www.youtube.com/embed/U4sKC4KFvSQ?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=U4sKC4KFvSQ',
@@ -98,7 +98,7 @@ export const PROJECTS: Project[] = [
     position: 'left',
     color: '#F2A900',
     imagePlaceholder: 'ANTARIKSH',
-    bentoImage: '/projects/images/antariksh.png',
+    bentoImage: '/projects/images/antariksh.webp',
     mediaType: 'youtube',
     youtubeEmbedUrl:
       'https://www.youtube.com/embed/nKpnx0D7BtM?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=nKpnx0D7BtM',
@@ -124,7 +124,7 @@ export const PROJECTS: Project[] = [
     color: '#3b82f6',
     githubUrl: 'https://github.com/Anayshah13',
     imagePlaceholder: 'DASHBOARD',
-    bentoImage: '/projects/images/csi_main.png',
+    bentoImage: '/projects/images/csi_main.webp',
   },
   {
     id: 9,

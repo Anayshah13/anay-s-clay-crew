@@ -17,7 +17,7 @@ export function JsonLdHome() {
   const personId = `${origin}/#person`;
   const websiteId = `${origin}/#website`;
   const webPageId = `${origin}/#webpage`;
-  const image = toAbsoluteUrl("/aboutus/anay13.png");
+  const image = toAbsoluteUrl("/aboutus/anay13.webp");
 
   const graph = {
     "@context": "https://schema.org",

@@ -1,18 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import BlobCrowd from '@/components/BlobCrowd';
 import LightSwitch from '@/components/LightSwitch';
-import AboutSection from '@/components/AboutSection';
-import PursuitsTapeBand from '@/components/PursuitsTapeBand';
-import SkillsSection from '@/components/SkillsSection';
-import ContactSection from '@/components/ContactSection';
-import ProjectsTimeline from '@/components/ProjectsTimeline';
-import AchievementsSection from '@/components/AchievementsSection';
 import { Github, Linkedin, Instagram, ExternalLink, ArrowRight, Mail } from 'lucide-react';
 import { Seo } from '@/seo/Seo';
 import { JsonLdHome } from '@/seo/JsonLdHome';
 import { DEFAULT_DESCRIPTION } from '@/seo/config';
+
+const AboutSection = lazy(() => import('@/components/AboutSection'));
+const PursuitsTapeBand = lazy(() => import('@/components/PursuitsTapeBand'));
+const SkillsSection = lazy(() => import('@/components/SkillsSection'));
+const ProjectsTimeline = lazy(() => import('@/components/ProjectsTimeline'));
+const AchievementsSection = lazy(() => import('@/components/AchievementsSection'));
+const ContactSection = lazy(() => import('@/components/ContactSection'));
 
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
@@ -423,7 +424,7 @@ const HeroPage: React.FC = () => {
                 filter: 'drop-shadow(10px 10px 15px rgba(0,0,0,0.3))'
               }}
             >
-              <img src="/open-to.png" alt="Open to Internships" style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'rotate(-5deg)' }} />
+              <img src="/open-to.webp" alt="Open to Internships" loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'rotate(-5deg)' }} />
             </div>
           )}
         </div>
@@ -433,12 +434,24 @@ const HeroPage: React.FC = () => {
           <div style={{ width: 10, height: 10, borderBottom: `2px solid ${isDark ? '#DAFC92' : '#1B3970'}`, borderRight: `2px solid ${isDark ? '#DAFC92' : '#1B3970'}`, transform: 'rotate(45deg)', marginTop: -6 }} />
         </div>
       </div>
-      <AboutSection isDark={isDark} />
-      <PursuitsTapeBand />
-      <SkillsSection />
-      <ProjectsTimeline />
-      <AchievementsSection />
-      <ContactSection />
+      <Suspense fallback={null}>
+        <AboutSection isDark={isDark} />
+      </Suspense>
+      <Suspense fallback={null}>
+        <PursuitsTapeBand />
+      </Suspense>
+      <Suspense fallback={null}>
+        <SkillsSection />
+      </Suspense>
+      <Suspense fallback={null}>
+        <ProjectsTimeline />
+      </Suspense>
+      <Suspense fallback={null}>
+        <AchievementsSection />
+      </Suspense>
+      <Suspense fallback={null}>
+        <ContactSection />
+      </Suspense>
 
       {/* --- FOOTER --- */}
       <footer style={{ width: '100%', position: 'relative', zIndex: 100, fontFamily: "'Inter', sans-serif" }}>
@@ -524,8 +537,10 @@ const HeroPage: React.FC = () => {
                 }}
               >
                 <img
-                  src="/aboutus/anay13.png"
+                  src="/aboutus/anay13.webp"
                   alt="Anay Shah Logo"
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     width: '100%', height: '100%',
                     borderRadius: '50%', objectFit: 'cover',

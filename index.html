@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Anay's Portfolio Website</title>
-    <link rel="icon" type="image/png" href="/aboutus/anay13.png" />
-    <link rel="apple-touch-icon" href="/aboutus/anay13.png" />
+    <link rel="icon" type="image/webp" href="/aboutus/anay13.webp" />
+    <link rel="apple-touch-icon" href="/aboutus/anay13.webp" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta
       name="description"
@@ -32,16 +32,28 @@
       content="Anay's Portfolio Website. Projects, skills, and contact for collaborations."
     />
     <meta name="twitter:image:alt" content="Anay's Portfolio Website" />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9DFD3H13RK"></script>
+    <!-- Defer analytics until idle so first paint is unblocked -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-9DFD3H13RK");
+      (function () {
+        function initGtag() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          window.gtag = gtag;
+          gtag("js", new Date());
+          gtag("config", "G-9DFD3H13RK");
+          var s = document.createElement("script");
+          s.async = true;
+          s.src = "https://www.googletagmanager.com/gtag/js?id=G-9DFD3H13RK";
+          document.head.appendChild(s);
+        }
+        if ("requestIdleCallback" in window) {
+          requestIdleCallback(initGtag, { timeout: 4000 });
+        } else {
+          window.addEventListener("load", initGtag);
+        }
+      })();
     </script>
   </head>
 

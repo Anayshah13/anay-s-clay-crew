@@ -1,7 +1,6 @@
 import React, { useRef, useLayoutEffect, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, ScrollTrigger } from '@/lib/gsapWithScrollTrigger';
 import styles from './ProjectsTimeline.module.css';
 import MagicBento from './MagicBento';
 import { PROJECTS } from '@/data/projectsTimelineData';

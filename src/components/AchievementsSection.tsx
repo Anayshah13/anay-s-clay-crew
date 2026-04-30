@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { gsap, ScrollTrigger } from '@/lib/gsapWithScrollTrigger';
 import { BLOB_CONFIGS } from './blobConfigs';
 import { renderAboutDev } from './BlobRenderers1';
 import type { BlobRef } from '@/hooks/useBlobCrowd';

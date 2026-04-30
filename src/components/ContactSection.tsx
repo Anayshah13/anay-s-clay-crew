@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Github, Linkedin, Instagram, Mail, Code2, Hand } from 'lucide-react';
+import emailjs from '@emailjs/browser';
+import { Github, Linkedin, Instagram, Code2 } from 'lucide-react';
 
 const BB = "'Bebas Neue', sans-serif";
 const MONO = "'JetBrains Mono', monospace";
@@ -30,6 +31,51 @@ const ContactSection: React.FC = () => {
 
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [formFeedback, setFormFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormFeedback(null);
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId?.trim() || !templateId?.trim() || !publicKey?.trim()) {
+      setFormFeedback({
+        type: 'error',
+        text: 'Email delivery is not configured. Add VITE_EMAILJS_* variables to your .env (see .env.example).',
+      });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await emailjs.send(
+        serviceId.trim(),
+        templateId.trim(),
+        {
+          from_email: email.trim(),
+          user_email: email.trim(),
+          message: message.trim(),
+          reply_to: email.trim(),
+        },
+        { publicKey: publicKey.trim() },
+      );
+      setFormFeedback({ type: 'success', text: 'Message sent — I’ll get back to you soon.' });
+      setEmail('');
+      setMessage('');
+    } catch (err) {
+      console.error(err);
+      setFormFeedback({
+        type: 'error',
+        text: err instanceof Error ? err.message : 'Something went wrong. Try again or email directly.',
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -112,6 +158,17 @@ const ContactSection: React.FC = () => {
         .say-hi-btn:active {
           transform: translateY(6px) !important;
           box-shadow: 0px 0px 0 #0E0E0E !important;
+        }
+        /* Parchment inputs sit on a dark-themed site — force light scheme so textarea caret renders;
+           thick onyx (#0E0E0E) insertion caret on both fields */
+        .contact-terminal-field {
+          color-scheme: light;
+          caret-color: #0E0E0E;
+        }
+        @supports (caret-width: 4px) {
+          .contact-terminal-field {
+            caret-width: 4px;
+          }
         }
         @media (max-width: ${CONTACT_DESKTOP_MIN_PX - 1}px) {
           .contact-section-root {
@@ -288,16 +345,34 @@ const ContactSection: React.FC = () => {
               <span style={{ marginLeft: 'auto', fontFamily: MONO, fontSize: '0.9rem', fontWeight: 700, letterSpacing: '0.05em' }}>CONTACT.SH</span>
             </div>
             <div style={{ padding: '32px 24px', color: '#DAFC92', fontSize: '1.25rem', lineHeight: 2.2, minHeight: '280px' }}>
-              <form onSubmit={(e) => { e.preventDefault(); window.location.href = `mailto:anayshah10@gmail.com?subject=Message from ${email}&body=${encodeURIComponent(message)}`; }}>
+              <form onSubmit={handleContactSubmit} noValidate>
                 <div style={{ marginBottom: '20px' }}>
-                  <label style={{ color: '#F5F0E8', fontSize: '1.1rem', display: 'block', marginBottom: '8px', fontFamily: BB, letterSpacing: '0.05em' }}>FROM (EMAIL):</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ width: '100%', padding: '12px', backgroundColor: '#F5F0E8', backgroundImage: 'radial-gradient(circle, rgba(14, 14, 14, 0.15) 2px, transparent 2px)', backgroundSize: '24px 24px', border: '4px solid #0E0E0E', color: '#0E0E0E', fontFamily: MONO, fontSize: '1rem', boxSizing: 'border-box', outline: 'none', boxShadow: '4px 4px 0 #0E0E0E' }} />
+                  <label htmlFor="contact-email" style={{ color: '#F5F0E8', fontSize: '1.1rem', display: 'block', marginBottom: '8px', fontFamily: BB, letterSpacing: '0.05em' }}>FROM (EMAIL):</label>
+                  <input id="contact-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={submitting} autoComplete="email" className="contact-terminal-field" style={{ width: '100%', padding: '12px', backgroundColor: '#F5F0E8', backgroundImage: 'radial-gradient(circle, rgba(14, 14, 14, 0.15) 2px, transparent 2px)', backgroundSize: '24px 24px', border: '4px solid #0E0E0E', color: '#0E0E0E', fontFamily: MONO, fontSize: '1rem', lineHeight: 1.45, boxSizing: 'border-box', outline: 'none', boxShadow: '4px 4px 0 #0E0E0E', opacity: submitting ? 0.75 : 1 }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
-                  <label style={{ color: '#F5F0E8', fontSize: '1.1rem', display: 'block', marginBottom: '8px', fontFamily: BB, letterSpacing: '0.05em' }}>MESSAGE:</label>
-                  <textarea value={message} onChange={(e) => setMessage(e.target.value)} required rows={4} style={{ width: '100%', padding: '12px', backgroundColor: '#F5F0E8', backgroundImage: 'radial-gradient(circle, rgba(14, 14, 14, 0.15) 2px, transparent 2px)', backgroundSize: '24px 24px', border: '4px solid #0E0E0E', color: '#0E0E0E', fontFamily: MONO, fontSize: '1rem', boxSizing: 'border-box', resize: 'vertical', outline: 'none', boxShadow: '4px 4px 0 #0E0E0E' }} />
+                  <label htmlFor="contact-message" style={{ color: '#F5F0E8', fontSize: '1.1rem', display: 'block', marginBottom: '8px', fontFamily: BB, letterSpacing: '0.05em' }}>MESSAGE:</label>
+                  <textarea id="contact-message" value={message} onChange={(e) => setMessage(e.target.value)} required rows={4} disabled={submitting} className="contact-terminal-field" style={{ width: '100%', padding: '12px', backgroundColor: '#F5F0E8', backgroundImage: 'radial-gradient(circle, rgba(14, 14, 14, 0.15) 2px, transparent 2px)', backgroundSize: '24px 24px', border: '4px solid #0E0E0E', color: '#0E0E0E', fontFamily: MONO, fontSize: '1rem', lineHeight: 1.55, boxSizing: 'border-box', resize: 'vertical', outline: 'none', boxShadow: '4px 4px 0 #0E0E0E', opacity: submitting ? 0.75 : 1 }} />
                 </div>
-                <button type="submit" style={{ background: '#FFBE0B', border: '2px solid #0E0E0E', color: '#0E0E0E', padding: '10px 20px', fontFamily: BB, fontSize: '1.2rem', cursor: 'pointer', boxShadow: '4px 4px 0 #0E0E0E' }}>Send Message</button>
+                <button type="submit" disabled={submitting} aria-busy={submitting} style={{ background: submitting ? '#E5A80A' : '#FFBE0B', border: '2px solid #0E0E0E', color: '#0E0E0E', padding: '10px 20px', fontFamily: BB, fontSize: '1.2rem', cursor: submitting ? 'wait' : 'pointer', boxShadow: '4px 4px 0 #0E0E0E', opacity: submitting ? 0.85 : 1 }}>
+                  {submitting ? 'Sending…' : 'Send Message'}
+                </button>
+                {formFeedback && (
+                  <p
+                    role="status"
+                    aria-live="polite"
+                    style={{
+                      marginTop: '14px',
+                      marginBottom: 0,
+                      fontSize: '0.95rem',
+                      color: formFeedback.type === 'success' ? '#DAFC92' : '#FFB4B4',
+                      fontFamily: MONO,
+                      lineHeight: 1.45,
+                    }}
+                  >
+                    {formFeedback.text}
+                  </p>
+                )}
               </form>
             </div>
           </div>

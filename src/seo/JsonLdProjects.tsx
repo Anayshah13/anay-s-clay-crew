@@ -27,7 +27,7 @@ export function JsonLdProjects() {
     inLanguage: "en-IN",
     primaryImageOfPage: {
       "@type": "ImageObject",
-      url: toAbsoluteUrl("/projects/images/portfolio.png"),
+      url: toAbsoluteUrl("/projects/images/portfolio.webp"),
     },
     hasPart: {
       "@type": "ItemList",
