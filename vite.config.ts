@@ -58,10 +58,11 @@ export default defineConfig(({ mode }) => ({
           if (id.includes("react-dom")) return "vendor-react";
           if (id.includes("node_modules/react/") || id.includes("node_modules\\react\\")) return "vendor-react";
           if (id.includes("/scheduler") || id.includes("\\scheduler")) return "vendor-react";
+          /** Radix / Floating UI must share React's chunk or runtime hits undefined forwardRef */
+          if (id.includes("@radix-ui") || id.includes("@floating-ui")) return "vendor-react";
           if (id.includes("react-router") || id.includes("@remix-run/router")) return "vendor-router";
           if (id.includes("/gsap/") || id.includes("\\gsap\\")) return "vendor-gsap";
           if (id.includes("lucide-react")) return "vendor-lucide";
-          if (id.includes("@radix-ui") || id.includes("@floating-ui")) return "vendor-radix";
           if (id.includes("/three") || id.includes("\\three\\") ||
               id.includes("@react-three/fiber") || id.includes("@react-three/drei")) return "vendor-three";
           return undefined;
@@ -78,5 +79,6 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    dedupe: ["react", "react-dom"],
   },
 }));
