@@ -1,6 +1,18 @@
 {
   "version": 1,
   "skills": {
+    "ai-slop-cleaner": {
+      "source": "yeachan-heo/oh-my-claudecode",
+      "sourceType": "github",
+      "skillPath": "skills/ai-slop-cleaner/SKILL.md",
+      "computedHash": "f7f510e05360c1ee70d6dea6bd080b12885d234fcd6829ba5672315e16416c34"
+    },
+    "code-simplifier": {
+      "source": "getsentry/skills",
+      "sourceType": "github",
+      "skillPath": "skills/code-simplifier/SKILL.md",
+      "computedHash": "2b379a3226c7223ca300845aec488d0ae7d6c8a24a78d234ca405fbeb9078ea6"
+    },
     "neobrutalist-web-designer": {
       "source": "erichowens/some_claude_skills",
       "sourceType": "github",

@@ -7,8 +7,6 @@ import type { BlobRef } from '@/hooks/useBlobCrowd';
 import { useIsMobile } from '@/hooks/use-mobile';
 import styles from './AchievementsSection.module.css';
 
-gsap.registerPlugin(ScrollTrigger);
-
 // ── Education Data ──────────────────────────────────────────────────
 const EDUCATION = [
   {

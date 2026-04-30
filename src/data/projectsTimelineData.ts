@@ -44,9 +44,9 @@ export const PROJECTS: Project[] = [
     githubUrl: 'https://github.com/NidhiiMaru/code_uncode',
     imagePlaceholder: 'codeuncode',
     bentoImage: '/projects/images/codeuncode.png',
-    mediaType: 'video',
-    videoSrc: '/projects/codeuncode.mp4',
-    videoPoster: '/projects/images/codeuncode.png',
+    mediaType: 'youtube',
+    youtubeEmbedUrl:
+      'https://www.youtube.com/embed/jKGvrvPsbQo?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=jKGvrvPsbQo',
   },
   {
     id: 3,
@@ -58,9 +58,9 @@ export const PROJECTS: Project[] = [
     color: '#F2A900',
     imagePlaceholder: 'FACTORY',
     bentoImage: '/projects/images/western.png',
-    mediaType: 'video',
-    videoSrc: '/projects/western.mp4',
-    videoPoster: '/projects/images/western.png',
+    mediaType: 'youtube',
+    youtubeEmbedUrl:
+      'https://www.youtube.com/embed/7J_dXlen810?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=7J_dXlen810',
   },
   {
     id: 4,
@@ -85,9 +85,9 @@ export const PROJECTS: Project[] = [
     color: '#FF5C5C',
     imagePlaceholder: 'CODESHASTRA_XII',
     bentoImage: '/projects/images/codeshastra.png',
-    mediaType: 'video',
-    videoSrc: '/projects/codeshastra.mp4',
-    videoPoster: '/projects/images/codeshastra.png',
+    mediaType: 'youtube',
+    youtubeEmbedUrl:
+      'https://www.youtube.com/embed/U4sKC4KFvSQ?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=U4sKC4KFvSQ',
   },
   {
     id: 6,
@@ -99,9 +99,9 @@ export const PROJECTS: Project[] = [
     color: '#F2A900',
     imagePlaceholder: 'ANTARIKSH',
     bentoImage: '/projects/images/antariksh.png',
-    mediaType: 'video',
-    videoSrc: '/projects/antariksh.mp4',
-    videoPoster: '/projects/images/antariksh.png',
+    mediaType: 'youtube',
+    youtubeEmbedUrl:
+      'https://www.youtube.com/embed/nKpnx0D7BtM?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=nKpnx0D7BtM',
   },
   {
     id: 7,

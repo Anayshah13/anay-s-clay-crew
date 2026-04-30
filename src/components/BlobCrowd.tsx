@@ -4,6 +4,7 @@ import type { BlobRef } from '@/hooks/useBlobCrowd';
 import { useBlobCrowd } from '@/hooks/useBlobCrowd';
 import { useIdleAnimations } from '@/hooks/useIdleAnimations';
 import { BLOB_CONFIGS } from './blobConfigs';
+import type { BlobRendererCommon } from './blobRendererCommon';
 
 import {
   renderDev,
@@ -360,10 +361,9 @@ const BlobCrowd: React.FC<BlobCrowdProps> = ({ isDark, onHoverBlob }) => {
 
         const mobileW = isMobile ? Math.round(cfg.w * 1.0) : cfg.w;
 
-        const common = {
-          key: cfg.id,
-          id: cfg.id,
+        const common: BlobRendererCommon = {
           ref: setRef(i),
+          id: cfg.id,
           color: cfg.color,
           width: mobileW,
           height: Math.round(mobileW * (cfg.h / cfg.w)),

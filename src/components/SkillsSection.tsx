@@ -4,8 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { X, ExternalLink, Github, Linkedin, Instagram, Mail, Code2, FileText, Download } from 'lucide-react';
 import ShapeGrid from './ShapeGrid';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const SKILLS_MOBILE_BREAKPOINT = 768;
 
 function useSkillsMobile() {
@@ -199,14 +197,14 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
           }
         `}</style>
 
-        {/* ShapeGrid Background Integration */}
-        <div className="shapegrid-wrapper" style={isMobile ? { opacity: 0.85 } : undefined}>
+        {/* ShapeGrid Background Integration — low-opacity hex layer */}
+        <div className="shapegrid-wrapper" style={{ opacity: isMobile ? 0.42 : 0.48 }}>
           <ShapeGrid
             direction="diagonal"
             speed={0.5}
             shape="hexagon"
-            borderColor="rgba(14,14,14,0.12)"
-            hoverFillColor="#f5f0e8ab"
+            borderColor="rgba(14,14,14,0.2)"
+            hoverFillColor="#f5f0e899"
             squareSize={isMobile ? 56 : 80}
             hoverTrailAmount={2}
           />

@@ -1,16 +1,17 @@
 import React from 'react';
 import BlobCharacter from './BlobCharacter';
 import type { BlobConfig } from './blobConfigs';
+import type { BlobRendererCommon } from './blobRendererCommon';
 
 /**
  * THE DEV — lime #DAFC92 — FRONT CENTER (LANDING SCREEN - BIGGER)
  * Focused thin-line mouth, thick glasses, CLI laptop
  */
-export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
-  const isDark = (common as any).isDark;
-  const passedEyelidClose = (common as any).eyelidClose;
+export function renderDev(cfg: BlobConfig, common: BlobRendererCommon) {
+  const isDark = common.isDark;
+  const passedEyelidClose = common.eyelidClose;
   return (
-    <BlobCharacter {...(common as any)} eyeSize={32} eyelidClose={passedEyelidClose !== undefined ? passedEyelidClose : (isDark ? 0.8 : 0)} mouthWidth={0} mouthHeight={0} mouthRadius="0"
+    <BlobCharacter {...common} eyeSize={32} eyelidClose={passedEyelidClose !== undefined ? passedEyelidClose : (isDark ? 0.8 : 0)} mouthWidth={0} mouthHeight={0} mouthRadius="0"
       eyebrows={
         <div data-dev-eyebrows style={{ display: 'flex', gap: '32px', marginBottom: '-5px' }}>
           <div style={{ width: 24, height: 6, background: 'rgba(0,0,0,0.45)', borderRadius: 3, transform: 'rotate(-5deg)' }} />
@@ -74,11 +75,11 @@ export function renderDev(cfg: BlobConfig, common: Record<string, unknown>) {
 /**
  * THE DEV — lime #DAFC92 (ABOUT US SCREEN - SMALLER)
  */
-export function renderAboutDev(cfg: BlobConfig, common: Record<string, unknown>) {
-  const isDark = (common as any).isDark;
-  const passedEyelidClose = (common as any).eyelidClose;
+export function renderAboutDev(cfg: BlobConfig, common: BlobRendererCommon) {
+  const isDark = common.isDark;
+  const passedEyelidClose = common.eyelidClose;
   return (
-    <BlobCharacter {...(common as any)} eyeSize={22} eyelidClose={passedEyelidClose !== undefined ? passedEyelidClose : (isDark ? 0.8 : 0)} mouthWidth={0} mouthHeight={0} mouthRadius="0"
+    <BlobCharacter {...common} eyeSize={22} eyelidClose={passedEyelidClose !== undefined ? passedEyelidClose : (isDark ? 0.8 : 0)} mouthWidth={0} mouthHeight={0} mouthRadius="0"
       eyebrows={
         <div data-dev-eyebrows style={{ display: 'flex', gap: '24px', marginBottom: '-3px' }}>
           <div style={{ width: 18, height: 4, background: 'rgba(0,0,0,0.45)', borderRadius: 2, transform: 'rotate(-5deg)' }} />
@@ -148,9 +149,9 @@ export function renderAboutDev(cfg: BlobConfig, common: Record<string, unknown>)
  * THE MINECRAFT PLAYER — forest green #5B8C5A — FRONT LEFT
  * Creeper belly, diamond sword, pixelated crown, TNT block
  */
-export function renderMinecraft(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderMinecraft(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
-    <BlobCharacter {...(common as any)} eyeSize={24} mouthWidth={44} mouthHeight={20} mouthRadius="0 0 50% 50%"
+    <BlobCharacter {...common} eyeSize={24} mouthWidth={44} mouthHeight={20} mouthRadius="0 0 50% 50%"
       eyebrows={
         // Blocky square-ish brows for pixel art feel
         <div style={{ display: 'flex', gap: '20px', marginBottom: '-4px' }}>
@@ -185,10 +186,10 @@ export function renderMinecraft(cfg: BlobConfig, common: Record<string, unknown>
  * THE LEGO BUILDER — yellow #FFD93D — FRONT RIGHT
  * Pure joy, enormous smile squinting
  */
-export function renderLego(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderLego(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // EMOTION: PURE JOY — enormous smile, eyes squinting happy, raised cheeks
-    <BlobCharacter {...(common as any)} mouthWidth={64} mouthHeight={32} mouthRadius="0 0 70% 70%"
+    <BlobCharacter {...common} mouthWidth={64} mouthHeight={32} mouthRadius="0 0 70% 70%"
       eyebrows={
         // Squinted happy brows — curve inward-down indicating scrunched happy cheeks
         <div style={{ display: 'flex', gap: '18px', marginBottom: '-6px' }}>
@@ -219,10 +220,10 @@ export function renderLego(cfg: BlobConfig, common: Record<string, unknown>) {
  * THE COMPETITIVE PROGRAMMER — deep blue #1E488F — MID LEFT
  * LOCKED-IN — zero expression flat line mouth, beady small eyes, pressed brows
  */
-export function renderCprog(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderCprog(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // EMOTION: LOCKED-IN — flat zero-expression mouth, intense small beady eyes
-    <BlobCharacter {...(common as any)} eyeSize={16} mouthWidth={22} mouthHeight={3} mouthRadius="1px"
+    <BlobCharacter {...common} eyeSize={16} mouthWidth={22} mouthHeight={3} mouthRadius="1px"
       eyebrows={
         // Flat brows pressed DOWN — intensity
         <div style={{ display: 'flex', gap: '16px', marginBottom: '-9px' }}>
@@ -266,10 +267,10 @@ export function renderCprog(cfg: BlobConfig, common: Record<string, unknown>) {
  * THE FUNNY GUY — warm orange #FF8C00 — FRONT LEFT
  * Jester hat, mic, asymmetric eyes, huge buckteeth grin
  */
-export function renderFunnyGuy(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderFunnyGuy(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // EMOTION: MAXIMUM GOOFINESS — one eye 30% larger, widest grin of all blobs
-    <BlobCharacter {...(common as any)}
+    <BlobCharacter {...common}
       eyeSizeLeft={28}  // LEFT eye bigger = goofy asymmetry
       eyeSizeRight={20}
       mouthWidth={55} mouthHeight={24} mouthRadius="0 0 60px 60px"
@@ -325,10 +326,10 @@ export function renderFunnyGuy(cfg: BlobConfig, common: Record<string, unknown>)
  * THE POP CULTURE FREAK — hot pink #E91E8C — FRONT RIGHT
  * Arc reactor, Pokeball, hammer, Pikachu scar
  */
-export function renderPopCulture(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderPopCulture(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // EMOTION: FANATIC HAPPINESS — huge smile, starry eyes
-    <BlobCharacter {...(common as any)} eyeSize={26} mouthWidth={44} mouthHeight={22} mouthRadius="0 0 60% 60%"
+    <BlobCharacter {...common} eyeSize={26} mouthWidth={44} mouthHeight={22} mouthRadius="0 0 60% 60%"
       eyebrows={
         <div style={{ display: 'flex', gap: '16px', marginBottom: '-2px' }}>
           <div style={{ width: 16, height: 4, background: 'rgba(255,255,255,0.5)', borderRadius: 2, transform: 'rotate(-8deg)' }} />
@@ -377,10 +378,10 @@ export function renderPopCulture(cfg: BlobConfig, common: Record<string, unknown
  * THE HACKATHON BLOB — electric purple #9B59FF — MID
  * Dark eye bags, Monster can, exhausted droopy mouth
  */
-export function renderHackathon(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderHackathon(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // EMOTION: EXHAUSTED DROOPING — half-closed lids, droopy frown corners
-    <BlobCharacter {...(common as any)} eyeSize={20} eyelidClose={0.35}
+    <BlobCharacter {...common} eyeSize={20} eyelidClose={0.35}
       mouthWidth={22} mouthHeight={5} mouthRadius="40% 40% 50% 50%"
       faceChildren={
         <>

@@ -1,15 +1,16 @@
 import React from 'react';
 import BlobCharacter from './BlobCharacter';
 import type { BlobConfig } from './blobConfigs';
+import type { BlobRendererCommon } from './blobRendererCommon';
 
 /**
  * THE NERD — mint green #A8E6CF — MID ROW
  * Wide magnified eyes (dominant glasses), small red book, smirk
  */
-export function renderNerdBlob(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderNerdBlob(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // EMOTION: slight upward smirk — smart expression
-    <BlobCharacter {...(common as any)} eyeSize={26} mouthWidth={18} mouthHeight={6} mouthRadius="0 60% 60% 0"
+    <BlobCharacter {...common} eyeSize={26} mouthWidth={18} mouthHeight={6} mouthRadius="0 60% 60% 0"
       faceChildren={
         // Oversized thick glasses — dominant feature
         <div style={{ position: 'absolute', top: '12%', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 1, zIndex: 3 }}>
@@ -43,11 +44,11 @@ export function renderNerdBlob(cfg: BlobConfig, common: Record<string, unknown>)
  * THE PUZZLE SOLVER — indigo #667eea — BACK ROW
  * BACK ROW: No accessories — body, eyes, mouth only
  */
-export function renderPuzzle(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderPuzzle(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // Back row — strip all accessories for occlusion/performance
     // Eyes: wide curious expression, straight concentration mouth
-    <BlobCharacter {...(common as any)} eyeSize={22} mouthWidth={18} mouthHeight={4} mouthRadius="2px" />
+    <BlobCharacter {...common} eyeSize={22} mouthWidth={18} mouthHeight={4} mouthRadius="2px" />
   );
 }
 
@@ -55,9 +56,9 @@ export function renderPuzzle(cfg: BlobConfig, common: Record<string, unknown>) {
  * THE CLUMSY PERSON — indigo #667eea — BACK ROW
  * BACK ROW: Bandage on head, concerned brows, highly unstable
  */
-export function renderClumsy(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderClumsy(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
-    <BlobCharacter {...(common as any)} eyeSize={22} mouthWidth={18} mouthHeight={12} mouthRadius="50%"
+    <BlobCharacter {...common} eyeSize={22} mouthWidth={18} mouthHeight={12} mouthRadius="50%"
       eyebrows={
         // Wobbly, concerned brows
         <div style={{ display: 'flex', gap: '14px', marginBottom: '-4px' }}>
@@ -82,10 +83,9 @@ export function renderClumsy(cfg: BlobConfig, common: Record<string, unknown>) {
  * Dark mode: tired but pleasant / “awake but sleepy”. Light mode: heavier daydream lids.
  * Brows stay soft — never steep / furrowed (no angry read).
  */
-export function renderSleepy(cfg: BlobConfig, common: Record<string, unknown>) {
-  const c = common as any;
-  const isDark = !!c.isDark;
-  const perked = !!c.isSleepyAwake;
+export function renderSleepy(cfg: BlobConfig, common: BlobRendererCommon) {
+  const isDark = !!common.isDark;
+  const perked = !!common.isSleepyAwake;
   // Dark = lighter lids; light = sleepier. Click perks everyone up a notch.
   let eyelidClose = isDark ? 0.28 : 0.55;
   if (perked) eyelidClose = Math.max(0.08, eyelidClose - 0.18);
@@ -93,7 +93,7 @@ export function renderSleepy(cfg: BlobConfig, common: Record<string, unknown>) {
   const mouthR = isDark ? '0 0 55% 55%' : '0 0 50% 50%';
 
   return (
-    <BlobCharacter {...c}
+    <BlobCharacter {...common}
       eyeSize={20}
       eyelidClose={eyelidClose}
       mouthWidth={16} mouthHeight={mouthH} mouthRadius={mouthR}
@@ -140,10 +140,10 @@ export function renderSleepy(cfg: BlobConfig, common: Record<string, unknown>) {
  * THE GRAPHIC DESIGNER — coral red #FF6B6B — BACK ROW
  * BACK ROW: No accessories, creative absorbed smirk mouth
  */
-export function renderGraphicDesigner(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderGraphicDesigner(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // MOUTH: creative asymmetric smirk
-    <BlobCharacter {...(common as any)} eyeSize={22}
+    <BlobCharacter {...common} eyeSize={22}
       mouthWidth={22} mouthHeight={7} mouthRadius="0 70% 60% 10%"
       eyebrows={
         <div style={{ display: 'flex', gap: '16px', marginBottom: '-2px' }}>
@@ -191,10 +191,10 @@ export function renderGraphicDesigner(cfg: BlobConfig, common: Record<string, un
  * THE CHEF — orange pear-shape — MID ROW
  * Concentration O-shaped mouth, chef hat, vada pav pan
  */
-export function renderChef(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderChef(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // MOUTH: concentration O — circular open
-    <BlobCharacter {...(common as any)} eyeSize={20} mouthWidth={16} mouthHeight={16} mouthRadius="50%"
+    <BlobCharacter {...common} eyeSize={20} mouthWidth={16} mouthHeight={16} mouthRadius="50%"
       accessoryTop={
         /* Chef hat */
         <div style={{ position: 'absolute', top: -24, left: '50%', transform: 'translateX(-50%)' }}>
@@ -227,10 +227,10 @@ export function renderChef(cfg: BlobConfig, common: Record<string, unknown>) {
  * THE ASTRONAUT — near-white #E8E8FF — BACK ROW
  * BACK ROW: Keep helmet ring (part of face), strip other accessories, small nervous smile
  */
-export function renderAstronaut(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderAstronaut(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // MOUTH: small nervous smile
-    <BlobCharacter {...(common as any)} eyeSize={22} mouthWidth={14} mouthHeight={8} mouthRadius="0 0 60% 60%"
+    <BlobCharacter {...common} eyeSize={22} mouthWidth={14} mouthHeight={8} mouthRadius="0 0 60% 60%"
       faceChildren={
         <>
           {/* Outer Helmet Dome - kept in face for proper overlapping */}
@@ -265,10 +265,10 @@ export function renderAstronaut(cfg: BlobConfig, common: Record<string, unknown>
  * BACK ROW: keep only deerstalker hat (on head), pipe at mouth corner — strip magnifier/monocle
  * MOUTH: side-pipe smirk
  */
-export function renderDetective(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderDetective(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // MOUTH: distinctive side-pipe smirk — shifted right
-    <BlobCharacter {...(common as any)} eyeSize={24} mouthWidth={16} mouthHeight={5} mouthRadius="0 0 70% 30%"
+    <BlobCharacter {...common} eyeSize={24} mouthWidth={16} mouthHeight={5} mouthRadius="0 0 70% 30%"
       accessoryTop={
         // Deerstalker — cap band scales with slightly larger blob
         <div style={{ position: 'absolute', top: -16, left: '50%', transform: 'translateX(-50%)' }}>
@@ -308,12 +308,12 @@ export function renderDetective(cfg: BlobConfig, common: Record<string, unknown>
  * THE TINY STRANGER — soft lavender #C9B1FF — BACK ROW (deliberate tiny)
  * NO accessories — only massive eyes, tiny smile. Most reactive eye tracking.
  */
-export function renderTinyStranger(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderTinyStranger(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // Eyes are ~60% face width relative to this tiny blob
     // eyeSize=24px on a 72px wide blob = enormous eyes
     // MOUTH: tiny 16px subtle curve — almost imperceptible
-    <BlobCharacter {...(common as any)}
+    <BlobCharacter {...common}
       eyeSize={22}
       mouthWidth={14} mouthHeight={5} mouthRadius="0 0 60% 60%"
       // No arms, no accessories, no eyebrows — pure alien wide-eyed innocence
@@ -327,10 +327,10 @@ export function renderTinyStranger(cfg: BlobConfig, common: Record<string, unkno
  * RAGE: V-brows at steep angle, jagged downward frown with teeth, crossed arms
  * BACK ROW: no accessories except the crossed arms
  */
-export function renderAngry(cfg: BlobConfig, common: Record<string, unknown>) {
+export function renderAngry(cfg: BlobConfig, common: BlobRendererCommon) {
   return (
     // EMOTION: PURE RAGE — beady small eyes, sharp V-brows, jagged frown
-    <BlobCharacter {...(common as any)}
+    <BlobCharacter {...common}
       eyeSize={14}
       mouthWidth={24} mouthHeight={7} mouthRadius="50% 50% 0 0"
       armLength={28} hideLeftArm hideRightArm

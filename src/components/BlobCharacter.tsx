@@ -88,7 +88,7 @@ const BlobCharacter = React.memo(forwardRef<BlobRef, BlobProps>((({
     ...style,
   } as React.CSSProperties;
 
-  const rowCls = rowClass ? (styles as any)[rowClass] || '' : '';
+  const rowCls = rowClass && rowClass in styles ? (styles[rowClass as keyof typeof styles] ?? '') : '';
 
   const shadowColor = isDark === false ? 'rgba(0,0,0,0.15)' : (isDark === true ? 'rgba(0,0,0,0.45)' : 'rgba(0,0,0,0.3)');
   const isFront = rowClass === 'rowFront';

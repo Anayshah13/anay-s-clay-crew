@@ -31,6 +31,7 @@ export function useIdleAnimations(
   }, [blobRefs, configs]);
 
   useEffect(() => {
+    const breathMap = breathTweens.current;
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
 
@@ -100,7 +101,7 @@ export function useIdleAnimations(
 
     return () => {
       ctxRef.current?.revert();
-      breathTweens.current.clear();
+      breathMap.clear();
     };
   }, [blobRefs, configs, restartBreathing]);
 

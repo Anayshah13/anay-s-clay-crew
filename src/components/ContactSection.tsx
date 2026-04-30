@@ -3,8 +3,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Github, Linkedin, Instagram, Mail, Code2, Hand } from 'lucide-react';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const BB = "'Bebas Neue', sans-serif";
 const MONO = "'JetBrains Mono', monospace";
 const B = '4px solid #0E0E0E';
@@ -29,7 +27,6 @@ const ContactSection: React.FC = () => {
   const stickyRef = useRef<HTMLDivElement>(null);
   const boardRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLAnchorElement>(null);
-  const footerRef = useRef<HTMLDivElement>(null);
 
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -65,7 +62,6 @@ const ContactSection: React.FC = () => {
           .from(boardRef.current, { x: 250, y: 150, rotation: 15, scale: 0.5, opacity: 0, duration: 0.9, ease: 'back.out(1.2)' }, '-=0.6')
           .from(stickyRef.current, { x: 0, y: -200, scale: 0, rotation: -40, opacity: 0, duration: 0.7, ease: 'back.out(1.8)' }, '-=0.4')
           .from('.pin-card', { scale: 0, rotation: () => Math.random() * 40 - 20, opacity: 0, stagger: 0.08, duration: 0.5, ease: 'back.out(1.5)' }, '-=0.2')
-          .from(footerRef.current, { y: 40, opacity: 0, duration: 0.5, ease: 'power2.out' }, '-=0.2')
           .from(stampRef.current, { scale: 3, rotation: 15, opacity: 0, duration: 0.4, ease: 'power4.in' }, '+=0.2')
           .to(terminalRef.current, { y: '+=10', rotation: '-=2', duration: 0.1, yoyo: true, repeat: 1 }, '-=0.0');
 
@@ -88,7 +84,9 @@ const ContactSection: React.FC = () => {
       className="contact-section-root"
       style={{
         width: '100%',
-        minHeight: '110vh',
+        minHeight: '125vh',
+        paddingBottom: 'clamp(56px, 7vh, 100px)',
+        boxSizing: 'border-box',
         background: '#FFBE0B', // Amber Gold background
         position: 'relative',
         overflow: 'hidden',
@@ -128,7 +126,7 @@ const ContactSection: React.FC = () => {
             display: flex !important;
             flex-direction: column !important;
             align-items: center !important;
-            padding: 0 16px 56px !important;
+            padding: 0 16px 88px !important;
             box-sizing: border-box !important;
             gap: 28px !important;
           }

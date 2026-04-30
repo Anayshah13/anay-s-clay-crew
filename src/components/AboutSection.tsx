@@ -6,8 +6,6 @@ import { BLOB_CONFIGS } from './blobConfigs';
 import { renderAboutDev } from './BlobRenderers1';
 import type { BlobRef } from '@/hooks/useBlobCrowd';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const COLORS = [
   { hex: '#DAFC92', name: 'Lime Cream', textColor: '#1a3a00' },
   { hex: '#F5F0E8', name: 'Parchment', textColor: '#0E0E0E' },
@@ -339,7 +337,15 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
                 <span style={{ fontFamily: BB, fontSize: '1.1rem', color: box.numColor, lineHeight: 1 }}>{box.num}</span>
                 <span style={{ fontFamily: MONO, fontSize: '0.55rem', color: box.numColor, letterSpacing: '0.22em', marginLeft: 'auto' }}>{box.label}</span>
               </div>
-              <p style={{ fontFamily: MONO, fontSize: isMobile ? '0.84rem' : '0.9rem', color: box.textCol, lineHeight: 1.58, padding: '14px 16px', margin: 0, overflow: isMobile ? 'visible' : 'hidden' }}>
+              <p style={{
+                fontFamily: MONO,
+                fontSize: isMobile ? '0.84rem' : '0.9rem',
+                color: box.textCol,
+                lineHeight: 1.5,
+                padding: box.num === '01' ? '9px 6px 15px' : '14px 16px',
+                margin: 0,
+                overflow: isMobile ? 'visible' : 'hidden',
+              }}>
                 {box.text}
               </p>
             </div>

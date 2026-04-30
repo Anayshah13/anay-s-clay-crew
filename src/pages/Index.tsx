@@ -9,8 +9,6 @@ import SkillsSection from '@/components/SkillsSection';
 import ContactSection from '@/components/ContactSection';
 import ProjectsTimeline from '@/components/ProjectsTimeline';
 import AchievementsSection from '@/components/AchievementsSection';
-import Lenis from 'lenis';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Github, Linkedin, Instagram, ExternalLink, ArrowRight, Mail } from 'lucide-react';
 import { Seo } from '@/seo/Seo';
 import { JsonLdHome } from '@/seo/JsonLdHome';
@@ -59,8 +57,6 @@ const BLOB_DISPLAY_NAMES: Record<string, string> = {
   tinystranger: 'forgetful',
 };
 
-gsap.registerPlugin(ScrollTrigger);
-
 const HeroPage: React.FC = () => {
   const [titleIndex, setTitleIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
@@ -94,31 +90,6 @@ const HeroPage: React.FC = () => {
     }
     return () => clearTimeout(timeout);
   }, [displayedText, isDeleting, titleIndex]);
-
-  // Lenis smooth scroll setup
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 0.8,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1.35,
-      touchMultiplier: 2,
-    });
-
-    lenis.on('scroll', ScrollTrigger.update);
-
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-
-    gsap.ticker.lagSmoothing(0);
-
-    return () => {
-      lenis.destroy();
-    };
-  }, []);
 
   // Card stagger animation
   useEffect(() => {
@@ -482,6 +453,11 @@ const HeroPage: React.FC = () => {
             @keyframes abstractFloat1 { 0% { transform: translate(0px, 0px) scale(1); } 50% { transform: translate(25px, -15px) scale(1.02); } 100% { transform: translate(0px, 0px) scale(1); } }
             @keyframes abstractFloat2 { 0% { transform: translate(0px, 0px); } 50% { transform: translate(-15px, 20px); } 100% { transform: translate(0px, 0px); } }
             @keyframes abstractPulse { 0% { opacity: 0.04; transform: scale(1) translate(0px, 0px); } 50% { opacity: 0.08; transform: scale(1.05) translate(10px, 5px); } 100% { opacity: 0.04; transform: scale(1) translate(0px, 0px); } }
+            @keyframes footerLogoLevitate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+            .footer-logo-levitate { animation: footerLogoLevitate 3.2s ease-in-out infinite; }
+            @media (prefers-reduced-motion: reduce) {
+              .footer-logo-levitate { animation: none; }
+            }
           `}</style>
           {/* --- Decorative SVG Background Graphics --- */}
           <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }} preserveAspectRatio="xMidYMid slice">
@@ -538,12 +514,15 @@ const HeroPage: React.FC = () => {
 
             {/* ── Left Side: Big Logo & Name ── */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, flexShrink: 0 }}>
-              <div style={{
-                width: 240, height: 240, borderRadius: '50%',
-                padding: 0,
-                background: 'transparent',
-                boxShadow: 'none',
-              }}>
+              <div
+                className="footer-logo-levitate"
+                style={{
+                  width: 240, height: 240, borderRadius: '50%',
+                  padding: 0,
+                  background: 'transparent',
+                  boxShadow: 'none',
+                }}
+              >
                 <img
                   src="/aboutus/anay13.png"
                   alt="Anay Shah Logo"
