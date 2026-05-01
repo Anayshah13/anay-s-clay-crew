@@ -2,6 +2,12 @@ import { useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getPrimaryProjectUrl } from '@/lib/projectLinks';
 import { PROJECTS_SORTED_BY_DATE_DESC } from '@/lib/galleryProjectsSorted';
+import {
+  textOnAccent,
+  readableAccentOnPanel,
+  PANEL_DARK_SLATE,
+  PANEL_NEAR_BLACK,
+} from '@/lib/accentContrast';
 import { Seo } from '@/seo/Seo';
 import { JsonLdProjects } from '@/seo/JsonLdProjects';
 import styles from './ProjectsGallery.module.css';
@@ -44,14 +50,19 @@ const ProjectsGallery = () => {
         <div className={styles.grid}>
           {PROJECTS_SORTED_BY_DATE_DESC.map((project) => {
             const primary = getPrimaryProjectUrl(project);
+            const accent = project.color;
+            const fgOnAccent = textOnAccent(accent);
+            const titleColor = readableAccentOnPanel(accent, PANEL_DARK_SLATE);
+            const chromeMetaColor = readableAccentOnPanel(accent, PANEL_NEAR_BLACK);
+            const githubLinkColor = readableAccentOnPanel(accent, PANEL_DARK_SLATE);
             return (
             <article
               key={project.id}
               className={`${styles.card}${primary ? ` ${styles.cardInteractive}` : ''}`}
               style={{
-                borderColor: project.color,
-                boxShadow: `8px 8px 0 ${project.color}`,
-                ['--gallery-card-accent' as string]: project.color,
+                borderColor: accent,
+                boxShadow: `8px 8px 0 ${accent}`,
+                ['--gallery-card-accent' as string]: accent,
               }}
               tabIndex={primary ? 0 : undefined}
               onClick={
@@ -82,13 +93,8 @@ const ProjectsGallery = () => {
                   </div>
                   <span
                     className={styles.cardChromeMeta}
-                    style={{ color: project.color }}
+                    style={{ color: chromeMetaColor }}
                   >
-                    {String(project.id).padStart(2, '0')}
-                    <span className={styles.cardChromeSep} aria-hidden>
-                      {' '}
-                      ·{' '}
-                    </span>
                     {project.date}
                   </span>
                 </div>
@@ -110,13 +116,13 @@ const ProjectsGallery = () => {
                   )}
                 </div>
                 <div className={styles.cardPanel}>
-                  <h2 className={styles.cardTitle} style={{ color: project.color }}>
+                  <h2 className={styles.cardTitle} style={{ color: titleColor }}>
                     {project.title}
                   </h2>
                   {project.hackathon ? (
                     <div
                       className={styles.hackathonBadge}
-                      style={{ background: project.color, color: '#0e0e0e' }}
+                      style={{ background: accent, color: fgOnAccent }}
                     >
                       {project.hackathon}
                     </div>
@@ -127,7 +133,7 @@ const ProjectsGallery = () => {
                       <span
                         key={t}
                         className={styles.techPill}
-                        style={{ background: project.color, color: '#0e0e0e' }}
+                        style={{ background: accent, color: fgOnAccent }}
                       >
                         {t}
                       </span>
@@ -140,7 +146,7 @@ const ProjectsGallery = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles.cardLink}
-                        style={{ borderColor: project.color, color: project.color }}
+                        style={{ borderColor: accent, color: githubLinkColor }}
                         onClick={(e) => e.stopPropagation()}
                       >
                         GitHub &lt;/&gt;
@@ -153,9 +159,9 @@ const ProjectsGallery = () => {
                         rel="noopener noreferrer"
                         className={styles.cardLinkLive}
                         style={{
-                          background: project.color,
-                          color: '#0e0e0e',
-                          borderColor: project.color,
+                          background: accent,
+                          color: fgOnAccent,
+                          borderColor: accent,
                         }}
                         onClick={(e) => e.stopPropagation()}
                       >

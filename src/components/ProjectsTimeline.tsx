@@ -2,6 +2,13 @@ import React, { useRef, useLayoutEffect, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap, ScrollTrigger } from '@/lib/gsapWithScrollTrigger';
 import { getPrimaryProjectUrl } from '@/lib/projectLinks';
+import {
+  textOnAccent,
+  readableAccentOnPanel,
+  PANEL_LIGHT_CREAM,
+  PANEL_DARK_SLATE,
+  PANEL_NEAR_BLACK,
+} from '@/lib/accentContrast';
 import styles from './ProjectsTimeline.module.css';
 import { PROJECTS } from '@/data/projectsTimelineData';
 import { TOP_TIMELINE_PROJECT_COUNT } from '@/data/projectsHomeConfig';
@@ -250,7 +257,7 @@ const ProjectImage: React.FC<{
         ) : (
           <>
             <div className={styles.imageDotGrid} />
-            <div className={styles.imageLabel} style={{ background: color, color: '#0E0E0E' }}>
+            <div className={styles.imageLabel} style={{ background: color, color: textOnAccent(color) }}>
               {label}
             </div>
           </>
@@ -487,6 +494,11 @@ const ProjectsTimeline: React.FC = () => {
         <div className={styles.events} style={{ minHeight: `${SVGH}px` }}>
           {topProjects.map((proj, i) => {
             const exactY = (i + 0.5) * SEG_H;
+            const accent = proj.color;
+            const fgOnAccent = textOnAccent(accent);
+            const titleOnCream = readableAccentOnPanel(accent, PANEL_LIGHT_CREAM);
+            const numOnBlack = readableAccentOnPanel(accent, PANEL_NEAR_BLACK);
+            const githubLabel = readableAccentOnPanel(accent, PANEL_LIGHT_CREAM);
             return (
               <div
                 key={proj.id}
@@ -506,17 +518,17 @@ const ProjectsTimeline: React.FC = () => {
                   }}
                 >
                   <div className={styles.cardHeader} style={{ background: '#0E0E0E' }}>
-                    <span className={styles.cardNum} style={{ color: proj.color }}>
+                    <span className={styles.cardNum} style={{ color: numOnBlack }}>
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <span className={styles.cardDate}>{proj.date}</span>
                   </div>
                   
                   <div className={styles.cardBody}>
-                    <h3 className={styles.cardTitle} style={{ color: proj.color }}>{proj.title}</h3>
+                    <h3 className={styles.cardTitle} style={{ color: titleOnCream }}>{proj.title}</h3>
                     
                     {proj.hackathon && (
-                      <div className={styles.hackathonBadge} style={{ background: proj.color, color: '#0E0E0E' }}>
+                      <div className={styles.hackathonBadge} style={{ background: accent, color: fgOnAccent }}>
                         {proj.hackathon}
                       </div>
                     )}
@@ -528,7 +540,7 @@ const ProjectsTimeline: React.FC = () => {
                     <div className={styles.projTechWrapper}>
                       <div className={styles.techRow}>
                         {proj.tech.map(t => (
-                          <span key={t} className={styles.techPill} style={{ background: proj.color, color: '#0E0E0E' }}>
+                          <span key={t} className={styles.techPill} style={{ background: accent, color: fgOnAccent }}>
                             {t}
                           </span>
                         ))}
@@ -538,13 +550,13 @@ const ProjectsTimeline: React.FC = () => {
                     <div className={styles.cardLinks}>
                       {proj.githubUrl && (
                         <a href={proj.githubUrl} target="_blank" rel="noopener noreferrer"
-                          className={styles.cardLink} style={{ borderColor: proj.color, color: proj.color }}>
+                          className={styles.cardLink} style={{ borderColor: accent, color: githubLabel }}>
                           GitHub &lt;/&gt;
                         </a>
                       )}
                       {proj.liveUrl && (
                         <a href={proj.liveUrl} target="_blank" rel="noopener noreferrer"
-                          className={styles.cardLink} style={{ background: proj.color, color: '#0E0E0E', borderColor: proj.color }}>
+                          className={styles.cardLink} style={{ background: accent, color: fgOnAccent, borderColor: accent }}>
                           Live ↗
                         </a>
                       )}
@@ -581,6 +593,9 @@ const ProjectsTimeline: React.FC = () => {
                 <div className={styles.desktopMarqueeTrack}>
                   {[...remainderProjects, ...remainderProjects].map((proj, i) => {
                     const href = getPrimaryProjectUrl(proj);
+                    const accent = proj.color;
+                    const fgOnAccent = textOnAccent(accent);
+                    const marqueeTitleFg = readableAccentOnPanel(accent, PANEL_DARK_SLATE);
                     const label =
                       href == null
                         ? undefined
@@ -607,7 +622,7 @@ const ProjectsTimeline: React.FC = () => {
                           )}
                         </div>
                         <div className={styles.desktopMarqueeCardBody}>
-                          <h3 className={styles.desktopMarqueeCardTitle} style={{ color: proj.color }}>
+                          <h3 className={styles.desktopMarqueeCardTitle} style={{ color: marqueeTitleFg }}>
                             {proj.title}
                           </h3>
                           <p className={styles.desktopMarqueeCardMeta}>{proj.date}</p>
@@ -616,7 +631,7 @@ const ProjectsTimeline: React.FC = () => {
                               <span
                                 key={`${proj.id}-${i}-${ti}`}
                                 className={styles.desktopMarqueeTechPill}
-                                style={{ background: proj.color, color: '#0e0e0e' }}
+                                style={{ background: accent, color: fgOnAccent }}
                               >
                                 {t}
                               </span>
@@ -632,7 +647,7 @@ const ProjectsTimeline: React.FC = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`${styles.desktopMarqueeCard} ${styles.desktopMarqueeCardClickable}`}
-                        style={{ borderColor: proj.color, boxShadow: `4px 4px 0 ${proj.color}` }}
+                        style={{ borderColor: accent, boxShadow: `4px 4px 0 ${accent}` }}
                         aria-label={label}
                       >
                         {inner}
@@ -641,7 +656,7 @@ const ProjectsTimeline: React.FC = () => {
                       <div
                         key={`${proj.id}-${i}`}
                         className={styles.desktopMarqueeCard}
-                        style={{ borderColor: proj.color, boxShadow: `4px 4px 0 ${proj.color}` }}
+                        style={{ borderColor: accent, boxShadow: `4px 4px 0 ${accent}` }}
                       >
                         {inner}
                       </div>

@@ -6,28 +6,56 @@ import type { BlobRef } from '@/hooks/useBlobCrowd';
 import { useIsMobile } from '@/hooks/use-mobile';
 import styles from './AchievementsSection.module.css';
 
+type EducationEntry = {
+  school: string;
+  degreeBefore: string;
+  degreeBold: string;
+  degreeAfter: string;
+  years: string;
+  scoreLabel: string;
+  scoreValue: string;
+  accentColor: string;
+  scoreExtra?: { label: string; value: string };
+  bullets?: string[];
+};
+
 // ── Education Data ──────────────────────────────────────────────────
-const EDUCATION = [
+const EDUCATION: EducationEntry[] = [
   {
     school: "SVKM's Dwarkadas J. Sanghvi College of Engineering",
-    degree: 'B.Tech in Information Technology',
+    degreeBefore: '',
+    degreeBold: 'B.Tech',
+    degreeAfter: ' in Information Technology',
     years: '2024 – 2028',
-    score: 'CGPA: 8.95/10',
+    scoreLabel: 'CGPA',
+    scoreValue: '8.95/10',
     accentColor: '#B399FF',
   },
   {
     school: 'Nirmala Memorial Foundation College of Commerce & Science',
-    degree: 'Higher Secondary Certificate (HSC)',
+    degreeBefore: '',
+    degreeBold: 'Higher Secondary Certificate (HSC)',
+    degreeAfter: '',
     years: '2022 – 2024',
-    score: '80.67%',
+    scoreLabel: 'Score',
+    scoreValue: '80.2%',
+    scoreExtra: { label: 'JEE Mains', value: '91.61%ile' },
     accentColor: '#FF5C5C',
   },
   {
     school: 'Rustomjee Cambridge International School',
-    degree: 'IGCSE',
+    degreeBefore: '',
+    degreeBold: 'IGCSE',
+    degreeAfter: '',
     years: '2012 – 2022',
-    score: '95.2%',
+    scoreLabel: 'Score',
+    scoreValue: '95.2%',
     accentColor: '#4ECDC4',
+    bullets: [
+      '**Won 3rd place** in **IEO**',
+      'Advanced to **Second Round** of **Homi Bhabha Exam**',
+      '**Drawing:** Intermediate Drawing exam → **B grade**',
+    ],
   },
 ];
 
@@ -38,7 +66,7 @@ const ACHIEVEMENTS = [
     icon: '💻',
     badgeColor: '#DAFC92',
     items: [
-      { text: 'Solved **280+** DSA problems across LeetCode, CodeChef, and Codeforces.' },
+      { text: 'Solved **288+** DSA problems across **LeetCode**, **CodeChef**, and **Codeforces**.' },
     ],
   },
   {
@@ -46,10 +74,10 @@ const ACHIEVEMENTS = [
     icon: '🏆',
     badgeColor: '#B399FF',
     items: [
-      { text: '**Prize Winner** — Rift Rewind Hackathon (AWS × Riot Games)' },
-      { text: '**3rd Place** — Code Relay' },
-      { text: '**Second Runner-Up** — CSI SPIT Frontend Hackathon' },
-      { text: 'Participant — HackOps by DJS NSDC, MumbaiHacks 2025, HackFusion 2026, VEGA Hackathon' },
+      { text: '**Prize Winner** — **Rift Rewind Hackathon** (**AWS × Riot Games**)' },
+      { text: '**3rd Place** — **Code Relay**' },
+      { text: '**Second Runner-Up** — **CSI SPIT Frontend Hackathon**' },
+      { text: '**Participant** — **HackOps** (DJS NSDC), **MumbaiHacks 2025**, **HackFusion 2026**, **VEGA Hackathon**' },
     ],
   },
   {
@@ -57,9 +85,9 @@ const ACHIEVEMENTS = [
     icon: '🎯',
     badgeColor: '#FF5C5C',
     items: [
-      { text: 'Ranked **7th** — SPIT CodeHunt 2024' },
-      { text: 'Ranked **9th** — CodeBusters 2025' },
-      { text: 'Top **3** teams — CP++ (SPIT)' },
+      { text: '**Ranked 7th** — **SPIT CodeHunt 2024**' },
+      { text: '**Ranked 9th** — **CodeBusters 2025**' },
+      { text: '**Top 3 teams** — **CP++** (**SPIT**)' },
     ],
   },
 ];
@@ -115,28 +143,6 @@ const AchievementsSection: React.FC = () => {
           if (!isMobile && blobContainerRef.current) {
             gsap.from(blobContainerRef.current, { scale: 0, opacity: 0, duration: 0.6, ease: 'back.out(1.8)', delay: 0.4 });
           }
-          if (leftCardRef.current) {
-            if (isMobile) {
-              gsap.from(leftCardRef.current, { y: 36, opacity: 0, duration: 0.55, ease: 'power2.out', delay: 0.2 });
-            } else {
-              gsap.from(leftCardRef.current, { x: -120, duration: 0.8, ease: 'power3.out', delay: 0.2 });
-            }
-          }
-          if (rightCardRef.current) {
-            if (isMobile) {
-              gsap.from(rightCardRef.current, { y: 36, opacity: 0, duration: 0.55, ease: 'power2.out', delay: 0.05 });
-            } else {
-              gsap.from(rightCardRef.current, { x: 120, duration: 0.8, ease: 'power3.out', delay: 0.3 });
-            }
-          }
-          const eduItems = sectionRef.current?.querySelectorAll('[data-edu-item]');
-          if (eduItems?.length) {
-            gsap.from(eduItems, { y: 30, stagger: 0.12, duration: 0.5, ease: 'power2.out', delay: isMobile ? 0.35 : 0.5 });
-          }
-          const achieveItems = sectionRef.current?.querySelectorAll('[data-achieve-item]');
-          if (achieveItems?.length) {
-            gsap.from(achieveItems, { y: 30, stagger: 0.12, duration: 0.5, ease: 'power2.out', delay: isMobile ? 0.2 : 0.6 });
-          }
         },
       });
     }, sectionRef);
@@ -180,13 +186,35 @@ const AchievementsSection: React.FC = () => {
   const educationCardBody = (
     <div className={styles.cardBody}>
       {EDUCATION.map((edu, i) => (
-        <div key={i} data-edu-item className={styles.eduItem} style={{ borderLeftColor: edu.accentColor, borderLeftWidth: 5 }}>
+        <div key={i} className={styles.eduItem} style={{ borderLeftColor: edu.accentColor, borderLeftWidth: 5 }}>
           <div className={styles.eduRow}>
             <span className={styles.eduSchool}>{edu.school}</span>
             <span className={styles.eduYear}>{edu.years}</span>
           </div>
-          <span className={styles.eduDegree}>{edu.degree}</span>
-          <span className={styles.eduScore} style={{ background: edu.accentColor }}>{edu.score}</span>
+          <span className={styles.eduDegree}>
+            {edu.degreeBefore}
+            <strong className={styles.eduDegreeStrong}>{edu.degreeBold}</strong>
+            {edu.degreeAfter}
+          </span>
+          <div className={styles.eduScores}>
+            <span className={styles.eduScore} style={{ background: edu.accentColor }}>
+              <span className={styles.eduScoreLabel}>{edu.scoreLabel}:</span>{' '}
+              <strong className={styles.eduScoreValue}>{edu.scoreValue}</strong>
+            </span>
+            {edu.scoreExtra ? (
+              <span className={styles.eduScore} style={{ background: edu.accentColor }}>
+                <span className={styles.eduScoreLabel}>{edu.scoreExtra.label}:</span>{' '}
+                <strong className={styles.eduScoreValue}>{edu.scoreExtra.value}</strong>
+              </span>
+            ) : null}
+          </div>
+          {edu.bullets?.length ? (
+            <ul className={styles.eduBulletList}>
+              {edu.bullets.map((b, j) => (
+                <li key={j} className={styles.eduBullet}>{renderBold(b)}</li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       ))}
     </div>
@@ -195,7 +223,7 @@ const AchievementsSection: React.FC = () => {
   const achievementsCardBody = (
     <div className={styles.cardBody}>
       {ACHIEVEMENTS.map((group, gi) => (
-        <div key={gi} data-achieve-item className={styles.achieveItem}>
+        <div key={gi} className={styles.achieveItem}>
           <div className={styles.achieveCategory}>
             <span className={styles.achieveCategoryIcon} aria-hidden>{group.icon}</span>
             <span className={styles.achieveCategoryLabel}>{group.category}</span>

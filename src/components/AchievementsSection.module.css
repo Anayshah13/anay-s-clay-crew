@@ -108,12 +108,12 @@
 .cardLeft, .cardRight {
   position: absolute;
   pointer-events: auto;
-  max-width: 420px;
-  width: 30vw;
+  max-width: 460px;
+  width: clamp(280px, 32vw, 460px);
   background-color: #f4ebd8;
   background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0) 90%, rgba(255, 255, 255, 0.4)),
-    linear-gradient(to bottom, rgba(200, 180, 140, 0.3), rgba(200, 180, 140, 0) 5%, rgba(200, 180, 140, 0) 95%, rgba(200, 180, 140, 0.3));
+    linear-gradient(to bottom, rgba(200, 180, 140, 0.22), rgba(200, 180, 140, 0) 12%, rgba(200, 180, 140, 0) 88%, rgba(200, 180, 140, 0.22));
   border: 1px solid #d3c4a3;
   border-radius: 8px 30px 5px 20px / 20px 5px 30px 8px;
   box-shadow:
@@ -123,26 +123,36 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
   z-index: 50;
 }
 
+/* Desktop: same height for both cards, vertically centered */
+@media (min-width: 1025px) {
+  .section:not(.sectionMobile) .cardLeft,
+  .section:not(.sectionMobile) .cardRight {
+    top: 50%;
+    transform: translateY(-50%);
+    --ach-cards-h: min(720px, calc(100vh - 140px));
+    height: var(--ach-cards-h);
+    min-height: var(--ach-cards-h);
+    max-height: var(--ach-cards-h);
+  }
+
+  .section:not(.sectionMobile) .cardBody {
+    min-height: 0;
+    overflow-y: auto;
+    flex: 1 1 auto;
+    padding: 20px 24px 22px;
+    justify-content: safe center;
+  }
+}
+
 .cardLeft {
-  top: 10%;
-  left: 14%;
+  left: max(12px, 4vw);
 }
 
 .cardRight {
-  top: 10%;
-  right: 14%;
-}
-
-.cardLeft:hover, .cardRight:hover {
-  transform: translateY(-10px) scale(1.1);
-  box-shadow:
-    inset 2px 2px 10px rgba(255, 255, 255, 0.7),
-    inset -3px -3px 15px rgba(180, 150, 110, 0.4),
-    8px 25px 30px rgba(0, 0, 0, 0.3);
+  right: max(12px, 4vw);
 }
 
 .cardHeader {
@@ -175,12 +185,13 @@
 }
 
 .cardBody {
-  padding: 28px; /* increased padding in all directions */
-  flex: 1;
+  padding: 20px 24px 22px;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   justify-content: center;
+  min-height: 0;
 }
 
 /* ── Education Item ────────────────────────────────────────────────── */
@@ -193,13 +204,11 @@
   border-radius: 6px;
   box-shadow: none;
   background: transparent;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .eduItem:hover {
-  transform: scale(1.05) translateY(-3px);
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(180, 150, 110, 0.8);
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(120, 95, 60, 0.45);
 }
 
 .eduRow {
@@ -212,18 +221,18 @@
 /* Per-entry primary name — below card title, above degree */
 .eduSchool {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.05rem;
-  color: #3d2f1b;
-  letter-spacing: 0.05em;
-  line-height: 1.25;
+  font-size: clamp(1.05rem, 1.1vw, 1.2rem);
+  color: #1e160c;
+  letter-spacing: 0.04em;
+  line-height: 1.22;
   font-weight: 400;
 }
 
 .eduYear {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem;
-  color: #7a6a4f;
-  font-weight: 600;
+  font-size: 0.7rem;
+  color: #4a3f2e;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   white-space: nowrap;
@@ -233,25 +242,68 @@
 /* Subheading under school name */
 .eduDegree {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.74rem;
-  color: #5c4a32;
+  font-size: 0.82rem;
+  color: #2a2214;
   font-style: normal;
-  font-weight: 500;
-  line-height: 1.45;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.eduDegreeStrong {
+  font-weight: 800;
+  color: #0e0e0e;
+}
+
+.eduScores {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
 }
 
 .eduScore {
   display: inline-block;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: #3d2f1b;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #0e0e0e;
   background: transparent;
-  padding: 3px 8px;
-  border: 1px solid rgba(180, 150, 110, 0.8);
+  padding: 5px 10px;
+  border: 2px solid rgba(30, 22, 12, 0.35);
   border-radius: 4px;
-  margin-top: 6px;
-  letter-spacing: 0.04em;
+  margin-top: 0;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+}
+
+.eduScoreLabel {
+  font-weight: 700;
+  opacity: 0.88;
+}
+
+.eduScoreValue {
+  font-weight: 800;
+  font-size: 0.78em;
+}
+
+.eduBulletList {
+  margin: 10px 0 0;
+  padding-left: 1.15rem;
+  list-style: disc;
+}
+
+.eduBullet {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  color: #2a2214;
+  font-weight: 500;
+  line-height: 1.55;
+  margin: 0 0 5px;
+}
+
+.eduBullet:last-child {
+  margin-bottom: 0;
 }
 
 /* ── Achievement List ──────────────────────────────────────────────── */
@@ -264,13 +316,11 @@
   border-radius: 6px;
   box-shadow: none;
   background: transparent;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .achieveItem:hover {
-  transform: scale(1.05) translateY(-3px);
-  background: rgba(255, 255, 255, 0.8);
-  border-color: rgba(180, 150, 110, 0.8);
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(120, 95, 60, 0.45);
 }
 
 .achieveCategory {
@@ -292,8 +342,8 @@
 /* Group title — between card header and bullet body */
 .achieveCategoryLabel {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.18rem;
-  color: #3d2f1b;
+  font-size: 1.22rem;
+  color: #1e160c;
   letter-spacing: 0.1em;
   line-height: 1.1;
   font-weight: 400;
@@ -318,16 +368,16 @@
 
 .achieveText {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  color: #6d5e47;
-  line-height: 1.65;
-  font-weight: 400;
+  font-size: clamp(0.78rem, 0.85vw, 0.88rem);
+  color: #2a2214;
+  line-height: 1.62;
+  font-weight: 500;
   padding-left: 2px;
 }
 
 .achieveHighlight {
   font-weight: 800;
-  color: #3d2f1b;
+  color: #0e0e0e;
 }
 
 /* ── Center Pedestal ───────────────────────────────────────────────── */
