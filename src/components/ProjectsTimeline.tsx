@@ -1,6 +1,7 @@
 import React, { useRef, useLayoutEffect, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap, ScrollTrigger } from '@/lib/gsapWithScrollTrigger';
+import { getPrimaryProjectUrl } from '@/lib/projectLinks';
 import styles from './ProjectsTimeline.module.css';
 import { PROJECTS } from '@/data/projectsTimelineData';
 import { TOP_TIMELINE_PROJECT_COUNT } from '@/data/projectsHomeConfig';
@@ -577,49 +578,75 @@ const ProjectsTimeline: React.FC = () => {
                 Other projects: {remainderProjects.map((p) => p.title).join(', ')}.
               </p>
               <div className={styles.desktopMarqueeOuter}>
-                <div className={styles.desktopMarqueeTrack} aria-hidden>
-                  {[...remainderProjects, ...remainderProjects].map((proj, i) => (
-                    <div
-                      key={`${proj.id}-${i}`}
-                      className={styles.desktopMarqueeCard}
-                      style={{ borderColor: proj.color, boxShadow: `4px 4px 0 ${proj.color}` }}
-                    >
-                      <div
-                        className={styles.desktopMarqueeCardMedia}
-                        style={{ borderColor: '#0e0e0e' }}
-                      >
-                        {proj.bentoImage ? (
-                          <img
-                            src={proj.bentoImage}
-                            alt=""
-                            className={styles.desktopMarqueeCardImg}
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div className={styles.desktopMarqueeCardPlaceholder}>
-                            {proj.imagePlaceholder}
-                          </div>
-                        )}
-                      </div>
-                      <div className={styles.desktopMarqueeCardBody}>
-                        <h3 className={styles.desktopMarqueeCardTitle} style={{ color: proj.color }}>
-                          {proj.title}
-                        </h3>
-                        <p className={styles.desktopMarqueeCardMeta}>{proj.date}</p>
-                        <div className={styles.desktopMarqueeTech}>
-                          {proj.tech.slice(0, 3).map((t, ti) => (
-                            <span
-                              key={`${proj.id}-${i}-${ti}`}
-                              className={styles.desktopMarqueeTechPill}
-                              style={{ background: proj.color, color: '#0e0e0e' }}
-                            >
-                              {t}
-                            </span>
-                          ))}
+                <div className={styles.desktopMarqueeTrack}>
+                  {[...remainderProjects, ...remainderProjects].map((proj, i) => {
+                    const href = getPrimaryProjectUrl(proj);
+                    const label =
+                      href == null
+                        ? undefined
+                        : proj.liveUrl
+                          ? `Open live site: ${proj.title}`
+                          : `Open GitHub: ${proj.title}`;
+                    const inner = (
+                      <>
+                        <div
+                          className={styles.desktopMarqueeCardMedia}
+                          style={{ borderColor: '#0e0e0e' }}
+                        >
+                          {proj.bentoImage ? (
+                            <img
+                              src={proj.bentoImage}
+                              alt=""
+                              className={styles.desktopMarqueeCardImg}
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className={styles.desktopMarqueeCardPlaceholder}>
+                              {proj.imagePlaceholder}
+                            </div>
+                          )}
                         </div>
+                        <div className={styles.desktopMarqueeCardBody}>
+                          <h3 className={styles.desktopMarqueeCardTitle} style={{ color: proj.color }}>
+                            {proj.title}
+                          </h3>
+                          <p className={styles.desktopMarqueeCardMeta}>{proj.date}</p>
+                          <div className={styles.desktopMarqueeTech}>
+                            {proj.tech.slice(0, 3).map((t, ti) => (
+                              <span
+                                key={`${proj.id}-${i}-${ti}`}
+                                className={styles.desktopMarqueeTechPill}
+                                style={{ background: proj.color, color: '#0e0e0e' }}
+                              >
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    );
+                    return href ? (
+                      <a
+                        key={`${proj.id}-${i}`}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`${styles.desktopMarqueeCard} ${styles.desktopMarqueeCardClickable}`}
+                        style={{ borderColor: proj.color, boxShadow: `4px 4px 0 ${proj.color}` }}
+                        aria-label={label}
+                      >
+                        {inner}
+                      </a>
+                    ) : (
+                      <div
+                        key={`${proj.id}-${i}`}
+                        className={styles.desktopMarqueeCard}
+                        style={{ borderColor: proj.color, boxShadow: `4px 4px 0 ${proj.color}` }}
+                      >
+                        {inner}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </>

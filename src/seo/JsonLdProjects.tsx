@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { getSiteOrigin, SITE_NAME, toAbsoluteUrl } from "./config";
-import { PROJECTS } from "@/data/projectsTimelineData";
+import { PROJECTS_SORTED_BY_DATE_DESC } from "@/lib/galleryProjectsSorted";
 
 /**
  * CollectionPage for the full projects gallery, with ItemList of project titles.
@@ -9,7 +9,7 @@ export function JsonLdProjects() {
   const origin = getSiteOrigin();
   const pageUrl = `${origin}/projects`;
 
-  const itemList = PROJECTS.map((p, i) => ({
+  const itemList = PROJECTS_SORTED_BY_DATE_DESC.map((p, i) => ({
     "@type": "ListItem",
     position: i + 1,
     name: p.title,
@@ -22,7 +22,7 @@ export function JsonLdProjects() {
     "@id": `${pageUrl}#webpage`,
     name: "All projects",
     url: pageUrl,
-    description: `Selected builds and work by ${SITE_NAME}. ${PROJECTS.length} projects in design, full-stack, and game development.`,
+    description: `Selected builds and work by ${SITE_NAME}. ${PROJECTS_SORTED_BY_DATE_DESC.length} projects in design, full-stack, and game development.`,
     isPartOf: { "@id": `${origin}/#website` },
     inLanguage: "en-IN",
     primaryImageOfPage: {
@@ -31,7 +31,7 @@ export function JsonLdProjects() {
     },
     hasPart: {
       "@type": "ItemList",
-      numberOfItems: PROJECTS.length,
+      numberOfItems: PROJECTS_SORTED_BY_DATE_DESC.length,
       itemListElement: itemList,
     },
   };

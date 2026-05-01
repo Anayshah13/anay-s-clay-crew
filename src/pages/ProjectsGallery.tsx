@@ -1,6 +1,7 @@
 import { useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { PROJECTS } from '@/data/projectsGalleryData.js';
+import { getPrimaryProjectUrl } from '@/lib/projectLinks';
+import { PROJECTS_SORTED_BY_DATE_DESC } from '@/lib/galleryProjectsSorted';
 import { Seo } from '@/seo/Seo';
 import { JsonLdProjects } from '@/seo/JsonLdProjects';
 import styles from './ProjectsGallery.module.css';
@@ -22,7 +23,7 @@ const ProjectsGallery = () => {
     <div className={styles.page}>
       <Seo
         title="All projects"
-        description={`${PROJECTS.length} builds in one place: design, full-stack, games, and hackathon work with demos, GitHub, and live links. Portfolio by Anay Shah.`}
+        description={`${PROJECTS_SORTED_BY_DATE_DESC.length} builds in one place: design, full-stack, games, and hackathon work with demos, GitHub, and live links. Portfolio by Anay Shah.`}
         pathname="/projects"
         ogImagePath="/projects/images/portfolio.webp"
       />
@@ -37,19 +38,40 @@ const ProjectsGallery = () => {
           <h1 className={styles.title}>All projects</h1>
           <p className={styles.subtitle}>
             <span className={styles.monoTag}>$ ls -la ~/builds</span>
-            &nbsp;&nbsp;{PROJECTS.length} items found
+            &nbsp;&nbsp;{PROJECTS_SORTED_BY_DATE_DESC.length} items found
           </p>
         </div>
         <div className={styles.grid}>
-          {PROJECTS.map((project) => (
+          {PROJECTS_SORTED_BY_DATE_DESC.map((project) => {
+            const primary = getPrimaryProjectUrl(project);
+            return (
             <article
               key={project.id}
-              className={styles.card}
+              className={`${styles.card}${primary ? ` ${styles.cardInteractive}` : ''}`}
               style={{
                 borderColor: project.color,
                 boxShadow: `8px 8px 0 ${project.color}`,
                 ['--gallery-card-accent' as string]: project.color,
               }}
+              tabIndex={primary ? 0 : undefined}
+              onClick={
+                primary
+                  ? (e) => {
+                      if ((e.target as HTMLElement).closest('a')) return;
+                      window.open(primary, '_blank', 'noopener,noreferrer');
+                    }
+                  : undefined
+              }
+              onKeyDown={
+                primary
+                  ? (e) => {
+                      if (e.key !== 'Enter' && e.key !== ' ') return;
+                      if ((e.target as HTMLElement).closest('a')) return;
+                      e.preventDefault();
+                      window.open(primary, '_blank', 'noopener,noreferrer');
+                    }
+                  : undefined
+              }
             >
               <div className={styles.cardInner}>
                 <div className={styles.cardChrome}>
@@ -119,6 +141,7 @@ const ProjectsGallery = () => {
                         rel="noopener noreferrer"
                         className={styles.cardLink}
                         style={{ borderColor: project.color, color: project.color }}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         GitHub &lt;/&gt;
                       </a>
@@ -134,6 +157,7 @@ const ProjectsGallery = () => {
                           color: '#0e0e0e',
                           borderColor: project.color,
                         }}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         Live ↗
                       </a>
@@ -142,7 +166,8 @@ const ProjectsGallery = () => {
                 </div>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
       </main>
     </div>

@@ -228,6 +228,22 @@
   overflow: hidden;
 }
 
+a.desktopMarqueeCardClickable {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+a.desktopMarqueeCardClickable:hover {
+  transform: translate(-2px, -2px);
+}
+
+a.desktopMarqueeCardClickable:focus-visible {
+  outline: 3px solid #dafc92;
+  outline-offset: 3px;
+}
+
 .desktopMarqueeCardMedia {
   width: 100%;
   aspect-ratio: 16 / 10;
@@ -346,9 +362,25 @@
   }
 
   .desktopMarqueeOuter {
+    width: 95vw;
+    max-width: 95vw;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: -20px;
-    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 14%,
+      black 86%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 14%,
+      black 86%,
+      transparent 100%
+    );
   }
 
   .desktopMarqueeTrack {

@@ -91,6 +91,15 @@
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
+.cardInteractive {
+  cursor: pointer;
+}
+
+.cardInteractive:focus-visible {
+  outline: 3px solid #dafc92;
+  outline-offset: 4px;
+}
+
 .card:hover {
   transform: translate(-3px, -3px);
   box-shadow: 11px 11px 0 var(--gallery-card-accent, #0e0e0e) !important;
