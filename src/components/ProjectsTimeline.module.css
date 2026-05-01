@@ -118,33 +118,282 @@
   opacity: 0.8;
 }
 
-/* Homepage: bento + “PROJECTS” headings hidden on small screens (see mobile rules below) */
+@keyframes viewAllCtaGlowPulse {
+  0%, 100% {
+    box-shadow:
+      6px 6px 0 #0e0e0e,
+      0 0 0 1px rgba(78, 205, 196, 0.45),
+      0 0 18px rgba(78, 205, 196, 0.35),
+      0 0 36px rgba(218, 252, 146, 0.2);
+  }
+  50% {
+    box-shadow:
+      6px 6px 0 #0e0e0e,
+      0 0 0 2px rgba(78, 205, 196, 0.65),
+      0 0 26px rgba(78, 205, 196, 0.5),
+      0 0 48px rgba(218, 252, 146, 0.28);
+  }
+}
+
+@keyframes viewAllCtaGlowPulseDesktop {
+  0%, 100% {
+    box-shadow:
+      6px 6px 0 #0e0e0e,
+      0 0 0 1px rgba(78, 205, 196, 0.55),
+      0 0 14px rgba(78, 205, 196, 0.38),
+      0 0 28px rgba(78, 205, 196, 0.22),
+      0 0 44px rgba(218, 252, 146, 0.18);
+  }
+  50% {
+    box-shadow:
+      6px 6px 0 #0e0e0e,
+      0 0 0 2px rgba(78, 205, 196, 0.72),
+      0 0 22px rgba(78, 205, 196, 0.48),
+      0 0 40px rgba(78, 205, 196, 0.28),
+      0 0 56px rgba(218, 252, 146, 0.24);
+  }
+}
+
+@keyframes viewAllBtnLevitate {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.viewAllProjectsBtn {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  color: #f5f0e8;
+  background: linear-gradient(165deg, #143a6b 0%, #0a1f3d 45%, #0c2648 100%);
+  border: 3px solid #0e0e0e;
+  padding: 17px 22px;
+  box-shadow:
+    6px 6px 0 #0e0e0e,
+    0 0 0 1px rgba(78, 205, 196, 0.5),
+    0 0 20px rgba(78, 205, 196, 0.4),
+    0 0 40px rgba(218, 252, 146, 0.22);
+  animation: viewAllCtaGlowPulse 2.8s ease-in-out infinite;
+  transition: transform 0.15s ease, filter 0.2s ease;
+}
+
+.viewAllProjectsBtn:active {
+  transform: translate(2px, 2px);
+  animation: none;
+  box-shadow: 3px 3px 0 #0e0e0e, 0 0 12px rgba(78, 205, 196, 0.35);
+}
+
+/* Desktop-only: marquee + full gallery CTA (hidden ≤900px) */
+.desktopMarqueeSection {
+  display: none;
+}
+
+.desktopMarqueeViewport {
+  width: 100%;
+  max-width: 100vw;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.desktopMarqueeOuter {
+  overflow: hidden;
+  width: 100%;
+}
+
+.desktopMarqueeTrack {
+  display: flex;
+  flex-direction: row;
+  width: max-content;
+  gap: 2.35rem;
+  padding: 10px 0 12px;
+}
+
+.desktopMarqueeCard {
+  flex: 0 0 auto;
+  width: min(520px, 46vw);
+  box-sizing: border-box;
+  background: #1e1e24;
+  border: 2px solid #0e0e0e;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.desktopMarqueeCardMedia {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #111;
+  border-bottom: 2px solid #0e0e0e;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.desktopMarqueeCardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.desktopMarqueeCardPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: rgba(218, 252, 146, 0.35);
+  text-transform: uppercase;
+  padding: 6px;
+  text-align: center;
+}
+
+.desktopMarqueeCardBody {
+  padding: 10px 12px 12px;
+}
+
+.desktopMarqueeCardTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.28rem;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  margin: 0 0 4px;
+  color: #dafc92;
+}
+
+.desktopMarqueeCardMeta {
+  margin: 0 0 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(245, 240, 232, 0.5);
+}
+
+.desktopMarqueeTech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.desktopMarqueeTechPill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 3px 7px;
+  border: 2px solid #0e0e0e;
+}
+
+.desktopViewAllWrap {
+  display: flex;
+  justify-content: center;
+  padding: 22px 0 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 901px) {
+  .section {
+    padding-bottom: 72px;
+  }
+
+  .desktopMarqueeSection {
+    display: block;
+    position: relative;
+    z-index: 10;
+    margin-top: 88px;
+    padding: 20px 0 18px;
+  }
+
+  .desktopViewAllWrap {
+    padding-top: 42px;
+  }
+
+  .desktopViewAllWrap .viewAllProjectsBtn {
+    width: 30vw;
+    box-shadow:
+      6px 6px 0 #0e0e0e,
+      0 0 0 1px rgba(78, 205, 196, 0.55),
+      0 0 14px rgba(78, 205, 196, 0.38),
+      0 0 28px rgba(78, 205, 196, 0.22),
+      0 0 44px rgba(218, 252, 146, 0.18);
+    animation:
+      viewAllCtaGlowPulseDesktop 2.8s ease-in-out infinite,
+      viewAllBtnLevitate 3.15s ease-in-out infinite;
+  }
+
+  .desktopViewAllWrap .viewAllProjectsBtn:active {
+    transform: translate(2px, 2px);
+    animation: none;
+    box-shadow:
+      3px 3px 0 #0e0e0e,
+      0 0 12px rgba(78, 205, 196, 0.35),
+      0 0 24px rgba(218, 252, 146, 0.15);
+  }
+
+  .desktopMarqueeOuter {
+    margin-top: -20px;
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
+
+  .desktopMarqueeTrack {
+    animation: projectsMarqueeX 52s linear infinite;
+  }
+
+  @keyframes projectsMarqueeX {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
+  .desktopMarqueeTrack {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding-left: 8vw;
+    padding-right: 8vw;
+    transform: none;
+  }
+
+  .desktopMarqueeCard {
+    width: min(500px, 80vw);
+  }
+
+  .desktopViewAllWrap .viewAllProjectsBtn {
+    animation: none;
+  }
+}
+
+/* Homepage: project headings hidden on small screens (see mobile rules below) */
 .desktopBentoBlock {
   display: block;
 }
 
 .mobileViewAllWrap {
   display: none;
-}
-
-.mobileTopProjectsHeading {
-  display: none;
-}
-
-.mobileTopProjectsTitle {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(2.75rem, 12vw, 4rem);
-  color: #dafc92;
-  letter-spacing: 0.12em;
-  line-height: 1;
-  margin: 0;
-}
-
-.mobileTopProjectsUnderline {
-  width: 100px;
-  height: 6px;
-  background: #dafc92;
-  margin: 4px auto 0;
 }
 
 /* ── TIMELINE WRAPPER ─────────────────────────────────── */
@@ -788,14 +1037,6 @@
     display: none;
   }
 
-  .mobileTopProjectsHeading {
-    display: block;
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    padding: 8px 8vw 20px;
-  }
-
   .mobileViewAllWrap {
     display: flex;
     justify-content: center;
@@ -804,50 +1045,9 @@
     z-index: 10;
   }
 
-  @keyframes mobileCtaGlowPulse {
-    0%, 100% {
-      box-shadow:
-        6px 6px 0 #0e0e0e,
-        0 0 0 1px rgba(78, 205, 196, 0.45),
-        0 0 18px rgba(78, 205, 196, 0.35),
-        0 0 36px rgba(218, 252, 146, 0.2);
-    }
-    50% {
-      box-shadow:
-        6px 6px 0 #0e0e0e,
-        0 0 0 2px rgba(78, 205, 196, 0.65),
-        0 0 26px rgba(78, 205, 196, 0.5),
-        0 0 48px rgba(218, 252, 146, 0.28);
-    }
-  }
-
-  .mobileViewAllBtn {
+  .mobileViewAllWrap .viewAllProjectsBtn {
     width: 85%;
     max-width: 440px;
-    box-sizing: border-box;
-    text-align: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-decoration: none;
-    color: #f5f0e8;
-    background: linear-gradient(165deg, #143a6b 0%, #0a1f3d 45%, #0c2648 100%);
-    border: 3px solid #0e0e0e;
-    padding: 17px 22px;
-    box-shadow:
-      6px 6px 0 #0e0e0e,
-      0 0 0 1px rgba(78, 205, 196, 0.5),
-      0 0 20px rgba(78, 205, 196, 0.4),
-      0 0 40px rgba(218, 252, 146, 0.22);
-    animation: mobileCtaGlowPulse 2.8s ease-in-out infinite;
-    transition: transform 0.15s ease, filter 0.2s ease;
-  }
-
-  .mobileViewAllBtn:active {
-    transform: translate(2px, 2px);
-    animation: none;
-    box-shadow: 3px 3px 0 #0e0e0e, 0 0 12px rgba(78, 205, 196, 0.35);
   }
 
   .section {

@@ -70,6 +70,18 @@ const HeroPage: React.FC = () => {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
+  const scrollToFooterTarget = (
+    target: 'home' | 'about' | 'skills' | 'projects' | 'achievements' | 'contact',
+  ) => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const behavior: ScrollBehavior = prefersReduced ? 'auto' : 'smooth';
+    if (target === 'home') {
+      window.scrollTo({ top: 0, behavior });
+      return;
+    }
+    document.getElementById(target)?.scrollIntoView({ behavior, block: 'start' });
+  };
+
   // Typewriter effect
   useEffect(() => {
     const currentTitle = TITLES[titleIndex];
@@ -629,32 +641,125 @@ const HeroPage: React.FC = () => {
                 </div>
               )}
 
-              {/* Navigation Grid (6 links) */}
+              {/* Navigation — in-page scroll (no hash / client routes) */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px 24px' }}>
-                {[
-                  { label: 'Home', href: '#' },
-                  { label: 'About', href: '#about' },
-                  { label: 'Skills', href: '#skills' },
-                  { label: 'Projects', href: '#projects' },
-                  { label: 'Project gallery', href: '/projects' },
-                  { label: 'Achievements', href: '#achievements' },
-                  { label: 'Contact', href: '#contact' },
-                  { label: 'Resume', href: '/Anay_Resume.pdf' },
-                ].map((link) => (
-                  <a key={link.label} href={link.href} style={{
-                    fontSize: '1rem', color: 'rgba(255,255,255,0.85)', textDecoration: 'none',
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.1)',
+                {(
+                  [
+                    { label: 'Home', scroll: 'home' as const },
+                    { label: 'About', scroll: 'about' as const },
+                    { label: 'Skills', scroll: 'skills' as const },
+                    { label: 'GitHub', href: 'https://github.com/Anayshah13' as const },
+                    { label: 'Project gallery', scroll: 'projects' as const },
+                    { label: 'Achievements', scroll: 'achievements' as const },
+                    { label: 'Contact', scroll: 'contact' as const },
+                  ] as const
+                ).map((link) =>
+                  'href' in link ? (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        fontSize: '1rem',
+                        color: 'rgba(255,255,255,0.85)',
+                        textDecoration: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '8px 0',
+                        borderBottom: '1px solid rgba(255,255,255,0.1)',
+                        transition: 'color 0.2s, border-color 0.2s, transform 0.2s',
+                        fontFamily: "'JetBrains Mono', monospace",
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        width: '100%',
+                        boxSizing: 'border-box',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#DAFC92';
+                        e.currentTarget.style.borderBottomColor = '#DAFC92';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'rgba(255,255,255,0.85)';
+                        e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,0.1)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      <span>{link.label}</span>
+                      <span style={{ color: '#DAFC92', fontSize: '1.2rem', lineHeight: 1 }}>&rarr;</span>
+                    </a>
+                  ) : (
+                    <button
+                      key={link.label}
+                      type="button"
+                      onClick={() => scrollToFooterTarget(link.scroll)}
+                      style={{
+                        fontSize: '1rem',
+                        color: 'rgba(255,255,255,0.85)',
+                        textDecoration: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '8px 0',
+                        border: 'none',
+                        borderBottom: '1px solid rgba(255,255,255,0.1)',
+                        background: 'transparent',
+                        cursor: 'pointer',
+                        width: '100%',
+                        textAlign: 'left',
+                        transition: 'color 0.2s, border-color 0.2s, transform 0.2s',
+                        fontFamily: "'JetBrains Mono', monospace",
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#DAFC92';
+                        e.currentTarget.style.borderBottomColor = '#DAFC92';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'rgba(255,255,255,0.85)';
+                        e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,0.1)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      <span>{link.label}</span>
+                      <span style={{ color: '#DAFC92', fontSize: '1.2rem', lineHeight: 1 }}>&rarr;</span>
+                    </button>
+                  ),
+                )}
+                <a
+                  href="/Anay_Resume.pdf"
+                  style={{
+                    fontSize: '1rem',
+                    color: 'rgba(255,255,255,0.85)',
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '8px 0',
+                    borderBottom: '1px solid rgba(255,255,255,0.1)',
                     transition: 'color 0.2s, border-color 0.2s, transform 0.2s',
-                    fontFamily: "'JetBrains Mono', monospace", textTransform: 'uppercase', letterSpacing: '0.05em'
+                    fontFamily: "'JetBrains Mono', monospace",
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
                   }}
-                    onMouseEnter={e => { e.currentTarget.style.color = '#DAFC92'; e.currentTarget.style.borderColor = '#DAFC92'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-                  >
-                    <span>{link.label}</span>
-                    <span style={{ color: '#DAFC92', fontSize: '1.2rem', lineHeight: 1 }}>&rarr;</span>
-                  </a>
-                ))}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#DAFC92';
+                    e.currentTarget.style.borderBottomColor = '#DAFC92';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'rgba(255,255,255,0.85)';
+                    e.currentTarget.style.borderBottomColor = 'rgba(255,255,255,0.1)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  <span>Resume</span>
+                  <span style={{ color: '#DAFC92', fontSize: '1.2rem', lineHeight: 1 }}>&rarr;</span>
+                </a>
               </div>
 
             </div>

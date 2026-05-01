@@ -126,6 +126,7 @@ const ContactSection: React.FC = () => {
 
   return (
     <div
+      id="contact"
       ref={containerRef}
       className="contact-section-root"
       style={{

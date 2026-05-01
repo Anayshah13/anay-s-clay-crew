@@ -2,8 +2,8 @@ import React, { useRef, useLayoutEffect, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap, ScrollTrigger } from '@/lib/gsapWithScrollTrigger';
 import styles from './ProjectsTimeline.module.css';
-import MagicBento from './MagicBento';
 import { PROJECTS } from '@/data/projectsTimelineData';
+import { TOP_TIMELINE_PROJECT_COUNT } from '@/data/projectsHomeConfig';
 
 /** Background décor: fixed % positions so shapes/glyphs stay separated (no stacked clusters). */
 const DECOR_SHAPE_CLASSES = [styles.bgSquare, styles.bgCircle, styles.bgTriangle, styles.bgStar] as const;
@@ -269,7 +269,8 @@ const ProjectsTimeline: React.FC = () => {
   const rightPupilRef = useRef<HTMLDivElement>(null);
 
   const SEG_H = 600; // Increased wavelength slightly
-  const topProjects = useMemo(() => PROJECTS.slice(0, 6), []);
+  const topProjects = useMemo(() => PROJECTS.slice(0, TOP_TIMELINE_PROJECT_COUNT), []);
+  const remainderProjects = useMemo(() => PROJECTS.slice(TOP_TIMELINE_PROJECT_COUNT), []);
   const SVGH = useMemo(() => topProjects.length * SEG_H, [topProjects]);
 
   const buildPath = () => {
@@ -438,7 +439,7 @@ const ProjectsTimeline: React.FC = () => {
         </div>
       ))}
 
-      {/* Bento + project headings: desktop / tablet only */}
+      {/* Project headings: desktop / tablet only (>900px); bento grid moved to /projects */}
       <div className={styles.desktopBentoBlock}>
         <div className={styles.heading}>
           <h2 className={styles.headingText}>PROJECTS</h2>
@@ -448,20 +449,6 @@ const ProjectsTimeline: React.FC = () => {
             &nbsp;&nbsp;{PROJECTS.length} items found
           </p>
         </div>
-
-        <div style={{ padding: '0 8vw', marginBottom: '80px', position: 'relative', zIndex: 10 }}>
-          <MagicBento projects={PROJECTS} disableAnimations={false} />
-        </div>
-
-        <div className={styles.heading} style={{ paddingTop: '20px', paddingBottom: '50px' }}>
-          <h2 className={styles.headingText} style={{ fontSize: 'clamp(3.5rem, 6vw, 6rem)' }}>TOP PROJECTS</h2>
-          <div className={styles.headingUnderline} style={{ width: '120px' }} />
-        </div>
-      </div>
-
-      <div className={styles.mobileTopProjectsHeading}>
-        <h2 className={styles.mobileTopProjectsTitle}>TOP PROJECTS</h2>
-        <div className={styles.mobileTopProjectsUnderline} />
       </div>
 
       {/* ── TIMELINE WRAPPER ──────────────────────────── */}
@@ -582,8 +569,71 @@ const ProjectsTimeline: React.FC = () => {
         </div>
       </div>
 
+      <div className={styles.desktopMarqueeSection}>
+        <div className={styles.desktopMarqueeViewport}>
+          {remainderProjects.length > 0 && (
+            <>
+              <p className="sr-only">
+                Other projects: {remainderProjects.map((p) => p.title).join(', ')}.
+              </p>
+              <div className={styles.desktopMarqueeOuter}>
+                <div className={styles.desktopMarqueeTrack} aria-hidden>
+                  {[...remainderProjects, ...remainderProjects].map((proj, i) => (
+                    <div
+                      key={`${proj.id}-${i}`}
+                      className={styles.desktopMarqueeCard}
+                      style={{ borderColor: proj.color, boxShadow: `4px 4px 0 ${proj.color}` }}
+                    >
+                      <div
+                        className={styles.desktopMarqueeCardMedia}
+                        style={{ borderColor: '#0e0e0e' }}
+                      >
+                        {proj.bentoImage ? (
+                          <img
+                            src={proj.bentoImage}
+                            alt=""
+                            className={styles.desktopMarqueeCardImg}
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className={styles.desktopMarqueeCardPlaceholder}>
+                            {proj.imagePlaceholder}
+                          </div>
+                        )}
+                      </div>
+                      <div className={styles.desktopMarqueeCardBody}>
+                        <h3 className={styles.desktopMarqueeCardTitle} style={{ color: proj.color }}>
+                          {proj.title}
+                        </h3>
+                        <p className={styles.desktopMarqueeCardMeta}>{proj.date}</p>
+                        <div className={styles.desktopMarqueeTech}>
+                          {proj.tech.slice(0, 3).map((t, ti) => (
+                            <span
+                              key={`${proj.id}-${i}-${ti}`}
+                              className={styles.desktopMarqueeTechPill}
+                              style={{ background: proj.color, color: '#0e0e0e' }}
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+          <div className={styles.desktopViewAllWrap}>
+            <Link to="/projects" className={styles.viewAllProjectsBtn}>
+              VIEW ALL PROJECTS
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <div className={styles.mobileViewAllWrap}>
-        <Link to="/projects" className={styles.mobileViewAllBtn}>
+        <Link to="/projects" className={styles.viewAllProjectsBtn}>
           VIEW ALL PROJECTS
         </Link>
       </div>

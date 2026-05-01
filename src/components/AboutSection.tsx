@@ -203,6 +203,7 @@ const AboutSection: React.FC<Props> = ({ isDark }) => {
 
   return (
     <div
+      id="about"
       ref={containerRef}
       style={{ background: '#1B3970', color: '#F5F0E8', borderTop: B, position: 'relative', overflowX: 'hidden' }}
       className={isMobile ? 'w-full min-h-[100dvh] overflow-y-auto overflow-x-hidden flex flex-col' : 'w-full h-screen overflow-hidden flex flex-col'}
