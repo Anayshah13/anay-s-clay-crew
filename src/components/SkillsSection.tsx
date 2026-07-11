@@ -1,5 +1,6 @@
 import React, { forwardRef, useState, useRef, useEffect } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/gsapWithScrollTrigger';
+import { RESUME_DOWNLOAD_URL, RESUME_PREVIEW_URL } from '@/lib/resume';
 import { X, ExternalLink, Github, Linkedin, Instagram, Mail, Code2, FileText, Download } from 'lucide-react';
 import ShapeGrid from './ShapeGrid';
 
@@ -407,7 +408,7 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
             {/* Using iframe to show PDF cleanly in A4 proportion */}
             <div style={{ flex: 1, position: 'relative', overflow: 'hidden', backgroundColor: '#fff' }}>
               <iframe
-                src="/Anay_Resume.pdf#view=FitH&scrollbar=0&toolbar=0&navpanes=0"
+                src={RESUME_PREVIEW_URL}
                 style={{ width: '100%', height: '100%', border: 'none', pointerEvents: 'none', backgroundColor: '#fff' }}
                 title="Resume Preview"
               />
@@ -787,8 +788,9 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
                 </div>
 
                 <a 
-                  href="/Anay_Resume.pdf" 
-                  download="Anay_Resume.pdf"
+                  href={RESUME_DOWNLOAD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{ background: '#DAFC92', border: '2px solid #DAFC92', color: '#0E0E0E', cursor: 'pointer', padding: '0 12px', height: '36px', transition: 'transform 0.1s', display: 'flex', alignItems: 'center', textDecoration: 'none', fontFamily: BB, fontSize: '1.2rem', gap: '6px' }}
                   onMouseEnter={e => e.currentTarget.style.transform = 'translate(-2px, -2px)'}
                   onMouseLeave={e => e.currentTarget.style.transform = 'none'}
@@ -838,7 +840,7 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
                   transition: 'width 0.2s ease-out',
                 }}>
                   <iframe
-                    src="/Anay_Resume.pdf#toolbar=0&navpanes=0&scrollbar=1"
+                    src={RESUME_PREVIEW_URL}
                     style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
                     title="Resume Full View"
                   />

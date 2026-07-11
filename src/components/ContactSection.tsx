@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import emailjs from '@emailjs/browser';
 import { Github, Linkedin, Instagram, Code2 } from 'lucide-react';
+import { RESUME_DOWNLOAD_URL } from '@/lib/resume';
 
 const BB = "'Bebas Neue', sans-serif";
 const MONO = "'JetBrains Mono', monospace";
@@ -17,7 +18,7 @@ const SOCIALS = [
   { name: 'INSTAGRAM', handle: '@anay_shah13', icon: <Instagram size={28} strokeWidth={2.5} /> },
   { name: 'CODOLIO', handle: '@Anayshah13', icon: <Code2 size={28} strokeWidth={2.5} /> },
   { name: 'LEETCODE', handle: '/Anay_13', icon: <Code2 size={28} strokeWidth={2.5} /> },
-  { name: 'RESUME', handle: 'DOWNLOAD PDF', href: '/Anay_Resume.pdf', icon: <div style={{ fontWeight: 900, fontSize: '1.2rem', fontFamily: BB }}>PDF</div> },
+  { name: 'RESUME', handle: 'DOWNLOAD PDF', href: RESUME_DOWNLOAD_URL, icon: <div style={{ fontWeight: 900, fontSize: '1.2rem', fontFamily: BB }}>PDF</div> },
 ];
 
 const ContactSection: React.FC = () => {

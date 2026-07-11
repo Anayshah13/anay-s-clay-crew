@@ -7,6 +7,7 @@ import { Github, Linkedin, Instagram, ExternalLink, ArrowRight, Mail } from 'luc
 import { Seo } from '@/seo/Seo';
 import { JsonLdHome } from '@/seo/JsonLdHome';
 import { DEFAULT_DESCRIPTION } from '@/seo/config';
+import { RESUME_VIEW_URL } from '@/lib/resume';
 
 const AboutSection = lazy(() => import('@/components/AboutSection'));
 const PursuitsTapeBand = lazy(() => import('@/components/PursuitsTapeBand'));
@@ -731,7 +732,9 @@ const HeroPage: React.FC = () => {
                   ),
                 )}
                 <a
-                  href="/Anay_Resume.pdf"
+                  href={RESUME_VIEW_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
                     fontSize: '1rem',
                     color: 'rgba(255,255,255,0.85)',
