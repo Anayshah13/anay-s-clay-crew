@@ -390,19 +390,19 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
               boxShadow: '12px 12px 25px rgba(0,0,0,0.4)', transform: 'rotate(-6deg)', transformOrigin: 'left center',
               cursor: 'pointer', display: 'flex', flexDirection: 'column',
               willChange: 'transform', borderRadius: '4px', overflow: 'hidden',
-              border: '2px solid rgba(0,0,0,0.1)'
+              border: '2px solid #0E0E0E'
             }}
           >
-            {/* Header bar */}
+            {/* Header bar — light so PDF shows; labels contrast on white */}
             <div style={{
-              background: '#0E0E0E', color: '#DAFC92', padding: '12px 18px',
-              fontFamily: MONO, fontSize: '1rem', fontWeight: 700,
+              background: '#FFFFFF', color: '#1A1A2E', padding: '10px 14px',
+              fontFamily: MONO, fontSize: '0.92rem', fontWeight: 800,
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              flexShrink: 0
+              flexShrink: 0, borderBottom: '2px solid #0E0E0E'
             }}>
               <span>ANAY_RESUME.PDF</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <ExternalLink size={16} /> VIEW
+              <span style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#2563EB' }}>
+                <ExternalLink size={16} strokeWidth={2.5} /> VIEW
               </span>
             </div>
             {/* Using iframe to show PDF cleanly in A4 proportion */}

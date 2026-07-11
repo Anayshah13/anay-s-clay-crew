@@ -38,7 +38,7 @@ This site is a motion-heavy showcase of selected builds: hackathon products, cli
 | Styling | Tailwind CSS, CSS Modules |
 | Contact | EmailJS |
 | SEO | react-helmet-async |
-| Quality | ESLint, Vitest, Playwright |
+| Lint | ESLint |
 
 ---
 
@@ -59,8 +59,6 @@ npm run dev
 | `npm run build` | Production build |
 | `npm run preview` | Preview production build |
 | `npm run lint` | ESLint |
-| `npm run test` | Vitest unit tests |
-| `npm run test:e2e` | Playwright e2e |
 | `npm run images:webp` | Convert `public/` PNG/JPEG → WebP |
 
 Optional: set `VITE_SITE_URL` (e.g. your production origin) for canonical / OG URLs in SEO helpers.
