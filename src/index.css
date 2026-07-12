@@ -85,6 +85,17 @@ html.neo-cursor-active * {
   cursor: none !important;
 }
 
+/* When a full-screen preview/modal wants the native OS cursor (e.g. resume viewer),
+   suppress the neo cursor disc and restore default cursors. */
+html.neo-cursor-suppress,
+html.neo-cursor-suppress * {
+  cursor: auto !important;
+}
+
+html.neo-cursor-suppress .neo-cursor-mount {
+  display: none !important;
+}
+
 @keyframes cursor-blink {
 
   0%,

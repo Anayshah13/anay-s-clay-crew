@@ -111,6 +111,19 @@ const STARBURST_RIGHT = '42vw';      // Position from right
 const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [resumeScale, setResumeScale] = useState(1);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const root = document.documentElement;
+    if (isResumeOpen) {
+      root.classList.add('neo-cursor-suppress');
+    } else {
+      root.classList.remove('neo-cursor-suppress');
+    }
+    return () => {
+      root.classList.remove('neo-cursor-suppress');
+    };
+  }, [isResumeOpen]);
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useSkillsMobile();
 
@@ -348,7 +361,7 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
             width: RESUME_WIDTH,
             minWidth: RESUME_MIN_WIDTH,
             maxWidth: RESUME_MAX_WIDTH,
-            aspectRatio: '1 / 1.414',
+            aspectRatio: '1 / 1.35',
             zIndex: 10
           }}
         >
@@ -379,37 +392,47 @@ const SkillsSection = forwardRef<HTMLDivElement>((_, ref) => {
             borderRadius: '3px', border: '2px solid rgba(0, 0, 0, 1)'
           }} />
 
-          {/* Sheet 1 (Top - Actual Resume Shape + Header) */}
+          {/* Sheet 1 (Top — branded chrome + resume page) */}
           <div
             ref={topSheetRef}
             onClick={handleResumeClick}
             onMouseEnter={TopSheetHoverEnter}
             onMouseLeave={TopSheetHoverLeave}
             style={{
-              position: 'absolute', inset: 0, zIndex: 3, background: '#F5F0E8',
+              position: 'absolute', inset: 0, zIndex: 3, background: '#0E0E0E',
               boxShadow: '12px 12px 25px rgba(0,0,0,0.4)', transform: 'rotate(-6deg)', transformOrigin: 'left center',
               cursor: 'pointer', display: 'flex', flexDirection: 'column',
               willChange: 'transform', borderRadius: '4px', overflow: 'hidden',
-              border: '2px solid #0E0E0E'
+              borderLeft: '2px solid #0E0E0E',
+              borderRight: '2px solid #0E0E0E',
+              borderTop: 'none',
+              borderBottom: 'none',
             }}
           >
-            {/* Header bar — light so PDF shows; labels contrast on white */}
             <div style={{
-              background: '#FFFFFF', color: '#1A1A2E', padding: '10px 14px',
-              fontFamily: MONO, fontSize: '0.92rem', fontWeight: 800,
+              background: '#0E0E0E', color: '#DAFC92', padding: '12px 18px',
+              fontFamily: MONO, fontSize: '1rem', fontWeight: 700,
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              flexShrink: 0, borderBottom: '2px solid #0E0E0E'
+              flexShrink: 0,
             }}>
               <span>ANAY_RESUME.PDF</span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#2563EB' }}>
-                <ExternalLink size={16} strokeWidth={2.5} /> VIEW
+              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <ExternalLink size={16} /> VIEW
               </span>
             </div>
-            {/* Using iframe to show PDF cleanly in A4 proportion */}
             <div style={{ flex: 1, position: 'relative', overflow: 'hidden', backgroundColor: '#fff' }}>
               <iframe
                 src={RESUME_PREVIEW_URL}
-                style={{ width: '100%', height: '100%', border: 'none', pointerEvents: 'none', backgroundColor: '#fff' }}
+                style={{
+                  position: 'absolute',
+                  top: '-2%',
+                  left: '-6%',
+                  width: '112%',
+                  height: '112%',
+                  border: 'none',
+                  pointerEvents: 'none',
+                  backgroundColor: '#fff',
+                }}
                 title="Resume Preview"
               />
               <div style={{ position: 'absolute', inset: 0, zIndex: 10 }} />
